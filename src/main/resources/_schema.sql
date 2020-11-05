@@ -7,10 +7,6 @@ CREATE TABLE IF NOT EXISTS country
 );
 COMMENT ON TABLE country IS 'Страна гражданства';
 
-CREATE UNIQUE INDEX UX_country_code ON country (code);
-
-CREATE UNIQUE INDEX UX_country_id ON country (id);
-
 CREATE TABLE IF NOT EXISTS doc_type
 (
     id      BIGINT       NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
@@ -18,10 +14,6 @@ CREATE TABLE IF NOT EXISTS doc_type
     code    VARCHAR(2)   NOT NULL COMMENT 'Код',
     name    VARCHAR(150) NOT NULL COMMENT 'Имя'
 );
-
-CREATE UNIQUE INDEX UX_doc_type_code ON doc_type (code);
-
-CREATE UNIQUE INDEX UX_doc_type_id ON doc_type (id);
 
 CREATE TABLE IF NOT EXISTS document
 (
@@ -33,10 +25,6 @@ CREATE TABLE IF NOT EXISTS document
 --     user_id    BIGINT      NOT NULL COMMENT 'Идентификатор пользователя' Использовать в случае двунаправленной связи
 );
 COMMENT ON TABLE document IS 'На основании какого документа работает';
-
-CREATE UNIQUE INDEX UX_document_id ON document(id);
-
-CREATE INDEX IX_document_id ON document(doc_type);
 
 CREATE TABLE IF NOT EXISTS organisation
 (
@@ -51,8 +39,6 @@ CREATE TABLE IF NOT EXISTS organisation
     phone     VARCHAR(25) COMMENT 'Телефон для связи'
 );
 COMMENT ON TABLE organisation IS 'Фирма';
-
-CREATE UNIQUE INDEX UX_organisation_id ON organisation (id);
 
 CREATE INDEX IX_organisation_is_active ON organisation (is_active);
 
