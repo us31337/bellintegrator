@@ -122,6 +122,9 @@ ALTER TABLE organisation
 ALTER TABLE office
     ADD FOREIGN KEY (org_id) REFERENCES organisation (id);
 
+ALTER TABLE document
+    ADD FOREIGN KEY (doc_type) REFERENCES doc_type (id);
+
 ALTER TABLE user
     ADD FOREIGN KEY (citizenship_code) REFERENCES country (id);
 
