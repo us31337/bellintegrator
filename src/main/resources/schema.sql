@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS country
 (
-    code    INTEGER NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY,
+    id      BIGINT  NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
+    code    INTEGER NOT NULL COMMENT 'Код',
     version INTEGER NOT NULL COMMENT 'Служебное поле hibernate',
     name    VARCHAR(100) COMMENT 'Имя'
 );
@@ -8,14 +9,19 @@ COMMENT ON TABLE country IS 'Страна гражданства';
 
 CREATE UNIQUE INDEX UX_country_code ON country (code);
 
+CREATE UNIQUE INDEX UX_country_id ON country (id);
+
 CREATE TABLE IF NOT EXISTS doc_type
 (
+    id      BIGINT       NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
     version INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
-    code    VARCHAR(2)   NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY,
+    code    VARCHAR(2)   NOT NULL COMMENT 'Код',
     name    VARCHAR(150) NOT NULL COMMENT 'Имя'
 );
 
 CREATE UNIQUE INDEX UX_doc_type_code ON doc_type (code);
+
+CREATE UNIQUE INDEX UX_doc_type_id ON doc_type (id);
 
 CREATE TABLE IF NOT EXISTS document
 (
@@ -27,6 +33,10 @@ CREATE TABLE IF NOT EXISTS document
 --     user_id    BIGINT      NOT NULL COMMENT 'Идентификатор пользователя' Использовать в случае двунаправленной связи
 );
 COMMENT ON TABLE document IS 'На основании какого документа работает';
+
+CREATE UNIQUE INDEX UX_document_id ON document(id);
+
+CREATE INDEX IX_document_id ON document(doc_type);
 
 CREATE TABLE IF NOT EXISTS organisation
 (
@@ -113,7 +123,7 @@ ALTER TABLE office
     ADD FOREIGN KEY (org_id) REFERENCES organisation (id);
 
 ALTER TABLE user
-    ADD FOREIGN KEY (citizenship_code) REFERENCES country (code);
+    ADD FOREIGN KEY (citizenship_code) REFERENCES country (id);
 
 ALTER TABLE user
     ADD FOREIGN KEY (doc_id) REFERENCES document (id);
@@ -121,4 +131,5 @@ ALTER TABLE user
 ALTER TABLE user
     ADD FOREIGN KEY (office_id) REFERENCES office (id);
 
-ALTER TABLE user ADD CONSTRAINT UK_document_id_user UNIQUE (id, doc_id);
+ALTER TABLE user
+    ADD CONSTRAINT UK_document_id_user UNIQUE (id, doc_id);
