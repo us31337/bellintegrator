@@ -1,0 +1,99 @@
+package bellintegrator.com.demo.entity;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "office")
+public class Office {
+
+    @Id @GeneratedValue @Column(name = "id")
+    private long officeId;
+
+    @Version
+    @Column(name = "version")
+    private int version;
+
+    @Column(name = "name", length = 255, nullable = false)
+    private String name;
+
+    @Column(name = "address", length = 255, nullable = false)
+    private String address;
+
+    @Column(name = "phone", length = 25)
+    private String phone;
+
+    @Column(name = "is_active", columnDefinition = "boolean default false")
+    private boolean isActive;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
+    private Organisation parentOrg;
+
+    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<User> userList;
+
+    public long getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(long officeId) {
+        this.officeId = officeId;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Organisation getParentOrg() {
+        return parentOrg;
+    }
+
+    public void setParentOrg(Organisation parentOrg) {
+        this.parentOrg = parentOrg;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+}
