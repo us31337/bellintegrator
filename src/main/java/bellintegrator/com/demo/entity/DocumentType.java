@@ -11,12 +11,12 @@ public class DocumentType {
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
     private long id;
 
-    @Column(name = "code", length = 2, nullable = false, unique = true)
-    private String code;
-
     @Version
     @Column(name = "version")
     private int version;
+
+    @Column(name = "code", length = 2, nullable = false, unique = true)
+    private String code;
 
     @Column(name = "name", nullable = false, length = 150)
     private String name;

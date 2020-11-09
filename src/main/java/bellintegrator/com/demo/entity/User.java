@@ -26,23 +26,23 @@ public class User {
     @Column(name = "position", length = 100, nullable = false)
     private String position;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "office_id", referencedColumnName = "id", nullable = false)
-    private Office office;
-
     @Column(name = "phone", length = 25)
     private String phone;
+
+    @Column(name = "is_identified", nullable = false)
+    private Boolean isIdentified;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JoinColumn(name = "doc_id", referencedColumnName = "id")
     private Document document;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "office_id", referencedColumnName = "id", nullable = false)
+    private Office office;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_code", referencedColumnName = "id")
     private Country country;
-
-    @Column(name = "is_identified", nullable = false)
-    private Boolean isIdentified;
 
     public long getId() {
         return id;

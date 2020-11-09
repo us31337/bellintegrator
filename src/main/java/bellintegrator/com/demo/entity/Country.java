@@ -11,12 +11,12 @@ public class Country {
     @GeneratedValue @Column(name = "id")
     private long id;
 
-    @Column(name = "code", unique = true)
-    private int code;
-
     @Version
     @Column(name = "version")
     private int version;
+
+    @Column(name = "code", unique = true)
+    private int code;
 
     @Column(name = "name", length = 100)
     private String name;
