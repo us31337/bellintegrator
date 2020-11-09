@@ -1,14 +1,13 @@
 package bellintegrator.com.demo.dao;
 
-import bellintegrator.com.demo.entity.Country;
 import bellintegrator.com.demo.entity.DocumentType;
+import javassist.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DocTypeDao {
-    Optional<DocumentType> findById(Long id);
-    List<DocumentType> findAll();
+    DocumentType findById(Long id);
+    List<DocumentType> findAll() throws NotFoundException;
     void deleteById(Long id);
     void delete(DocumentType docType);
     void add(DocumentType docType);

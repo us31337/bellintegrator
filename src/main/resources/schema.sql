@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS document
     doc_date   DATE        NOT NULL COMMENT 'Дата выдачи',
     doc_number VARCHAR(10) NOT NULL COMMENT 'Номер документа',
     doc_type   VARCHAR(2)  NOT NULL COMMENT 'Идентификатор типа документа'
---     user_id    BIGINT      NOT NULL COMMENT 'Идентификатор пользователя' Использовать в случае двунаправленной связи
+--     В проекте не нужны двунаправленные связи. Поэтому тут их не будет
 );
 COMMENT ON TABLE document IS 'На основании какого документа работает';
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS organisation
     full_name VARCHAR(225) NOT NULL COMMENT 'Полное наименование',
     inn       VARCHAR(15)  NOT NULL COMMENT 'ИНН',
     kpp       VARCHAR(9)   NOT NULL COMMENT 'КПП',
-    is_active boolean DEFAULT false COMMENT 'Активен',
+    is_active boolean DEFAULT false NOT NULL COMMENT 'Активен',
     name      VARCHAR(125) NOT NULL COMMENT 'Сокращенное наименование',
     phone     VARCHAR(25) COMMENT 'Телефон для связи'
 );
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS office
     id        BIGINT       NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
     version   INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
     address   VARCHAR(255) NOT NULL COMMENT 'Адрес',
-    is_active boolean DEFAULT false COMMENT 'Активен',
+    is_active boolean DEFAULT false NOT NULL COMMENT 'Активен',
     name      VARCHAR(255) NOT NULL COMMENT 'Имя',
     phone     VARCHAR(25) COMMENT 'Номер телефона',
     org_id    BIGINT       NOT NULL COMMENT 'Идентификатор фирмы'
@@ -69,12 +69,12 @@ CREATE TABLE IF NOT EXISTS user
     id               BIGINT       NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
     version          INTEGER      NOT NULL COMMENT 'Служебное поле hibernate',
     first_name       VARCHAR(100) NOT NULL COMMENT 'Имя',
-    is_identified    boolean DEFAULT true COMMENT 'Идентифицирован',
+    is_identified    boolean DEFAULT true NOT NULL COMMENT 'Идентифицирован',
     middle_name      VARCHAR(100) COMMENT 'Отчество',
     phone            VARCHAR(25) COMMENT 'Телефон для свзяи',
     position         VARCHAR(100) NOT NULL COMMENT 'Должность',
     second_name      VARCHAR(100) COMMENT 'Фамилия',
-    doc_id           BIGINT       NOT NULL COMMENT 'Идентиифкатор документа',
+    doc_id           BIGINT       NOT NULL COMMENT 'Идентификатор документа',
     citizenship_code INTEGER COMMENT 'Код гражданства',
     office_id        BIGINT       NOT NULL COMMENT 'Индентификатор подразделения'
 );

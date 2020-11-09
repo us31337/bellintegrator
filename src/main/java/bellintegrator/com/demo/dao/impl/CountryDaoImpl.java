@@ -3,11 +3,11 @@ package bellintegrator.com.demo.dao.impl;
 import bellintegrator.com.demo.dao.CountryDao;
 import bellintegrator.com.demo.entity.Country;
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +16,8 @@ import java.util.Map;
 @Repository
 public class CountryDaoImpl implements CountryDao {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager em;
-
 
     private List<Country> findBy(Map<String, Object> attributes) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -61,19 +60,22 @@ public class CountryDaoImpl implements CountryDao {
         if (result.size() > 0) {
             return result.get(0);
         } else {
-            throw new NotFoundException("Country with name " + code + " not found!");
+            throw new NotFoundException("Country with code " + code + " not found!");
         }
     }
 
     @Override
-    public List<Country> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Country> cq = cb.createQuery(Country.class);
-        Root<Country> countryRoot = cq.from(Country.class);
-        return em.createQuery(cq).getResultList();
+    public List<Country> findAll() throws NotFoundException {
+        List<Country> result = findBy(new HashMap<>());
+        if (result.size() > 0) {
+            return result;
+        } else {
+            throw new NotFoundException("No elements in table Country");
+        }
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaDelete<Country> cd = cb.createCriteriaDelete(Country.class);
@@ -89,11 +91,13 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
+    @Transactional
     public void add(Country country) {
         em.persist(country);
     }
 
     @Override
+    @Transactional
     public void update(Country country) {
         em.merge(country);
     }

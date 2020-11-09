@@ -1,11 +1,9 @@
 package bellintegrator.com.demo.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "user", indexes =
-@Index(columnList = ("id"), name = "UX_user_id", unique = true))
+@Table(name = "user")
 public class User {
 
     @Id
@@ -43,8 +41,8 @@ public class User {
     @JoinColumn(name = "citizenship_code", referencedColumnName = "id")
     private Country country;
 
-    @Column(name = "is_identified")
-    private boolean isIdentified;
+    @Column(name = "is_identified", nullable = false)
+    private Boolean isIdentified;
 
     public long getId() {
         return id;

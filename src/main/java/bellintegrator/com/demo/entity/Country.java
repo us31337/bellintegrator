@@ -21,9 +21,6 @@ public class Country {
     @Column(name = "name", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<User> userList;
-
     public long getId() {
         return id;
     }
@@ -54,13 +51,5 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
     }
 }

@@ -34,7 +34,7 @@ INSERT INTO organisation (name, full_name, inn, kpp, address, phone, version) VA
 ('ООО "НПО "АНАЛИТЛАБ"', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "НАУЧНО-ПРОИЗВОДСТВЕННОЕ ОБЪЕДИНЕНИЕ "АНАЛИТЛАБ"', '5260437088',
  '526201001', '603057, ОБЛАСТЬ НИЖЕГОРОДСКАЯ, ГОРОД НИЖНИЙ НОВГОРОД, УЛИЦА БЕКЕТОВА, ДОМ 13', '+78124503120', 1);
 
-INSERT INTO document (doc_code, doc_date, doc_number, version) VALUES
+INSERT INTO document (doc_type, doc_date, doc_number, version) VALUES
 (1, {ts '1999-12-31'}, '3141592654', 1),
 (2, {ts '1998-12-31'}, '2718254466', 1),
 (3, {ts '1200-12-31'}, '314sdfsea4', 1);

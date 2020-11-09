@@ -21,9 +21,6 @@ public class DocumentType {
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
-    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Document> documentList;
-
     public long getId() {
         return id;
     }
@@ -56,11 +53,4 @@ public class DocumentType {
         this.name = name;
     }
 
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
-    }
 }

@@ -1,7 +1,6 @@
 package bellintegrator.com.demo.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "office")
@@ -23,15 +22,12 @@ public class Office {
     @Column(name = "phone", length = 25)
     private String phone;
 
-    @Column(name = "is_active", columnDefinition = "boolean default false")
-    private boolean isActive;
+    @Column(name = "is_active", nullable = false, columnDefinition = "boolean default false")
+    private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
     private Organisation parentOrg;
-
-    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<User> userList;
 
     public long getOfficeId() {
         return officeId;
@@ -89,11 +85,4 @@ public class Office {
         this.parentOrg = parentOrg;
     }
 
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
 }

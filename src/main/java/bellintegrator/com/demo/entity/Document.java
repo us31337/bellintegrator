@@ -7,7 +7,8 @@ import java.util.Date;
 @Table(name = "document")
 public class Document {
 
-    @Id @GeneratedValue @Column(name = "id")
+    @Id
+    @Column(name = "id")
     private long id;
 
     @Version
@@ -22,11 +23,11 @@ public class Document {
     private Date docDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_code", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "doc_type", referencedColumnName = "id", nullable = false)
     private DocumentType type;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId("id")
     private User user;
 
     public long getId() {

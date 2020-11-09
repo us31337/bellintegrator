@@ -1,7 +1,6 @@
 package bellintegrator.com.demo.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "organisation")
@@ -34,11 +33,8 @@ public class Organisation {
     @Column(name = "phone", length = 25)
     private String phone;
 
-    @Column(name = "is_active", columnDefinition = "boolean default false")
-    private boolean isActive;
-
-    @OneToMany(mappedBy = "parentOrg", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Office> officeList;
+    @Column(name = "is_active", nullable = false, columnDefinition = "boolean default false")
+    private Boolean isActive;
 
     public long getId() {
         return id;
@@ -112,11 +108,4 @@ public class Organisation {
         isActive = active;
     }
 
-    public List<Office> getOfficeList() {
-        return officeList;
-    }
-
-    public void setOfficeList(List<Office> officeList) {
-        this.officeList = officeList;
-    }
 }

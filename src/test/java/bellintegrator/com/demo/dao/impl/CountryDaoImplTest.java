@@ -3,6 +3,7 @@ package bellintegrator.com.demo.dao.impl;
 import bellintegrator.com.demo.dao.CountryDao;
 import bellintegrator.com.demo.entity.Country;
 import javassist.NotFoundException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,15 +11,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@Disabled
 class CountryDaoImplTest {
     @Autowired
     private CountryDao countryDao;
 
     @Test
-    void findAll() {
+    void findAll() throws NotFoundException {
         List<Country> countries = countryDao.findAll();
         System.out.println(Arrays.toString(countries.toArray()));
         assertTrue(countries.size() > 0);
