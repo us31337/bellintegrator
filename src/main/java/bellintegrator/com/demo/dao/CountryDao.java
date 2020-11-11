@@ -6,7 +6,7 @@ import javassist.NotFoundException;
 import java.util.List;
 
 public interface CountryDao {
-    Country findById(Long id);
+    Country findById(Long id) throws NotFoundException;
     Country findByName(String name) throws NotFoundException;
     Country findByCode(Integer code) throws NotFoundException;
     List<Country> findAll() throws NotFoundException;

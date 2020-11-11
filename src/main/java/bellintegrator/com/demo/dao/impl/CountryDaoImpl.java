@@ -36,8 +36,13 @@ public class CountryDaoImpl implements CountryDao {
 
 
     @Override
-    public Country findById(Long id) {
-        return em.find(Country.class, id);
+    public Country findById(Long id) throws NotFoundException {
+        Country result = em.find(Country.class, id);
+        if (result != null) {
+            return result;
+        } else {
+            throw new NotFoundException("Country with id " + id + " not found!");
+        }
     }
 
     @Override
@@ -66,7 +71,8 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public List<Country> findAll() throws NotFoundException {
-        List<Country> result = findBy(new HashMap<>());
+        Query query = em.createQuery("select c from Country c");
+        List<Country> result = query.getResultList();
         if (result.size() > 0) {
             return result;
         } else {
@@ -86,6 +92,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
+    @Transactional
     public void delete(Country country) {
         deleteById(country.getId());
     }

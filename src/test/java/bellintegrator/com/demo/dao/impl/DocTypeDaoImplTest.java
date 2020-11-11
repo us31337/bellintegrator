@@ -13,14 +13,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@Disabled
 class DocTypeDaoImplTest {
 
     @Autowired
     private DocTypeDao docTypeDao;
 
     @Test
-    void findById() {
+    void findById() throws NotFoundException {
         DocumentType docType = docTypeDao.findById(10L);
         assertTrue(docType.getCode().equals("21"));
     }
@@ -28,6 +27,7 @@ class DocTypeDaoImplTest {
     @Test
     void findAll() throws NotFoundException {
         List<DocumentType> docTypeList = docTypeDao.findAll();
+        docTypeList.stream().forEach(s -> System.out.println(s.getName()));
         assertTrue(docTypeList.size() > 0);
     }
 
@@ -40,19 +40,19 @@ class DocTypeDaoImplTest {
     }
 
     @Test
-    void update() {
-        DocumentType documentType = docTypeDao.findById(15L);
+    void update() throws NotFoundException {
+        DocumentType documentType = docTypeDao.findById(33L);
         documentType.setName("ТестовыйОбновленный5");
         docTypeDao.update(documentType);
     }
 
     @Test
     void deleteById() {
-        docTypeDao.deleteById(16L);
+        docTypeDao.deleteById(33L);
     }
 
     @Test
-    void delete() {
+    void delete() throws NotFoundException {
         DocumentType documentType = docTypeDao.findById(15L);
         docTypeDao.delete(documentType);
     }

@@ -33,7 +33,7 @@ public class User {
     private Boolean isIdentified;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JoinColumn(name = "doc_id", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "doc_id")
     private Document document;
 
     @ManyToOne(fetch = FetchType.LAZY)

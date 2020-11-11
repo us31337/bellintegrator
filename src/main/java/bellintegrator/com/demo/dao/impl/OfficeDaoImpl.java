@@ -2,6 +2,7 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OfficeDao;
 import bellintegrator.com.demo.entity.Office;
+import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.filter.OfficeFilter;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Repository;
@@ -9,15 +10,10 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
@@ -25,38 +21,55 @@ public class OfficeDaoImpl implements OfficeDao {
     @PersistenceContext
     private EntityManager em;
 
-    private List<Office> findBy(Map<String, Object> attributes) {
+    @Override
+    public List<Office> findByFilter(OfficeFilter filter) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Office> cq = cb.createQuery(Office.class);
         Root<Office> officeRoot = cq.from(Office.class);
         List<Predicate> predicates = new ArrayList<>();
-        attributes.forEach((k, v) -> {
-            if (officeRoot.get(k) != null) {
-                predicates.add(cb.equal(officeRoot.get(k), v));
-            }
-        });
-        cq.where(predicates.toArray(new Predicate[]{}));
+
+        if (filter.getOrgId() != null && filter.getOrgId() > 0) {
+            predicates.add(
+                    cb.equal(
+                            officeRoot.get("parentOrg").get("id"), filter.getOrgId()
+                    )
+            );
+        }
+
+        if (filter.getName() != null && !filter.getName().isEmpty()) {
+            String pattern = "%" + filter.getName().toLowerCase() + "%";
+            predicates.add(cb.like(officeRoot.get("name"), pattern));
+        }
+
+        if (filter.getActive() != null) {
+            predicates.add(cb.equal(officeRoot.get("isActive"), filter.getActive()));
+        }
+
+        if (filter.getPhone() != null && !filter.getPhone().isEmpty()) {
+            predicates.add(cb.equal(officeRoot.get("phone"), filter.getPhone()));
+        }
+
+        cq.where(cb.and(predicates.toArray(new Predicate[]{})));
         TypedQuery<Office> query = em.createQuery(cq);
         return query.getResultList();
     }
 
-
-    @Override
-    public List<Office> findByFilter(OfficeFilter filter) {
-        return null;
-    }
-
-
     @Override
     public Office findById(Long id) {
-        return em.find(Office.class, id);
+        Office result = em.find(Office.class, id);
+        if (result != null) {
+            return result;
+        } else {
+//            throw new NotFoundException("Office with id " + id + " not found!");
+            return null;
+        }
     }
 
     @Override
     public List<Office> findAll() throws NotFoundException {
-        List<Office> list = findBy(new HashMap<>());
-        if (list.size() > 0) {
-            return list;
+        List<Office> result = em.createQuery("select o from Office o").getResultList();
+        if (result.size() > 0) {
+            return result;
         } else {
             throw new NotFoundException("No elements in table office");
         }
@@ -65,23 +78,29 @@ public class OfficeDaoImpl implements OfficeDao {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaDelete<Office> cd = cb.createCriteriaDelete(Office.class);
+        Root<Office> officeRoot = cd.from(Office.class);
 
-    }
-
-    @Override
-    public void delete(Office docType) {
-
-    }
-
-    @Override
-    @Transactional
-    public void add(Office docType) {
-
+        Predicate idPredicate = cb.equal(officeRoot.get("id"), id);
+        em.createQuery(cd.where(idPredicate)).executeUpdate();
     }
 
     @Override
     @Transactional
-    public void update(Office docType) {
+    public void delete(Office office) {
+        deleteById(office.getOfficeId());
+    }
 
+    @Override
+    @Transactional
+    public void add(Office office) {
+        em.persist(office);
+    }
+
+    @Override
+    @Transactional
+    public void update(Office office) {
+        em.merge(office);
     }
 }

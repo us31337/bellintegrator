@@ -63,6 +63,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public void delete(User docType) {
 
     }

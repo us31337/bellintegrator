@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
@@ -18,34 +19,24 @@ public class DocTypeDaoImpl implements DocTypeDao {
     @PersistenceContext
     private EntityManager em;
 
-    private List<DocumentType> findBy(Map<String, Object> attributes) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<DocumentType> cq = cb.createQuery(DocumentType.class);
-        Root<DocumentType> documentTypeRoot = cq.from(DocumentType.class);
-        List<Predicate> predicates = new ArrayList<>();
-        attributes.forEach((k, v) -> {
-            if (documentTypeRoot.get(k) != null) {
-                predicates.add(cb.equal(documentTypeRoot.get(k), v));
-            }
-        });
-        cq.where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<DocumentType> query = em.createQuery(cq);
-        return query.getResultList();
-    }
-
-
     @Override
-    public DocumentType findById(Long id) {
-        return em.find(DocumentType.class, id);
+    public DocumentType findById(Long id) throws NotFoundException {
+        DocumentType result = em.find(DocumentType.class, id);
+        if (result != null) {
+            return result;
+        } else {
+            throw new NotFoundException("Document type with id " + id + " not found!");
+        }
     }
 
     @Override
     public List<DocumentType> findAll() throws NotFoundException {
-        List<DocumentType> result = findBy(new HashMap<>());
+        Query query = em.createQuery("select dt from DocumentType dt");
+        List<DocumentType> result = query.getResultList();
         if (result.size() > 0) {
             return result;
         } else {
-            throw new NotFoundException("No elements un table Document type");
+            throw new NotFoundException("No elements in table Document type");
         }
     }
 
@@ -61,6 +52,7 @@ public class DocTypeDaoImpl implements DocTypeDao {
     }
 
     @Override
+    @Transactional
     public void delete(DocumentType documentType) {
         deleteById(documentType.getId());
     }

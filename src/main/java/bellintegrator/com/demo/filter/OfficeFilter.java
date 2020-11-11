@@ -6,16 +6,28 @@ public class OfficeFilter {
     private String phone;
     private Boolean isActive;
 
+    public OfficeFilter(Long orgId) {
+        if (orgId != null && orgId > 0) {
+            this.orgId = orgId;
+        } else {
+            throw new IllegalArgumentException("Organisation id cannot be negative or empty");
+        }
+    }
+
     public Long getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(Long orgId) {
-        this.orgId = orgId;
+    public void setOrgId(Long orgId) { //do we really need setter here?
+        if (orgId != null && orgId > 0) {
+            this.orgId = orgId;
+        } else {
+            throw new IllegalArgumentException("Organisation id cannot be negative or empty");
+        }
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -23,7 +35,7 @@ public class OfficeFilter {
     }
 
     public String getPhone() {
-        return phone;
+        return phone == null ? "" : phone;
     }
 
     public void setPhone(String phone) {

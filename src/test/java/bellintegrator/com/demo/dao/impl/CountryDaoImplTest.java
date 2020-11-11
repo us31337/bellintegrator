@@ -14,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@Disabled
 class CountryDaoImplTest {
     @Autowired
     private CountryDao countryDao;
@@ -22,12 +21,12 @@ class CountryDaoImplTest {
     @Test
     void findAll() throws NotFoundException {
         List<Country> countries = countryDao.findAll();
-        System.out.println(Arrays.toString(countries.toArray()));
+        countries.stream().forEach(s -> System.out.println(s.getName()));
         assertTrue(countries.size() > 0);
     }
 
     @Test
-    void findById() {
+    void findById() throws NotFoundException {
         Country country = countryDao.findById(10L);
         System.out.println(country.getName());
     }

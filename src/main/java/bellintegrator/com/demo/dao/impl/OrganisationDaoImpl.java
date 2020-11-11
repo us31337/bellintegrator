@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,24 +22,14 @@ public class OrganisationDaoImpl implements OrganisationDao {
     @PersistenceContext
     private EntityManager em;
 
-    private List<Organisation> findBy(Map<String, Object> attributes) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Organisation> cq = cb.createQuery(Organisation.class);
-        Root<Organisation> organisationRoot = cq.from(Organisation.class);
-        List<Predicate> predicates = new ArrayList<>();
-        attributes.forEach((k, v) -> {
-            if (organisationRoot.get(k) != null) {
-                predicates.add(cb.equal(organisationRoot.get(k), v));
-            }
-        });
-        cq.where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<Organisation> query = em.createQuery(cq);
-        return query.getResultList();
-    }
-
     @Override
-    public Organisation findById(Long id) {
-        return em.find(Organisation.class, id);
+    public Organisation findById(Long id) throws NotFoundException {
+        Organisation result =  em.find(Organisation.class, id);
+        if (result != null) {
+            return result;
+        } else {
+            throw new NotFoundException("Organisation type with id " + id + " not found!");
+        }
     }
 
     @Override
@@ -83,22 +72,29 @@ public class OrganisationDaoImpl implements OrganisationDao {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaDelete<Organisation> cd = cb.createCriteriaDelete(Organisation.class);
+        Root<Organisation> organisationRoot = cd.from(Organisation.class);
 
-    }
-
-    @Override
-    public void delete(Organisation docType) {
-
-    }
-
-    @Override
-    @Transactional
-    public void add(Organisation docType) {
-
+        Predicate idPredicate = cb.equal(organisationRoot.get("id"), id);
+        em.createQuery(cd.where(idPredicate)).executeUpdate();
     }
 
     @Override
     @Transactional
-    public void update(Organisation docType) {
+    public void delete(Organisation organisation) {
+        deleteById(organisation.getId());
+    }
+
+    @Override
+    @Transactional
+    public void add(Organisation organisation) {
+        em.persist(organisation);
+    }
+
+    @Override
+    @Transactional
+    public void update(Organisation organisation) {
+        em.merge(organisation);
     }
 }

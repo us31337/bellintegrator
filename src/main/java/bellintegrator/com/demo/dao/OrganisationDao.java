@@ -7,12 +7,12 @@ import javassist.NotFoundException;
 import java.util.List;
 
 public interface OrganisationDao {
-    Organisation findById(Long id);
+    Organisation findById(Long id) throws NotFoundException;
     List<Organisation> findAll() throws NotFoundException;
     void deleteById(Long id);
-    void delete(Organisation docType);
-    void add(Organisation docType);
-    void update(Organisation docType);
+    void delete(Organisation organisation);
+    void add(Organisation organisation);
+    void update(Organisation organisation);
     List<Organisation> findByFilter(OrganisationFilter filter);
 
 }

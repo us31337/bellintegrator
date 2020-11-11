@@ -10,7 +10,11 @@ public class OrganisationFilter {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
     }
 
     public String getInn() {

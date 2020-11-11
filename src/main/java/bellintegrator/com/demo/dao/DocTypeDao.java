@@ -6,7 +6,7 @@ import javassist.NotFoundException;
 import java.util.List;
 
 public interface DocTypeDao {
-    DocumentType findById(Long id);
+    DocumentType findById(Long id) throws NotFoundException;
     List<DocumentType> findAll() throws NotFoundException;
     void deleteById(Long id);
     void delete(DocumentType docType);

@@ -14,14 +14,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@Disabled
 class OrganisationDaoImplTest {
 
     @Autowired
     private OrganisationDao organisationDao;
 
     @Test
-    void findById() {
+    void findById() throws NotFoundException {
+        Organisation org = organisationDao.findById(1000L);
+        assertTrue(org.getId() == 1);
     }
 
     @Test
