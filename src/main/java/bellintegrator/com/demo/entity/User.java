@@ -1,5 +1,7 @@
 package bellintegrator.com.demo.entity;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,33 +17,42 @@ public class User {
     private Integer version;
 
     @Column(name = "first_name", length = 100, nullable = false)
+    @Refreshable
     private String firstName;
 
     @Column(name = "second_name", length = 100)
+    @Refreshable
     private String secondName;
 
     @Column(name = "middle_name", length = 100)
+    @Refreshable
     private String middleName;
 
     @Column(name = "position", length = 100, nullable = false)
+    @Refreshable
     private String position;
 
     @Column(name = "phone", length = 25)
+    @Refreshable
     private String phone;
 
     @Column(name = "is_identified", nullable = false)
+    @Refreshable
     private Boolean isIdentified;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name = "doc_id")
+    @Refreshable
     private Document document;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "office_id", referencedColumnName = "id", nullable = false)
+    @Refreshable
     private Office office;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_code", referencedColumnName = "id")
+    @Refreshable
     private Country country;
 
     public Long getId() {

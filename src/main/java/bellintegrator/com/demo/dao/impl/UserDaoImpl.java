@@ -1,9 +1,9 @@
 package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.UserDao;
-import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.entity.User;
-import bellintegrator.com.demo.filter.OrganisationFilter;
+import bellintegrator.com.demo.filter.UserFilter;
+import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -64,24 +64,25 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void delete(User docType) {
+    public void delete(User user) {
 
     }
 
     @Override
     @Transactional
-    public void add(User docType) {
+    public void add(User user) {
 
     }
 
     @Override
     @Transactional
-    public void update(User docType) {
-
+    public void update(User userNew) throws IllegalAccessException {
+        User userOld = findById(userNew.getId());
+        RefreshableAnnotationHandler.RefreshableFieldsCopy(User.class, userNew, userOld);
     }
 
     @Override
-    public List<User> findByFilter(OrganisationFilter filter) {
+    public List<User> findByFilter(UserFilter filter) {
         return null;
     }
 }

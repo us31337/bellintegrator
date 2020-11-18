@@ -1,5 +1,7 @@
 package bellintegrator.com.demo.entity;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,24 +18,31 @@ public class Organisation {
     private Integer version;
 
     @Column(name = "name", nullable = false, length = 125)
+    @Refreshable
     private String name;
 
     @Column(name = "full_name", nullable = false, length = 225)
+    @Refreshable
     private String fullName;
 
     @Column(name = "inn", nullable = false, length = 15, unique = true) //for INN of individual businessmen
+    @Refreshable
     private String inn;
 
     @Column(name = "kpp", nullable = false, length = 9)
+    @Refreshable
     private String kpp;
 
     @Column(name = "address", nullable = false, length = 225)
+    @Refreshable
     private String address;
 
     @Column(name = "phone", length = 25)
+    @Refreshable
     private String phone;
 
     @Column(name = "is_active", nullable = false, columnDefinition = "boolean default false")
+    @Refreshable
     private Boolean isActive;
 
     public Long getId() {

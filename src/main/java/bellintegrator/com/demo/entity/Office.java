@@ -1,5 +1,7 @@
 package bellintegrator.com.demo.entity;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,19 +16,24 @@ public class Office {
     private Integer version;
 
     @Column(name = "name", length = 255, nullable = false)
+    @Refreshable
     private String name;
 
     @Column(name = "address", length = 255, nullable = false)
+    @Refreshable
     private String address;
 
     @Column(name = "phone", length = 25)
+    @Refreshable
     private String phone;
 
     @Column(name = "is_active", nullable = false, columnDefinition = "boolean default false")
+    @Refreshable
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
+    @Refreshable
     private Organisation parentOrg;
 
     public Long getOfficeId() {

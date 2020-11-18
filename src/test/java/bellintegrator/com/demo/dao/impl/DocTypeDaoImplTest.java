@@ -40,9 +40,9 @@ class DocTypeDaoImplTest {
     }
 
     @Test
-    void update() throws NotFoundException {
-        DocumentType documentType = docTypeDao.findById(33L);
-        documentType.setName("ТестовыйОбновленный5");
+    void update() throws Exception {
+        DocumentType documentType = docTypeDao.findById(34L);
+        documentType.setName("ТестовыйОбновленный1");
         docTypeDao.update(documentType);
     }
 

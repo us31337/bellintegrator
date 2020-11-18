@@ -2,11 +2,11 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.DocumentDao;
 import bellintegrator.com.demo.entity.Document;
-import bellintegrator.com.demo.entity.Organisation;
+import bellintegrator.com.demo.entity.DocumentType;
+import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -69,7 +69,9 @@ public class DocumentDaoImpl implements DocumentDao {
 
     @Override
     @Transactional
-    public void update(Document document) {
-        em.merge(document);
+    public void update(Document documentNew) throws Exception {
+        Document documentOld = findById(documentNew.getId());
+        RefreshableAnnotationHandler.RefreshableFieldsCopy(Document.class, documentNew, documentOld);
+
     }
 }

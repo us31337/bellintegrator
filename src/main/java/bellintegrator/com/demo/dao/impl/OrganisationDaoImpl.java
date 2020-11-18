@@ -1,8 +1,10 @@
 package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OrganisationDao;
+import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.filter.OrganisationFilter;
+import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +16,6 @@ import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class OrganisationDaoImpl implements OrganisationDao {
@@ -94,7 +95,8 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @Override
     @Transactional
-    public void update(Organisation organisation) {
-        em.merge(organisation);
+    public void update(Organisation organisationNew) throws Exception {
+        Organisation organisationOld = findById(organisationNew.getId());
+        RefreshableAnnotationHandler.RefreshableFieldsCopy(Organisation.class, organisationNew, organisationOld);
     }
 }

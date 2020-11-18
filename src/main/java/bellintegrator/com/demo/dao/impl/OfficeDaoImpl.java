@@ -1,9 +1,11 @@
 package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OfficeDao;
+import bellintegrator.com.demo.entity.DocumentType;
 import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.filter.OfficeFilter;
+import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -55,13 +57,12 @@ public class OfficeDaoImpl implements OfficeDao {
     }
 
     @Override
-    public Office findById(Long id) {
+    public Office findById(Long id) throws NotFoundException {
         Office result = em.find(Office.class, id);
         if (result != null) {
             return result;
         } else {
-//            throw new NotFoundException("Office with id " + id + " not found!");
-            return null;
+            throw new NotFoundException("Office with id " + id + " not found!");
         }
     }
 
@@ -100,7 +101,8 @@ public class OfficeDaoImpl implements OfficeDao {
 
     @Override
     @Transactional
-    public void update(Office office) {
-        em.merge(office);
+    public void update(Office officeNew) throws Exception {
+        Office officeOld = findById(officeNew.getOfficeId());
+        RefreshableAnnotationHandler.RefreshableFieldsCopy(Office.class, officeNew, officeOld);
     }
 }

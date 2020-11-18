@@ -1,7 +1,9 @@
 package bellintegrator.com.demo.dao.impl;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
 import bellintegrator.com.demo.dao.DocTypeDao;
 import bellintegrator.com.demo.entity.DocumentType;
+import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
 import javassist.NotFoundException;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -65,9 +67,8 @@ public class DocTypeDaoImpl implements DocTypeDao {
 
     @Override
     @Transactional
-    public void update(DocumentType documentTypeNew) throws NotFoundException {
+    public void update(DocumentType documentTypeNew) throws Exception {
         DocumentType documentTypeOld = findById(documentTypeNew.getId());
-        documentTypeOld = documentTypeNew;
-        em.merge(documentTypeOld);
+        RefreshableAnnotationHandler.RefreshableFieldsCopy(DocumentType.class, documentTypeNew, documentTypeOld);
     }
 }

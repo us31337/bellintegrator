@@ -12,5 +12,5 @@ public interface DocumentDao {
     void deleteById(Long id);
     void delete(Document document);
     void add(Document document);
-    void update(Document document);
+    void update(Document document) throws Exception;
 }

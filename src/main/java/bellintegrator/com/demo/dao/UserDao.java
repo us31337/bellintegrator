@@ -12,8 +12,8 @@ public interface UserDao {
     User findById(Long id);
     List<User> findAll() throws NotFoundException;
     void deleteById(Long id);
-    void delete(User docType);
-    void add(User docType);
-    void update(User docType);
-    List<User> findByFilter(OrganisationFilter filter);
+    void delete(User user);
+    void add(User user);
+    void update(User user) throws Exception;
+    List<User> findByFilter(UserFilter filter);
 }

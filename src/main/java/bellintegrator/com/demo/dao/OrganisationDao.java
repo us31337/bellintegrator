@@ -12,7 +12,7 @@ public interface OrganisationDao {
     void deleteById(Long id);
     void delete(Organisation organisation);
     void add(Organisation organisation);
-    void update(Organisation organisation);
+    void update(Organisation organisation) throws Exception;
     List<Organisation> findByFilter(OrganisationFilter filter);
 
 }

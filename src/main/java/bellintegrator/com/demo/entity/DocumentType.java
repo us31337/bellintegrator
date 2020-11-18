@@ -1,5 +1,7 @@
 package bellintegrator.com.demo.entity;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,9 +17,11 @@ public class DocumentType {
     private Integer version;
 
     @Column(name = "code", length = 2, nullable = false, unique = true)
+    @Refreshable
     private String code;
 
     @Column(name = "name", nullable = false, length = 150)
+    @Refreshable
     private String name;
 
     public Long getId() {

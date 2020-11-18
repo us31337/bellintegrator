@@ -57,9 +57,9 @@ class CountryDaoImplTest {
     void updateCountry() throws Exception {
         Country country = new Country();
         country.setId(11L);
-        country.setCode(888);
-        country.setName("Белиз");
+        country.setCode(868);
+        country.setName("Израиль222");
         countryDao.update(country);
-        assertEquals(country.getCode(), 888);
+        assertEquals(country.getCode(), 868);
     }
 }

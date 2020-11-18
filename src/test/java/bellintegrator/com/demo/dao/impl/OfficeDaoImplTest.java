@@ -19,7 +19,7 @@ class OfficeDaoImplTest {
     private OfficeDao officeDao;
 
     @Test
-    void findByFilter() {
+    void findByFilter() throws Exception {
         OfficeFilter officeFilter = new OfficeFilter(1L);
 /*
         officeFilter.setName("продаж");
@@ -31,7 +31,7 @@ class OfficeDaoImplTest {
     }
 
     @Test
-    void findById() {
+    void findById() throws Exception {
         Office result = officeDao.findById(1L);
         System.out.println(result.getName());
     }

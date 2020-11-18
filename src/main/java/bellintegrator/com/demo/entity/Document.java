@@ -1,5 +1,7 @@
 package bellintegrator.com.demo.entity;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,18 +18,22 @@ public class Document {
     private Integer version;
 
     @Column(name = "doc_number", nullable = false, length = 10)
+    @Refreshable
     private String docNumber;
 
     @Column(name = "doc_date", nullable = false)
     @Temporal(TemporalType.DATE)
+    @Refreshable
     private Date docDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_type", referencedColumnName = "id", nullable = false)
+    @Refreshable
     private DocumentType type;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId("id")
+    @Refreshable
     private User user;
 
     public Long getId() {
