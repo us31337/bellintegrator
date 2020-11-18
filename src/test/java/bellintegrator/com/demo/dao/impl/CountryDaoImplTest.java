@@ -10,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -49,5 +51,15 @@ class CountryDaoImplTest {
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void updateCountry() throws Exception {
+        Country country = new Country();
+        country.setId(11L);
+        country.setCode(888);
+        country.setName("Белиз");
+        countryDao.update(country);
+        assertEquals(country.getCode(), 888);
     }
 }

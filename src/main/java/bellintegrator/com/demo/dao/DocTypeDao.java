@@ -11,5 +11,5 @@ public interface DocTypeDao {
     void deleteById(Long id);
     void delete(DocumentType docType);
     void add(DocumentType docType);
-    void update(DocumentType docType);
+    void update(DocumentType docType) throws NotFoundException;
 }

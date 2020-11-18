@@ -1,5 +1,6 @@
 package bellintegrator.com.demo.dao.impl;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
 import bellintegrator.com.demo.dao.CountryDao;
 import bellintegrator.com.demo.entity.Country;
 import javassist.NotFoundException;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.*;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +108,17 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     @Transactional
-    public void update(Country country) {
-        em.merge(country);
+    public void update(Country countryNew) throws Exception {
+        Country country = findById(countryNew.getId());
+        Field[] fields = Country.class.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getAnnotation(Refreshable.class) != null) {
+                field.setAccessible(true);
+                if (field.get(countryNew) != null) {
+                    field.set(country, field.get(countryNew));
+                }
+            }
+        }
+        em.flush();
     }
 }

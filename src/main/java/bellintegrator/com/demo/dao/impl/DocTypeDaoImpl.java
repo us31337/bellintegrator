@@ -65,7 +65,9 @@ public class DocTypeDaoImpl implements DocTypeDao {
 
     @Override
     @Transactional
-    public void update(DocumentType documentType){
-        em.merge(documentType);
+    public void update(DocumentType documentTypeNew) throws NotFoundException {
+        DocumentType documentTypeOld = findById(documentTypeNew.getId());
+        documentTypeOld = documentTypeNew;
+        em.merge(documentTypeOld);
     }
 }

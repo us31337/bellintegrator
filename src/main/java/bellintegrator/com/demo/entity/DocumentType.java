@@ -1,7 +1,6 @@
 package bellintegrator.com.demo.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "doc_type")
@@ -9,11 +8,11 @@ public class DocumentType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     @Column(name = "code", length = 2, nullable = false, unique = true)
     private String code;
@@ -21,11 +20,11 @@ public class DocumentType {
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,11 +36,11 @@ public class DocumentType {
         this.code = code;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 

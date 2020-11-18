@@ -1,7 +1,5 @@
 package bellintegrator.com.demo.filter;
 
-import com.sun.istack.NotNull;
-
 public class UserFilter {
     private Long officeId;
     private String firstName;

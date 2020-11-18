@@ -7,11 +7,11 @@ import javax.persistence.*;
 public class Office {
 
     @Id @GeneratedValue @Column(name = "id")
-    private long officeId;
+    private Long officeId;
 
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     @Column(name = "name", length = 255, nullable = false)
     private String name;
@@ -29,19 +29,19 @@ public class Office {
     @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
     private Organisation parentOrg;
 
-    public long getOfficeId() {
+    public Long getOfficeId() {
         return officeId;
     }
 
-    public void setOfficeId(long officeId) {
+    public void setOfficeId(Long officeId) {
         this.officeId = officeId;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 

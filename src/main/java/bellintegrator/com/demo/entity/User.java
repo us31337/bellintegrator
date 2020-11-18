@@ -8,11 +8,11 @@ public class User {
 
     @Id
     @GeneratedValue @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     @Column(name = "first_name", length = 100, nullable = false)
     private String firstName;
@@ -44,19 +44,19 @@ public class User {
     @JoinColumn(name = "citizenship_code", referencedColumnName = "id")
     private Country country;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 

@@ -1,7 +1,8 @@
 package bellintegrator.com.demo.entity;
 
+import bellintegrator.com.demo.annotaion.Refreshable;
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table (name = "country")
@@ -9,23 +10,25 @@ public class Country {
 
     @Id
     @GeneratedValue @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
+    @Refreshable
     @Column(name = "code", unique = true)
     private int code;
 
+    @Refreshable
     @Column(name = "name", length = 100)
     private String name;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,11 +40,11 @@ public class Country {
         this.code = code;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 

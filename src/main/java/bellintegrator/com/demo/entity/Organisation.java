@@ -9,11 +9,11 @@ public class Organisation {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     @Column(name = "name", nullable = false, length = 125)
     private String name;
@@ -36,19 +36,19 @@ public class Organisation {
     @Column(name = "is_active", nullable = false, columnDefinition = "boolean default false")
     private Boolean isActive;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(int version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 

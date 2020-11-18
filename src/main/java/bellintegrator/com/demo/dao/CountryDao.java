@@ -13,6 +13,6 @@ public interface CountryDao {
     void deleteById(Long id);
     void delete(Country country);
     void add(Country country);
-    void update(Country country);
+    void update(Country country) throws Exception;
 
 }
