@@ -1,7 +1,6 @@
 package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OrganisationDao;
-import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.filter.OrganisationFilter;
 import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
@@ -39,11 +38,13 @@ public class OrganisationDaoImpl implements OrganisationDao {
         CriteriaQuery<Organisation> cq = cb.createQuery(Organisation.class);
         Root<Organisation> organisationRoot = cq.from(Organisation.class);
         List<Predicate> predicates = new ArrayList<>();
-        if (filter.getName() == null || filter.getName().isEmpty()) {
-            throw new IllegalArgumentException("Field name is required");
+        if (filter.getName() != null && !filter.getName().isEmpty()) {
+            String pattern = "%" + filter.getName().toLowerCase() + "%";
+            predicates.add(cb.like(
+                    cb.lower(organisationRoot.get("name")), pattern)
+            );
         } else {
-            String pattern = "%" + filter.getName().toUpperCase() + "%";
-            predicates.add(cb.like(organisationRoot.get("name"), pattern));
+            throw new IllegalArgumentException("Field name is required");
         }
 
         if (filter.getInn() != null) {

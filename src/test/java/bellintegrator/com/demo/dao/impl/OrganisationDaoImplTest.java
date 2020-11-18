@@ -27,8 +27,8 @@ class OrganisationDaoImplTest {
     @Test
     void findByFilter() {
         OrganisationFilter filter = new OrganisationFilter();
-        filter.setActive(true);
-        filter.setName("ИБИСЛАБ");
+//        filter.setActive(true);
+        filter.setName("ИбИсЛаБ");
         List<Organisation> list = organisationDao.findByFilter(filter);
         System.out.println(list);
 

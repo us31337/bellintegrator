@@ -9,7 +9,7 @@ import javassist.NotFoundException;
 import java.util.List;
 
 public interface UserDao {
-    User findById(Long id);
+    User findById(Long id) throws NotFoundException;
     List<User> findAll() throws NotFoundException;
     void deleteById(Long id);
     void delete(User user);

@@ -10,7 +10,7 @@ import java.util.Date;
 public class Document {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id")
     private Long id;
 
     @Version
@@ -32,7 +32,7 @@ public class Document {
     private DocumentType type;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId("id")
+    @MapsId
     @Refreshable
     private User user;
 

@@ -10,15 +10,10 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -26,63 +21,109 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager em;
 
-    private List<User> findBy(Map<String, Object> attributes) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<User> cq = cb.createQuery(User.class);
-        Root<User> userRoot = cq.from(User.class);
-        List<Predicate> predicates = new ArrayList<>();
-        attributes.forEach((k, v) -> {
-            if (userRoot.get(k) != null) {
-                predicates.add(cb.equal(userRoot.get(k), v));
-            }
-        });
-        cq.where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<User> query = em.createQuery(cq);
-        return query.getResultList();
-    }
-    
     @Override
-    public User findById(Long id) {
-        return null;
+    public User findById(Long id) throws NotFoundException {
+        User user = em.find(User.class, id);
+        if (user != null) {
+            return user;
+        } else {
+            throw new NotFoundException("User wits id " + id + " not found!");
+        }
     }
 
     @Override
     public List<User> findAll() throws NotFoundException {
-        List<User> list = findBy(new HashMap<>());
+        List<User> list = em.createQuery("select u from User u").getResultList();
         if (list.size() > 0) {
             return list;
         } else {
-            throw new NotFoundException("No elements in table office");
+            throw new NotFoundException("No elements in table users");
         }
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaDelete<User> cd = cb.createCriteriaDelete(User.class);
+        Root<User> userRoot = cd.from(User.class);
 
+        Predicate idPredicate = cb.equal(userRoot.get("id"), id);
+        em.createQuery(cd.where(idPredicate)).executeUpdate();
     }
 
     @Override
     @Transactional
     public void delete(User user) {
-
+        deleteById(user.getId());
     }
 
     @Override
     @Transactional
     public void add(User user) {
-
+        em.persist(user);
     }
 
     @Override
     @Transactional
-    public void update(User userNew) throws IllegalAccessException {
+    public void update(User userNew) throws Exception {
         User userOld = findById(userNew.getId());
         RefreshableAnnotationHandler.RefreshableFieldsCopy(User.class, userNew, userOld);
     }
 
     @Override
     public List<User> findByFilter(UserFilter filter) {
-        return null;
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> userRoot = cq.from(User.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (filter.getOfficeId() != null) {
+            Path<Object> objectPath = userRoot.get("office").get("officeId");
+            predicates.add(
+                    cb.equal(userRoot.get("office").get("officeId"), filter.getOfficeId()
+                    )
+            );
+        } else {
+            throw new IllegalArgumentException("Office id cannot be empty!");
+        }
+
+        if (filter.getFirstName() != null && !filter.getFirstName().isEmpty()) {
+            String pattern = "%" + filter.getFirstName().toLowerCase() + "%";
+            predicates.add(cb.like(
+                    cb.lower(userRoot.get("firstName")), pattern)
+            );
+        }
+
+        if (filter.getLastName() != null && !filter.getLastName().isEmpty()) {
+            String pattern = "%" + filter.getLastName().toLowerCase() + "%";
+            predicates.add(cb.like(
+                    cb.lower(userRoot.get("lastName")), pattern)
+            );
+        }
+
+        if (filter.getMiddleName() != null && !filter.getMiddleName().isEmpty()) {
+            String pattern = "%" + filter.getMiddleName().toLowerCase() + "%";
+            predicates.add(cb.like(
+                    cb.lower(userRoot.get("middleName")), pattern)
+            );
+        }
+
+        if (filter.getPosition() != null && !filter.getPosition().isEmpty()) {
+            String pattern = "%" + filter.getPosition().toLowerCase() + "%";
+            predicates.add(cb.like(
+                    cb.lower(userRoot.get("position")), pattern)
+            );
+        }
+
+        if (filter.getDocCode() != null && !filter.getDocCode().isEmpty()) {
+            predicates.add(cb.equal(userRoot.get("document")
+                    .get("type")
+                    .get("code"), filter.getDocCode()));
+        }
+
+        cq.where(cb.and(predicates.toArray(new Predicate[]{})));
+        TypedQuery<User> query = em.createQuery(cq);
+        return query.getResultList();
     }
 }

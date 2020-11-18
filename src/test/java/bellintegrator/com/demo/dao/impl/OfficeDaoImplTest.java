@@ -21,11 +21,11 @@ class OfficeDaoImplTest {
     @Test
     void findByFilter() throws Exception {
         OfficeFilter officeFilter = new OfficeFilter(1L);
+        officeFilter.setName("клининГ");
 /*
-        officeFilter.setName("продаж");
         officeFilter.setPhone("+78124493110");
-*/
         officeFilter.setActive(true);
+*/
         List<Office> list = officeDao.findByFilter(officeFilter);
         list.stream().forEach(s -> System.out.println(s.getName()));
     }

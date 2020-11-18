@@ -20,9 +20,9 @@ public class User {
     @Refreshable
     private String firstName;
 
-    @Column(name = "second_name", length = 100)
+    @Column(name = "last_name", length = 100)
     @Refreshable
-    private String secondName;
+    private String lastName;
 
     @Column(name = "middle_name", length = 100)
     @Refreshable
@@ -41,7 +41,7 @@ public class User {
     private Boolean isIdentified;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "doc_id")
+    @PrimaryKeyJoinColumn
     @Refreshable
     private Document document;
 
@@ -79,12 +79,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getMiddleName() {

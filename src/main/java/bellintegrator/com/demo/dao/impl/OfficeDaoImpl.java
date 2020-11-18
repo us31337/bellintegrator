@@ -40,7 +40,9 @@ public class OfficeDaoImpl implements OfficeDao {
 
         if (filter.getName() != null && !filter.getName().isEmpty()) {
             String pattern = "%" + filter.getName().toLowerCase() + "%";
-            predicates.add(cb.like(officeRoot.get("name"), pattern));
+            predicates.add(cb.like(
+                    cb.lower(officeRoot.get("name")), pattern)
+            );
         }
 
         if (filter.getActive() != null) {
