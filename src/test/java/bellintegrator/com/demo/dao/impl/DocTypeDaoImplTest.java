@@ -3,7 +3,6 @@ package bellintegrator.com.demo.dao.impl;
 import bellintegrator.com.demo.dao.DocTypeDao;
 import bellintegrator.com.demo.entity.DocumentType;
 import javassist.NotFoundException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,4 +56,17 @@ class DocTypeDaoImplTest {
         docTypeDao.delete(documentType);
     }
 
+    @Test
+    void findByName() throws NotFoundException {
+        DocumentType name = docTypeDao.findByName("бИлет");
+        System.out.println(name.getName());
+        System.out.println(name.getCode());
+    }
+
+    @Test
+    void findByCode() throws NotFoundException {
+        DocumentType documentType = docTypeDao.findByCode("03");
+        System.out.println(documentType.getName());
+        System.out.println(documentType.getCode());
+    }
 }

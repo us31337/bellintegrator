@@ -123,7 +123,6 @@ public class UserDaoImpl implements UserDao {
         }
 
         if (filter.getCitizenshipCode() != null && filter.getCitizenshipCode() > 0) {
-            Path<Object> path = userRoot.get("country").get("code");
             predicates.add(cb.equal(userRoot.get("country")
                     .get("code"), filter.getCitizenshipCode()));
         }

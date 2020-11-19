@@ -3,14 +3,11 @@ package bellintegrator.com.demo.dao.impl;
 import bellintegrator.com.demo.dao.CountryDao;
 import bellintegrator.com.demo.entity.Country;
 import javassist.NotFoundException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,7 +33,8 @@ class CountryDaoImplTest {
     @Test
     void findByName() {
         try {
-            Country USA = countryDao.findByName("США");
+            Country USA = countryDao.findByName("СшА");
+            System.out.println(USA.getName());
             assertTrue(USA.getName().equals("США"));
         } catch (NotFoundException e) {
             e.printStackTrace();
@@ -47,6 +45,7 @@ class CountryDaoImplTest {
     void findByCode() {
         try {
             Country USA = countryDao.findByCode(840);
+            System.out.println(USA.getCode());
             assertTrue(USA.getCode() == 840);
         } catch (NotFoundException e) {
             e.printStackTrace();

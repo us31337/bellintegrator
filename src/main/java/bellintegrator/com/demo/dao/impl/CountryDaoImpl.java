@@ -1,44 +1,26 @@
 package bellintegrator.com.demo.dao.impl;
 
-import bellintegrator.com.demo.annotaion.Refreshable;
 import bellintegrator.com.demo.dao.CountryDao;
 import bellintegrator.com.demo.entity.Country;
 import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
-import javax.persistence.criteria.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class CountryDaoImpl implements CountryDao {
 
     @PersistenceContext
     private EntityManager em;
-
-    private List<Country> findBy(Map<String, Object> attributes) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Country> cq = cb.createQuery(Country.class);
-        Root<Country> countryRoot = cq.from(Country.class);
-        List<Predicate> predicates = new ArrayList<>();
-        attributes.forEach((k, v) -> {
-            if (countryRoot.get(k) != null) {
-                predicates.add(cb.equal(countryRoot.get(k), v));
-            }
-        });
-        cq.where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<Country> query = em.createQuery(cq);
-        return query.getResultList();
-    }
-
 
     @Override
     public Country findById(Long id) throws NotFoundException {
@@ -52,9 +34,10 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public Country findByName(String name) throws NotFoundException {
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name", name);
-        List<Country> result = findBy(attributes);
+        Query query = em.createQuery(
+                "select c from Country c where lower(c.name) like lower(:name)");
+        query.setParameter("name", "%" + name + "%");
+        List<Country> result = query.getResultList();
         if (result.size() > 0) {
             return result.get(0);
         } else {
@@ -64,9 +47,9 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public Country findByCode(Integer code) throws NotFoundException {
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("code", code);
-        List<Country> result = findBy(attributes);
+        Query query = em.createQuery("select c from Country c where c.code = :code");
+        query.setParameter("code", code);
+        List<Country> result = query.getResultList();
         if (result.size() > 0) {
             return result.get(0);
         } else {
