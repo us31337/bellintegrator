@@ -6,8 +6,8 @@ public class UserFilter {
     private String lastName;
     private String middleName;
     private String position;
-    private String docCode; //not Long?
-    private Long citizenshipCode; //not Long?
+    private String docCode;
+    private Integer citizenshipCode;
 
     public Long getOfficeId() {
         return officeId;
@@ -57,11 +57,11 @@ public class UserFilter {
         this.docCode = docCode;
     }
 
-    public Long getCitizenshipCode() {
+    public Integer getCitizenshipCode() {
         return citizenshipCode;
     }
 
-    public void setCitizenshipCode(Long citizenshipCode) {
+    public void setCitizenshipCode(Integer citizenshipCode) {
         this.citizenshipCode = citizenshipCode;
     }
 }

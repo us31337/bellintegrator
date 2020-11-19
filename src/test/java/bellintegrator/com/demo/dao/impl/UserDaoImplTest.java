@@ -18,9 +18,10 @@ class UserDaoImplTest {
     @Test
     void findByFilter() {
         UserFilter filter = new UserFilter();
-        filter.setOfficeId(1L);
+        filter.setOfficeId(2L);
 //        filter.setFirstName("катерина");
-//        filter.setDocCode("");
+//        filter.setDocCode("09");
+//        filter.setCitizenshipCode(156);
         List<User> users = userDao.findByFilter(filter);
         users.stream().forEach(s -> System.out.println(s.getFirstName()));
         System.out.println(users.size());

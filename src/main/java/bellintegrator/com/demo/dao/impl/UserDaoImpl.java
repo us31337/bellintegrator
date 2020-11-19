@@ -122,6 +122,12 @@ public class UserDaoImpl implements UserDao {
                     .get("code"), filter.getDocCode()));
         }
 
+        if (filter.getCitizenshipCode() != null && filter.getCitizenshipCode() > 0) {
+            Path<Object> path = userRoot.get("country").get("code");
+            predicates.add(cb.equal(userRoot.get("country")
+                    .get("code"), filter.getCitizenshipCode()));
+        }
+
         cq.where(cb.and(predicates.toArray(new Predicate[]{})));
         TypedQuery<User> query = em.createQuery(cq);
         return query.getResultList();

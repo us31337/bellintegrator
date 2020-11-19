@@ -18,7 +18,7 @@ public class Country {
 
     @Refreshable
     @Column(name = "code", unique = true)
-    private int code;
+    private Integer code;
 
     @Refreshable
     @Column(name = "name", length = 100)
@@ -32,11 +32,11 @@ public class Country {
         this.id = id;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
