@@ -1,12 +1,16 @@
-package bellintegrator.com.demo.service;
+package bellintegrator.com.demo.service.impl;
 
 import bellintegrator.com.demo.annotaion.Refreshable;
+import bellintegrator.com.demo.service.RefresheableHandler;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 
-public class RefreshableAnnotationHandler {
+@Service
+public class RefresheableHandlerImpl implements RefresheableHandler {
 
-    public static void RefreshableFieldsCopy(Class<?> currentClass, Object newObj, Object oldObj) throws IllegalAccessException {
+    @Override
+    public void RefreshableFieldsCopy(Class<?> currentClass, Object newObj, Object oldObj) throws IllegalAccessException {
         Field[] fields = currentClass.getDeclaredFields();
         for (Field field : fields) {
             if (field.getAnnotation(Refreshable.class) != null) {

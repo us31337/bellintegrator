@@ -2,8 +2,9 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.CountryDao;
 import bellintegrator.com.demo.entity.Country;
-import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
+import bellintegrator.com.demo.service.RefresheableHandler;
 import javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,9 @@ public class CountryDaoImpl implements CountryDao {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private RefresheableHandler refresheableHandler;
 
     @Override
     public Country findById(Long id) throws NotFoundException {
@@ -95,6 +99,6 @@ public class CountryDaoImpl implements CountryDao {
     @Transactional
     public void update(Country countryNew) throws Exception {
         Country country = findById(countryNew.getId());
-        RefreshableAnnotationHandler.RefreshableFieldsCopy(Country.class, countryNew, country);
+        refresheableHandler.RefreshableFieldsCopy(Country.class, countryNew, country);
     }
 }

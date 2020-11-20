@@ -1,12 +1,11 @@
 package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OfficeDao;
-import bellintegrator.com.demo.entity.DocumentType;
 import bellintegrator.com.demo.entity.Office;
-import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.filter.OfficeFilter;
-import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
+import bellintegrator.com.demo.service.RefresheableHandler;
 import javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,6 +21,9 @@ public class OfficeDaoImpl implements OfficeDao {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private RefresheableHandler refresheableHandler;
 
     @Override
     public List<Office> findByFilter(OfficeFilter filter) {
@@ -105,6 +107,6 @@ public class OfficeDaoImpl implements OfficeDao {
     @Transactional
     public void update(Office officeNew) throws Exception {
         Office officeOld = findById(officeNew.getOfficeId());
-        RefreshableAnnotationHandler.RefreshableFieldsCopy(Office.class, officeNew, officeOld);
+        refresheableHandler.RefreshableFieldsCopy(Office.class, officeNew, officeOld);
     }
 }

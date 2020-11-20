@@ -3,8 +3,9 @@ package bellintegrator.com.demo.dao.impl;
 import bellintegrator.com.demo.dao.OrganisationDao;
 import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.filter.OrganisationFilter;
-import bellintegrator.com.demo.service.RefreshableAnnotationHandler;
+import bellintegrator.com.demo.service.RefresheableHandler;
 import javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,9 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private RefresheableHandler refresheableHandler;
 
     @Override
     public Organisation findById(Long id) throws NotFoundException {
@@ -97,6 +101,6 @@ public class OrganisationDaoImpl implements OrganisationDao {
     @Transactional
     public void update(Organisation organisationNew) throws Exception {
         Organisation organisationOld = findById(organisationNew.getId());
-        RefreshableAnnotationHandler.RefreshableFieldsCopy(Organisation.class, organisationNew, organisationOld);
+        refresheableHandler.RefreshableFieldsCopy(Organisation.class, organisationNew, organisationOld);
     }
 }
