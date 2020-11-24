@@ -2,25 +2,36 @@ package bellintegrator.com.demo.controller;
 
 import bellintegrator.com.demo.dao.UserDao;
 import bellintegrator.com.demo.entity.User;
+import bellintegrator.com.demo.filter.UserFilter;
 import bellintegrator.com.demo.view.UserDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private ModelMapper modelMapper;
     private UserDao userDao;
+    private ObjectMapper jsonMapper;
 
-    public UserController(@Autowired ModelMapper modelMapper, UserDao userDao) {
+    public UserController(@Autowired ModelMapper modelMapper,
+                          UserDao userDao, ObjectMapper jsonMapper) {
         this.modelMapper = modelMapper;
         this.userDao = userDao;
+        this.jsonMapper = jsonMapper;
 
         this.modelMapper.typeMap(User.class, UserDto.class).addMappings(mapper -> {
             mapper.map(src -> src.getDocument().getType().getName(),
@@ -37,16 +48,45 @@ public class UserController {
 
     }
 
-    @GetMapping("/{id}")
-    public String getUserById(@PathVariable Long id) {
+    @PostMapping(path = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserDto> getUserList(@RequestBody String requestBody) throws JsonProcessingException {
+        System.out.println(requestBody);
+        UserFilter filter = null;
+        try {
+            filter = jsonMapper.readValue(requestBody, UserFilter.class);
+        } catch (JsonProcessingException e) {
+            LOGGER.error("Cannot deserialize user filter from request " + requestBody);
+            throw e;
+        }
+        LOGGER.info("Returning user list with applied filter");
+        List<User> userList = userDao.findByFilter(filter);
+        List<UserDto> collect = userList.stream().map(u -> modelMapper.map(u, UserDto.class)).collect(Collectors.toList());
+        return collect;
+    }
+
+
+    @GetMapping("/{id:\\d+}")
+    public UserDto getUserById(@PathVariable Long id) throws NotFoundException {
         User user = null;
         try {
             user = userDao.findById(id);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.error("Exception from UserDao " + e.getMessage());
+            throw e;
         }
-        UserDto userDto = modelMapper.map(user, UserDto.class);
-        System.out.println(userDto);
-        return userDto.getFirstName();
+        LOGGER.info("Returning user by Id");
+        return modelMapper.map(user, UserDto.class);
     }
+
+    @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveNewUser(@RequestBody String requestBody) {
+
+    }
+
+    @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateUser(@RequestBody String requestBody) {
+
+    }
+
+
 }

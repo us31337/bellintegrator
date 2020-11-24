@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
         if (user != null) {
             return user;
         } else {
-            throw new NotFoundException("User wits id " + id + " not found!");
+            throw new NotFoundException("User with id " + id + " not found!");
         }
     }
 
