@@ -9,7 +9,8 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Version
@@ -135,11 +136,11 @@ public class User {
         this.country = country;
     }
 
-    public boolean isIdentified() {
+    public Boolean isIdentified() {
         return isIdentified;
     }
 
-    public void setIdentified(boolean identified) {
-        isIdentified = identified;
+    public void setIdentified(Boolean identified) {
+        this.isIdentified = identified;
     }
 }

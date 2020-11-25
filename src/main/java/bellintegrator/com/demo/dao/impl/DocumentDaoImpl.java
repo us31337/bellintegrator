@@ -44,7 +44,6 @@ public class DocumentDaoImpl implements DocumentDao {
         } else {
             throw new NotFoundException("No elements in table documents");
         }
-
     }
 
     @Override
@@ -67,6 +66,7 @@ public class DocumentDaoImpl implements DocumentDao {
     @Override
     @Transactional
     public void add(Document document) {
+        System.out.println(document);
         em.persist(document);
     }
 

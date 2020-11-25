@@ -3,6 +3,7 @@ package bellintegrator.com.demo.controller;
 import bellintegrator.com.demo.dao.UserDao;
 import bellintegrator.com.demo.entity.User;
 import bellintegrator.com.demo.filter.UserFilter;
+import bellintegrator.com.demo.service.UserService;
 import bellintegrator.com.demo.view.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,12 +29,14 @@ public class UserController {
     private ModelMapper modelMapper;
     private UserDao userDao;
     private ObjectMapper jsonMapper;
+    private UserService userService;
 
     public UserController(@Autowired ModelMapper modelMapper,
-                          UserDao userDao, ObjectMapper jsonMapper) {
+                          UserDao userDao, ObjectMapper jsonMapper, UserService userService) {
         this.modelMapper = modelMapper;
         this.userDao = userDao;
         this.jsonMapper = jsonMapper;
+        this.userService = userService;
 
         this.modelMapper.typeMap(User.class, UserDto.class).addMappings(mapper -> {
             mapper.map(src -> src.getDocument().getType().getName(),
@@ -50,7 +55,6 @@ public class UserController {
 
     @PostMapping(path = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDto> getUserList(@RequestBody String requestBody) throws JsonProcessingException {
-        System.out.println(requestBody);
         UserFilter filter = null;
         try {
             filter = jsonMapper.readValue(requestBody, UserFilter.class);
@@ -79,13 +83,18 @@ public class UserController {
     }
 
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveNewUser(@RequestBody String requestBody) {
-
+    public Map<String, String> saveNewUser(@RequestBody String requestBody) throws Exception {
+        User user = userService.deserializeUserFromJsonString(requestBody);
+        userService.saveUserAndDocument(user);
+        Map<String, String> map = new HashMap<>();
+        map.put("result", "success");
+        return map;
     }
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUser(@RequestBody String requestBody) {
-
+    public Map<String, String> updateUser(@RequestBody String requestBody) throws Exception {
+        User user = userService.deserializeUserFromJsonString(requestBody);
+        return null;
     }
 
 
