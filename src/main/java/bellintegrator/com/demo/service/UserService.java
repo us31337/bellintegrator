@@ -1,16 +1,20 @@
 package bellintegrator.com.demo.service;
 
 import bellintegrator.com.demo.entity.User;
-import com.fasterxml.jackson.databind.JsonNode;
-
-import javax.transaction.Transactional;
+import bellintegrator.com.demo.view.UpdateUserDto;
+import bellintegrator.com.demo.view.UserSaveDto;
 
 public interface UserService {
 
-    Boolean validateJsonNodeForUser(JsonNode node);
+    void saveUser(User user);
 
-    @Transactional
-    void saveUserAndDocument(User user);
+    boolean validateSaveUserDto(UserSaveDto userSaveDto);
 
-    User deserializeUserFromJsonString(String jsonString) throws Exception;
+    User mapUserSaveDto2User(UserSaveDto userSaveDto) throws Exception;
+
+    boolean validateUpdateUserDto(UpdateUserDto updateUserDto);
+
+    User mapUserUpdateDto2User(UpdateUserDto updateUserDto) throws Exception;
+
+    void updateUser(User user) throws Exception;
 }

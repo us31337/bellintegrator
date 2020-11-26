@@ -1,5 +1,6 @@
 package bellintegrator.com.demo.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -31,9 +32,8 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
                                   Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("data", o);
-        return map;
+        JSONPObject jo = new JSONPObject("data", o);
+        return jo;
     }
 
     @ExceptionHandler(Exception.class)

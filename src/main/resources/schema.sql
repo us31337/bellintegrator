@@ -74,7 +74,6 @@ CREATE TABLE IF NOT EXISTS user
     phone            VARCHAR(25) COMMENT 'Телефон для свзяи',
     position         VARCHAR(100)         NOT NULL COMMENT 'Должность',
     last_name      VARCHAR(100) COMMENT 'Фамилия',
-    doc_id           BIGINT               NOT NULL COMMENT 'Идентификатор документа',
     citizenship_code INTEGER COMMENT 'Код гражданства',
     office_id        BIGINT               NOT NULL COMMENT 'Индентификатор подразделения'
 );
@@ -102,8 +101,8 @@ ALTER TABLE country
 ALTER TABLE doc_type
     ADD CONSTRAINT UK_document_code_name UNIQUE (code, name);
 
-/*ALTER TABLE document
-    ADD CONSTRAINT FOREIGN KEY (user_id) REFERENCES user;*/
+ALTER TABLE document
+    ADD CONSTRAINT FOREIGN KEY (user_id) REFERENCES user;
 
 ALTER TABLE organisation
     ADD CONSTRAINT UK_organisation_inn UNIQUE (inn);
@@ -119,6 +118,3 @@ ALTER TABLE user
 
 ALTER TABLE user
     ADD FOREIGN KEY (office_id) REFERENCES office (id);
-
-ALTER TABLE user
-    ADD CONSTRAINT UK_document_id_user UNIQUE (id, doc_id);

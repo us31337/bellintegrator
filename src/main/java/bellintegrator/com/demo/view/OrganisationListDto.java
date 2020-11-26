@@ -1,6 +1,6 @@
 package bellintegrator.com.demo.view;
 
-public class OrganisationDto {
+public class OrganisationListDto {
     private Long id;
     private String name;
     private String fullName;

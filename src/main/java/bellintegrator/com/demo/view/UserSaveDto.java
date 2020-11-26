@@ -2,26 +2,26 @@ package bellintegrator.com.demo.view;
 
 import java.util.Date;
 
-public class UserDto {
-    private Long id;
+public class UserSaveDto {
+    private Long officeId;
     private String firstName;
     private String lastName;
     private String middleName;
     private String position;
     private String phone;
+    private String docCode;
     private String docName;
-    private String docNumber;
     private Date docDate;
-    private String citizenshipName;
-    private String citizenshipCode;
+    private String docNumber;
+    private Integer citizenshipCode;
     private Boolean isIdentified;
 
-    public Long getId() {
-        return id;
+    public Long getOfficeId() {
+        return officeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOfficeId(Long officeId) {
+        this.officeId = officeId;
     }
 
     public String getFirstName() {
@@ -30,6 +30,14 @@ public class UserDto {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getDocNumber() {
+        return docNumber;
+    }
+
+    public void setDocNumber(String docNumber) {
+        this.docNumber = docNumber;
     }
 
     public String getLastName() {
@@ -64,20 +72,20 @@ public class UserDto {
         this.phone = phone;
     }
 
+    public String getDocCode() {
+        return docCode;
+    }
+
+    public void setDocCode(String docCode) {
+        this.docCode = docCode;
+    }
+
     public String getDocName() {
         return docName;
     }
 
     public void setDocName(String docName) {
         this.docName = docName;
-    }
-
-    public String getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
     }
 
     public Date getDocDate() {
@@ -88,19 +96,11 @@ public class UserDto {
         this.docDate = docDate;
     }
 
-    public String getCitizenshipName() {
-        return citizenshipName;
-    }
-
-    public void setCitizenshipName(String citizenshipName) {
-        this.citizenshipName = citizenshipName;
-    }
-
-    public String getCitizenshipCode() {
+    public Integer getCitizenshipCode() {
         return citizenshipCode;
     }
 
-    public void setCitizenshipCode(String citizenshipCode) {
+    public void setCitizenshipCode(Integer citizenshipCode) {
         this.citizenshipCode = citizenshipCode;
     }
 

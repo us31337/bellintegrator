@@ -1,6 +1,6 @@
 package bellintegrator.com.demo.view;
 
-public class OfficeDto {
+public class OfficeListDto {
     private Long id;
     private String name;
     private String address;

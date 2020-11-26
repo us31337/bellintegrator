@@ -49,7 +49,7 @@ INSERT INTO office (org_id, name, address, phone, version, is_active) VALUES
 (1, 'Дирекция', '3 этаж', '+78124493114', 0, true),
 (1, 'Бухгалтерия', 'цокольный', '+78124493115', 0, true);
 
-INSERT INTO user (office_id, is_identified, first_name, last_name, position, phone, doc_id, citizenship_code, version) VALUES
-(1, true, 'Екатерина', 'Иванова', 'Менеджер', '+78125478530', 1, 1, 0),
-(2, true, 'Сергей', 'Менников', 'директор', '+73141592654', 2, 2, 0),
-(3, true, 'Михаил', 'Павликов', 'охранник', '+78156372569', 3, 3, 0);
+INSERT INTO user (office_id, is_identified, first_name, last_name, position, phone, citizenship_code, version) VALUES
+(1, true, 'Екатерина', 'Иванова', 'Менеджер', '+78125478530', 1, 0),
+(2, true, 'Сергей', 'Менников', 'директор', '+73141592654', 2, 0),
+(3, true, 'Михаил', 'Павликов', 'охранник', '+78156372569', 3, 0);

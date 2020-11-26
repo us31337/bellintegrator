@@ -1,16 +1,18 @@
 package bellintegrator.com.demo.service.impl;
 
 import bellintegrator.com.demo.dao.*;
-import bellintegrator.com.demo.entity.*;
+import bellintegrator.com.demo.entity.Country;
+import bellintegrator.com.demo.entity.Document;
+import bellintegrator.com.demo.entity.Office;
+import bellintegrator.com.demo.entity.User;
 import bellintegrator.com.demo.service.UserService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import bellintegrator.com.demo.view.UpdateUserDto;
+import bellintegrator.com.demo.view.UserSaveDto;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,71 +40,110 @@ public class UserServiceIpl implements UserService {
     }
 
     @Override
-    public Boolean validateJsonNodeForUser(JsonNode node) {
-        return node.hasNonNull("officeId") &&
-                node.hasNonNull("firstName") &&
-                node.hasNonNull("position");
+    public boolean validateSaveUserDto(UserSaveDto userSaveDto) {
+        Long officeId = userSaveDto.getOfficeId();
+        boolean first = officeId != null && officeId > 0;
+        String firstName = userSaveDto.getFirstName();
+        boolean second = Strings.isNotBlank(firstName);
+        String position = userSaveDto.getPosition();
+        boolean third = Strings.isNotBlank(position);
+        return first && second && third;
     }
 
     @Override
-    @Transactional
-    public void saveUserAndDocument(User user) {
-//        documentDao.add(user.getDocument());
+    public User mapUserSaveDto2User(UserSaveDto userSaveDto) throws Exception {
+        User user = new User();
+        Document document = new Document();
+        user.setOffice(officeDao.findById(userSaveDto.getOfficeId()));
+        document.setUser(user);
+        document.setType(userSaveDto.getDocCode() != null ? docTypeDao.findByCode(userSaveDto.getDocCode()) : null);
+        document.setDocNumber(userSaveDto.getDocNumber());
+        document.setDocDate(userSaveDto.getDocDate());
+        Country country = null;
+        if (userSaveDto.getCitizenshipCode() != null && userSaveDto.getCitizenshipCode() > 0) {
+            country = countryDao.findByCode(userSaveDto.getCitizenshipCode());
+        }
+        user.setCountry(country);
+        user.setFirstName(userSaveDto.getFirstName());
+        user.setMiddleName(userSaveDto.getMiddleName());
+        user.setLastName(userSaveDto.getLastName());
+        user.setPhone(userSaveDto.getPhone());
+        user.setPosition(userSaveDto.getPosition());
+        user.setIdentified(userSaveDto.getIdentified() != null ? userSaveDto.getIdentified() : true);
+        return user;
+    }
+
+    @Override
+    public void saveUser(User user) {
         userDao.add(user);
     }
 
+    @Override
+    public boolean validateUpdateUserDto(UpdateUserDto updateUserDto) {
+        Long id = updateUserDto.getId();
+        boolean first = id != null && id > 0;
+        String firstName = updateUserDto.getFirstName();
+        boolean second = Strings.isNotBlank(firstName);
+        String position = updateUserDto.getPosition();
+        boolean third = Strings.isNotBlank(position);
+        return first && second && third;
+    }
 
     @Override
-    public User deserializeUserFromJsonString(String jsonString) throws Exception {
-        User user = new User();
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(jsonString);
-        if (!validateJsonNodeForUser(node)) {
-            throw new IllegalArgumentException("Not all required fields presents");
-        }
-/*
-        DocumentType type = new DocumentType();
-        Country country = new Country();
-*/
-        if (node.hasNonNull("officeId")) {
-            long officeId = node.get("officeId").asLong();
-            Office office = officeDao.findById(officeId);
+    public User mapUserUpdateDto2User(UpdateUserDto updateUserDto) throws Exception {
+        User user = userDao.findById(updateUserDto.getId());
+
+        Long id = updateUserDto.getOfficeId();
+        if (id != null && id > 0) {
+            Office office = officeDao.findById(updateUserDto.getId());
             user.setOffice(office);
-        } else {
-            throw new IllegalStateException("Cannot find valid office id");
+        }
+        Integer citizenshipCode = updateUserDto.getCitizenshipCode();
+        if (citizenshipCode != null && citizenshipCode > 0) {
+            Country country = countryDao.findByCode(citizenshipCode);
+            user.setCountry(country);
         }
 
-        DocumentType type = null;
-        if (node.hasNonNull("docCode")) {
-            type = docTypeDao.findByCode(node.get("docCode").asText());
-        } else {
-            throw new IllegalStateException("Cannot find valid document code");
+        Document document = user.getDocument();
+        Date docDate = updateUserDto.getDocDate();
+        if (docDate != null) {
+            document.setDocDate(docDate);
         }
-        Document document = new Document();
-        document.setType(type);
-        Date date = null;
-        try {
-            date = SDF.parse(node.hasNonNull("docDate") ? node.get("docDate").asText() : "null");
-        } catch (ParseException e) {
-            e.printStackTrace();
+        String docNumber = updateUserDto.getDocNumber();
+        if (Strings.isNotBlank(docNumber)) {
+            document.setDocNumber(docNumber);
         }
-        document.setDocDate(date);
-        document.setDocNumber(node.hasNonNull("docNumber") ? node.get("docNumber").asText() : null);
-        user.setDocument(document);
-        document.setUser(user);
-        Country country = null;
-        if (node.hasNonNull("citizenshipCode")) {
-            country = countryDao.findByCode(node.get("citizenshipCode").asInt());
-        } else {
-            throw new IllegalStateException("Cannot find valid country code");
+
+        user.setFirstName(updateUserDto.getFirstName());
+        String middleName = updateUserDto.getMiddleName();
+        if (Strings.isNotBlank(middleName)) {
+            user.setMiddleName(middleName);
         }
-        user.setCountry(country);
-        user.setFirstName(node.hasNonNull("firstName") ? node.get("firstName").asText() : null);
-        user.setMiddleName(node.hasNonNull("middleName") ? node.get("middleName").asText() : null);
-        user.setLastName(node.hasNonNull("lastName") ? node.get("lastName").asText() : null);
-        user.setPosition(node.hasNonNull("position") ? node.get("position").asText() : null);
-        user.setPhone(node.hasNonNull("phone") ? node.get("phone").asText() : null);
-        user.setIdentified(node.hasNonNull("isIdentified") ? node.get("isIdentified").asBoolean() : true);
+
+        String lastName = updateUserDto.getLastName();
+        if (Strings.isNotBlank(lastName)) {
+            user.setLastName(lastName);
+        }
+
+        String position = updateUserDto.getPosition();
+        if (Strings.isNotBlank(position)) {
+            user.setPosition(position);
+        }
+
+        String phone = updateUserDto.getPhone();
+        if (Strings.isNotBlank(phone)) {
+            user.setPhone(phone);
+        }
+
+        Boolean identified = updateUserDto.getIdentified();
+        if (identified != null) {
+            user.setIdentified(identified);
+        }
         return user;
+    }
+
+    @Override
+    public void updateUser(User user) throws Exception {
+        userDao.update(user);
     }
 }
