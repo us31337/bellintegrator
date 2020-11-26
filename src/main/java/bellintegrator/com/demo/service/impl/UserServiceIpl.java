@@ -5,9 +5,11 @@ import bellintegrator.com.demo.entity.Country;
 import bellintegrator.com.demo.entity.Document;
 import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.entity.User;
+import bellintegrator.com.demo.filter.UserFilter;
 import bellintegrator.com.demo.service.UserService;
 import bellintegrator.com.demo.view.UpdateUserDto;
 import bellintegrator.com.demo.view.UserSaveDto;
+import javassist.NotFoundException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceIpl implements UserService {
@@ -37,6 +40,16 @@ public class UserServiceIpl implements UserService {
         SDF = new SimpleDateFormat(datePattern);
         this.documentDao = documentDao;
         this.userDao = userDao;
+    }
+
+    @Override
+    public List<User> findByFilter(UserFilter userFilter) {
+        return userDao.findByFilter(userFilter);
+    }
+
+    @Override
+    public User findById(Long id) throws NotFoundException {
+        return userDao.findById(id);
     }
 
     @Override

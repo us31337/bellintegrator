@@ -1,6 +1,5 @@
 package bellintegrator.com.demo.controller;
 
-import bellintegrator.com.demo.dao.UserDao;
 import bellintegrator.com.demo.entity.User;
 import bellintegrator.com.demo.filter.UserFilter;
 import bellintegrator.com.demo.service.UserService;
@@ -9,7 +8,6 @@ import bellintegrator.com.demo.view.UpdateUserDto;
 import bellintegrator.com.demo.view.UserListDto;
 import bellintegrator.com.demo.view.UserSaveDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -29,13 +27,9 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private UserDao userDao;
-    private ObjectMapper jsonMapper;
     private UserService userService;
 
-    public UserController(@Autowired UserDao userDao, ObjectMapper jsonMapper, UserService userService) {
-        this.userDao = userDao;
-        this.jsonMapper = jsonMapper;
+    public UserController(@Autowired UserService userService) {
         this.userService = userService;
     }
 
@@ -43,7 +37,7 @@ public class UserController {
     public List<UserListDto> getUserList(@RequestBody UserFilter userFilter) throws JsonProcessingException {
         System.out.println(userFilter);
         LOGGER.info("Returning user list with applied filter");
-        List<User> userList = userDao.findByFilter(userFilter);
+        List<User> userList = userService.findByFilter(userFilter);
         ModelMapper modelMapper = new ModelMapper();
         List<UserListDto> collect = userList.stream().map(u -> modelMapper.map(u, UserListDto.class)).collect(Collectors.toList());
         return collect;
@@ -54,7 +48,7 @@ public class UserController {
     public SingleUserDto getUserById(@PathVariable Long id) throws NotFoundException {
         User user = null;
         try {
-            user = userDao.findById(id);
+            user = userService.findById(id);
         } catch (Exception e) {
             LOGGER.error("Exception from UserDao " + e.getMessage());
             throw e;
@@ -86,7 +80,6 @@ public class UserController {
         }
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
-//        return "{\"result\":\"success\"}";
         return map;
     }
 
@@ -100,7 +93,6 @@ public class UserController {
         }
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
-//        return "{\"result\":\"success\"}";
         return map;
     }
 
