@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<ListUserDto> getUserList(@RequestBody UserFilter userFilter) {
+    public List<ListUserDto> getUserList(@RequestBody @Valid UserFilter userFilter) {
         return userService.findByFilter(userFilter);
     }
 
@@ -53,10 +53,8 @@ public class UserController {
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> updateUser(@RequestBody @Valid UpdateUserDto updateUserDto) throws Exception {
-
         User user = userService.mapUserUpdateDto2User(updateUserDto);
         userService.updateUser(user);
-
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;
