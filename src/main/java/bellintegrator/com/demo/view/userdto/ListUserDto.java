@@ -1,20 +1,18 @@
-package bellintegrator.com.demo.filter;
+package bellintegrator.com.demo.view.userdto;
 
-public class UserFilter {
-    private Long officeId;
+public class ListUserDto {
+    private Long id;
     private String firstName;
     private String lastName;
     private String middleName;
     private String position;
-    private String docCode;
-    private Integer citizenshipCode;
 
-    public Long getOfficeId() {
-        return officeId;
+    public Long getId() {
+        return id;
     }
 
-    public void setOfficeId(Long officeId) {
-        this.officeId = officeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -49,19 +47,4 @@ public class UserFilter {
         this.position = position;
     }
 
-    public String getDocCode() {
-        return docCode;
-    }
-
-    public void setDocCode(String docCode) {
-        this.docCode = docCode;
-    }
-
-    public Integer getCitizenshipCode() {
-        return citizenshipCode;
-    }
-
-    public void setCitizenshipCode(Integer citizenshipCode) {
-        this.citizenshipCode = citizenshipCode;
-    }
 }

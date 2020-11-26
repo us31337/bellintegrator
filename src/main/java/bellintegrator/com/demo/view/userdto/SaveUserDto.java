@@ -1,28 +1,42 @@
-package bellintegrator.com.demo.view;
+package bellintegrator.com.demo.view.userdto;
 
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
-public class UpdateUserDto {
-    private Long id;
+public class SaveUserDto {
+
+    @NotNull
+    @Min(1)
     private Long officeId;
+
+    @NotEmpty
+    @Size(min = 2)
     private String firstName;
+
+    @Size(min = 2)
     private String lastName;
+
+    @Size(min = 2)
     private String middleName;
+
+    @NotEmpty
+    @Size(min = 2)
     private String position;
+
+    @Size(min = 2)
     private String phone;
+
+    @Size(min = 2)
+    private String docCode;
     private String docName;
-    private String docNumber;
     private Date docDate;
+    private String docNumber;
     private Integer citizenshipCode;
     private Boolean isIdentified;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getOfficeId() {
         return officeId;
@@ -38,6 +52,14 @@ public class UpdateUserDto {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getDocNumber() {
+        return docNumber;
+    }
+
+    public void setDocNumber(String docNumber) {
+        this.docNumber = docNumber;
     }
 
     public String getLastName() {
@@ -72,20 +94,20 @@ public class UpdateUserDto {
         this.phone = phone;
     }
 
+    public String getDocCode() {
+        return docCode;
+    }
+
+    public void setDocCode(String docCode) {
+        this.docCode = docCode;
+    }
+
     public String getDocName() {
         return docName;
     }
 
     public void setDocName(String docName) {
         this.docName = docName;
-    }
-
-    public String getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
     }
 
     public Date getDocDate() {

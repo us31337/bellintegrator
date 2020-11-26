@@ -1,4 +1,4 @@
-package bellintegrator.com.demo.view;
+package bellintegrator.com.demo.view.userdto;
 
 import java.util.Date;
 

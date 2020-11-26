@@ -2,8 +2,8 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.UserDao;
 import bellintegrator.com.demo.entity.User;
-import bellintegrator.com.demo.filter.UserFilter;
 import bellintegrator.com.demo.service.RefresheableHandler;
+import bellintegrator.com.demo.view.filter.UserFilter;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

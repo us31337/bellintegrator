@@ -2,8 +2,8 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OrganisationDao;
 import bellintegrator.com.demo.entity.Organisation;
-import bellintegrator.com.demo.filter.OrganisationFilter;
 import bellintegrator.com.demo.service.RefresheableHandler;
+import bellintegrator.com.demo.view.filter.OrganisationFilter;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

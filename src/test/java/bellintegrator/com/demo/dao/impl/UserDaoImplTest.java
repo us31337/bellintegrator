@@ -2,7 +2,7 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.UserDao;
 import bellintegrator.com.demo.entity.User;
-import bellintegrator.com.demo.filter.UserFilter;
+import bellintegrator.com.demo.view.filter.UserFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

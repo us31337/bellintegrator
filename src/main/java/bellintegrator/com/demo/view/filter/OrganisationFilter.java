@@ -1,20 +1,23 @@
-package bellintegrator.com.demo.filter;
+package bellintegrator.com.demo.view.filter;
+
+import javax.validation.constraints.NotEmpty;
 
 public class OrganisationFilter {
+    @NotEmpty(message = "Name field is required")
     private String name;
     private String inn;
-    private Boolean isActive = null;
+    private Boolean isActive;
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
+        this.name = name;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public String getInn() {
@@ -29,7 +32,4 @@ public class OrganisationFilter {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }

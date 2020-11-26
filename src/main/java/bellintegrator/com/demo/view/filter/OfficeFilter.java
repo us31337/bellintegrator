@@ -1,29 +1,27 @@
-package bellintegrator.com.demo.filter;
+package bellintegrator.com.demo.view.filter;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class OfficeFilter {
+
+    @NotNull(message = "Id is required")
+    @Min(1)
     private Long orgId;
     private String name;
     private String phone;
     private Boolean isActive;
 
     public OfficeFilter(Long orgId) {
-        if (orgId != null && orgId > 0) {
-            this.orgId = orgId;
-        } else {
-            throw new IllegalArgumentException("Organisation id cannot be negative or empty");
-        }
+        this.orgId = orgId;
     }
 
     public Long getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(Long orgId) { //do we really need setter here?
-        if (orgId != null && orgId > 0) {
-            this.orgId = orgId;
-        } else {
-            throw new IllegalArgumentException("Organisation id cannot be negative or empty");
-        }
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
     }
 
     public String getName() {

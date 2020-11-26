@@ -2,7 +2,7 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OrganisationDao;
 import bellintegrator.com.demo.entity.Organisation;
-import bellintegrator.com.demo.filter.OrganisationFilter;
+import bellintegrator.com.demo.view.filter.OrganisationFilter;
 import javassist.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

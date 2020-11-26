@@ -1,7 +1,7 @@
 package bellintegrator.com.demo.dao;
 
 import bellintegrator.com.demo.entity.Organisation;
-import bellintegrator.com.demo.filter.OrganisationFilter;
+import bellintegrator.com.demo.view.filter.OrganisationFilter;
 import javassist.NotFoundException;
 
 import java.util.List;

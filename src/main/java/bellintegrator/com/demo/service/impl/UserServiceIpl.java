@@ -5,12 +5,15 @@ import bellintegrator.com.demo.entity.Country;
 import bellintegrator.com.demo.entity.Document;
 import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.entity.User;
-import bellintegrator.com.demo.filter.UserFilter;
 import bellintegrator.com.demo.service.UserService;
-import bellintegrator.com.demo.view.UpdateUserDto;
-import bellintegrator.com.demo.view.UserSaveDto;
+import bellintegrator.com.demo.view.filter.UserFilter;
+import bellintegrator.com.demo.view.userdto.ListUserDto;
+import bellintegrator.com.demo.view.userdto.SaveUserDto;
+import bellintegrator.com.demo.view.userdto.SingleUserDto;
+import bellintegrator.com.demo.view.userdto.UpdateUserDto;
 import javassist.NotFoundException;
 import org.apache.logging.log4j.util.Strings;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceIpl implements UserService {
@@ -43,63 +47,62 @@ public class UserServiceIpl implements UserService {
     }
 
     @Override
-    public List<User> findByFilter(UserFilter userFilter) {
-        return userDao.findByFilter(userFilter);
+    public List<ListUserDto> findByFilter(UserFilter userFilter) {
+        List<User> userList = userDao.findByFilter(userFilter);
+        ModelMapper modelMapper = new ModelMapper();
+        List<ListUserDto> collect = userList.stream().map(u -> modelMapper.map(u, ListUserDto.class)).collect(Collectors.toList());
+        return collect;
     }
 
     @Override
-    public User findById(Long id) throws NotFoundException {
-        return userDao.findById(id);
+    public SingleUserDto findById(Long id) throws NotFoundException {
+        User user = userDao.findById(id);
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.typeMap(User.class, SingleUserDto.class).addMappings(mapper -> {
+            mapper.map(src -> src.getDocument().getType().getName(),
+                    SingleUserDto::setDocName);
+            mapper.map(src -> src.getDocument().getDocNumber(),
+                    SingleUserDto::setDocNumber);
+            mapper.map(src -> src.getDocument().getDocDate(),
+                    SingleUserDto::setDocDate);
+            mapper.map(src -> src.getCountry().getName(),
+                    SingleUserDto::setCitizenshipName);
+            mapper.map(src -> src.getCountry().getCode(),
+                    SingleUserDto::setCitizenshipCode);
+        });
+        return modelMapper.map(user, SingleUserDto.class);
     }
 
-    @Override
-    public boolean validateSaveUserDto(UserSaveDto userSaveDto) {
-        Long officeId = userSaveDto.getOfficeId();
-        boolean first = officeId != null && officeId > 0;
-        String firstName = userSaveDto.getFirstName();
-        boolean second = Strings.isNotBlank(firstName);
-        String position = userSaveDto.getPosition();
-        boolean third = Strings.isNotBlank(position);
-        return first && second && third;
-    }
 
     @Override
-    public User mapUserSaveDto2User(UserSaveDto userSaveDto) throws Exception {
+    public User mapUserSaveDto2User(SaveUserDto saveUserDto) throws Exception {
         User user = new User();
         Document document = new Document();
-        user.setOffice(officeDao.findById(userSaveDto.getOfficeId()));
+        user.setOffice(officeDao.findById(saveUserDto.getOfficeId()));
         document.setUser(user);
-        document.setType(userSaveDto.getDocCode() != null ? docTypeDao.findByCode(userSaveDto.getDocCode()) : null);
-        document.setDocNumber(userSaveDto.getDocNumber());
-        document.setDocDate(userSaveDto.getDocDate());
+        document.setType(saveUserDto.getDocCode() != null ? docTypeDao.findByCode(saveUserDto.getDocCode()) : null);
+        if (!document.getType().getName().equals(saveUserDto.getDocName())) {
+            throw new IllegalArgumentException("Document's name not equal name from database");
+        }
+        document.setDocNumber(saveUserDto.getDocNumber());
+        document.setDocDate(saveUserDto.getDocDate());
         Country country = null;
-        if (userSaveDto.getCitizenshipCode() != null && userSaveDto.getCitizenshipCode() > 0) {
-            country = countryDao.findByCode(userSaveDto.getCitizenshipCode());
+        if (saveUserDto.getCitizenshipCode() != null && saveUserDto.getCitizenshipCode() > 0) {
+            country = countryDao.findByCode(saveUserDto.getCitizenshipCode());
         }
         user.setCountry(country);
-        user.setFirstName(userSaveDto.getFirstName());
-        user.setMiddleName(userSaveDto.getMiddleName());
-        user.setLastName(userSaveDto.getLastName());
-        user.setPhone(userSaveDto.getPhone());
-        user.setPosition(userSaveDto.getPosition());
-        user.setIdentified(userSaveDto.getIdentified() != null ? userSaveDto.getIdentified() : true);
+        user.setFirstName(saveUserDto.getFirstName());
+        user.setMiddleName(saveUserDto.getMiddleName());
+        user.setLastName(saveUserDto.getLastName());
+        user.setPhone(saveUserDto.getPhone());
+        user.setPosition(saveUserDto.getPosition());
+        user.setIdentified(saveUserDto.getIdentified() != null ? saveUserDto.getIdentified() : true);
         return user;
     }
 
     @Override
     public void saveUser(User user) {
         userDao.add(user);
-    }
-
-    @Override
-    public boolean validateUpdateUserDto(UpdateUserDto updateUserDto) {
-        Long id = updateUserDto.getId();
-        boolean first = id != null && id > 0;
-        String firstName = updateUserDto.getFirstName();
-        boolean second = Strings.isNotBlank(firstName);
-        String position = updateUserDto.getPosition();
-        boolean third = Strings.isNotBlank(position);
-        return first && second && third;
     }
 
     @Override
@@ -125,6 +128,9 @@ public class UserServiceIpl implements UserService {
         String docNumber = updateUserDto.getDocNumber();
         if (Strings.isNotBlank(docNumber)) {
             document.setDocNumber(docNumber);
+        }
+        if (!document.getType().getName().equals(updateUserDto.getDocName())) {
+            throw new IllegalArgumentException("Document's name not equal name from database");
         }
 
         user.setFirstName(updateUserDto.getFirstName());

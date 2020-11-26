@@ -2,15 +2,13 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OfficeDao;
 import bellintegrator.com.demo.entity.Office;
-import bellintegrator.com.demo.filter.OfficeFilter;
+import bellintegrator.com.demo.view.filter.OfficeFilter;
 import javassist.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class OfficeDaoImplTest {

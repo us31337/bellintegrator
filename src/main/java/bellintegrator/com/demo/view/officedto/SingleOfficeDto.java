@@ -1,11 +1,8 @@
-package bellintegrator.com.demo.view;
+package bellintegrator.com.demo.view.officedto;
 
-public class OrganisationListDto {
+public class SingleOfficeDto {
     private Long id;
     private String name;
-    private String fullName;
-    private String inn;
-    private String kpp;
     private String address;
     private String phone;
     private Boolean isActive;
@@ -24,30 +21,6 @@ public class OrganisationListDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getInn() {
-        return inn;
-    }
-
-    public void setInn(String inn) {
-        this.inn = inn;
-    }
-
-    public String getKpp() {
-        return kpp;
-    }
-
-    public void setKpp(String kpp) {
-        this.kpp = kpp;
     }
 
     public String getAddress() {

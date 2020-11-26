@@ -1,6 +1,6 @@
 package bellintegrator.com.demo.controller;
 
-import bellintegrator.com.demo.filter.UserFilter;
+import bellintegrator.com.demo.view.filter.UserFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
