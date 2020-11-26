@@ -12,8 +12,10 @@ import bellintegrator.com.demo.view.userdto.SaveUserDto;
 import bellintegrator.com.demo.view.userdto.SingleUserDto;
 import bellintegrator.com.demo.view.userdto.UpdateUserDto;
 import javassist.NotFoundException;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.logging.log4j.util.Strings;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class UserServiceIpl implements UserService {
     private DocTypeDao docTypeDao;
     private DocumentDao documentDao;
     private UserDao userDao;
+    private MapperFactory mapperFactory;
 
     @Autowired
     public UserServiceIpl(OfficeDao officeDao, CountryDao countryDao,
@@ -44,21 +47,30 @@ public class UserServiceIpl implements UserService {
         SDF = new SimpleDateFormat(datePattern);
         this.documentDao = documentDao;
         this.userDao = userDao;
+        this.mapperFactory = new DefaultMapperFactory.Builder().build();
     }
 
     @Override
     public List<ListUserDto> findByFilter(UserFilter userFilter) {
         List<User> userList = userDao.findByFilter(userFilter);
-        ModelMapper modelMapper = new ModelMapper();
-        List<ListUserDto> collect = userList.stream().map(u -> modelMapper.map(u, ListUserDto.class)).collect(Collectors.toList());
+        mapperFactory.classMap(User.class, ListUserDto.class);
+        MapperFacade mapper = mapperFactory.getMapperFacade();
+        List<ListUserDto> collect = userList.stream().map(u -> mapper.map(u, ListUserDto.class)).collect(Collectors.toList());
         return collect;
     }
 
     @Override
     public SingleUserDto findById(Long id) throws NotFoundException {
         User user = userDao.findById(id);
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.typeMap(User.class, SingleUserDto.class).addMappings(mapper -> {
+        mapperFactory.classMap(User.class, SingleUserDto.class)
+                .field("document.type.name", "docName")
+                .field("document.docNumber", "docNumber")
+                .field("document.docDate", "docDate")
+                .field("country.name", "citizenshipName")
+                .field("country.code", "citizenshipCode")
+                .byDefault().register();
+        MapperFacade mapper = mapperFactory.getMapperFacade();
+        /*mapper.typeMap(User.class, SingleUserDto.class).addMappings(mapper -> {
             mapper.map(src -> src.getDocument().getType().getName(),
                     SingleUserDto::setDocName);
             mapper.map(src -> src.getDocument().getDocNumber(),
@@ -69,8 +81,8 @@ public class UserServiceIpl implements UserService {
                     SingleUserDto::setCitizenshipName);
             mapper.map(src -> src.getCountry().getCode(),
                     SingleUserDto::setCitizenshipCode);
-        });
-        return modelMapper.map(user, SingleUserDto.class);
+        });*/
+        return mapper.map(user, SingleUserDto.class);
     }
 
 
