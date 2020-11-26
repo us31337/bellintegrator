@@ -35,7 +35,6 @@ public class UserController {
 
     @PostMapping(path = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<UserListDto> getUserList(@RequestBody UserFilter userFilter) throws JsonProcessingException {
-        System.out.println(userFilter);
         LOGGER.info("Returning user list with applied filter");
         List<User> userList = userService.findByFilter(userFilter);
         ModelMapper modelMapper = new ModelMapper();

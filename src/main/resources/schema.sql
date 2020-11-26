@@ -89,8 +89,6 @@ CREATE INDEX IX_user_position ON user (position);
 
 CREATE INDEX IX_user_second_name ON user (last_name);
 
-CREATE UNIQUE INDEX UX_user_doc_id ON user (doc_id);
-
 CREATE UNIQUE INDEX UX_user_id ON user (id);
 
 CREATE UNIQUE INDEX UX_user_office_id ON user (office_id);
