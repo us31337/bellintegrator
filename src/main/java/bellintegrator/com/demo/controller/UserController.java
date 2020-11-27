@@ -24,10 +24,10 @@ import java.util.Map;
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     private UserService userService;
 
-    public UserController(@Autowired UserService userService) {
+    @Autowired
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -35,7 +35,6 @@ public class UserController {
     public List<ListUserDto> getUserList(@RequestBody @Valid UserFilter userFilter) {
         return userService.findByFilter(userFilter);
     }
-
 
     @GetMapping("/{id:\\d+}")
     public SingleUserDto getUserById(@PathVariable Long id) throws NotFoundException {

@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS office
 (
     id        BIGINT                NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
     version   INTEGER               NOT NULL COMMENT 'Служебное поле hibernate',
-    address   VARCHAR(255)          NOT NULL COMMENT 'Адрес',
-    is_active boolean DEFAULT false NOT NULL COMMENT 'Активен',
+    address   VARCHAR(255) COMMENT 'Адрес',
+    is_active boolean DEFAULT false COMMENT 'Активен',
     name      VARCHAR(255)          NOT NULL COMMENT 'Имя',
     phone     VARCHAR(25) COMMENT 'Номер телефона',
     org_id    BIGINT                NOT NULL COMMENT 'Идентификатор фирмы'

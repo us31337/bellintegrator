@@ -54,8 +54,8 @@ public class OrganisationDaoImpl implements OrganisationDao {
         if (filter.getInn() != null) {
             predicates.add(cb.equal(organisationRoot.get("inn"), filter.getInn()));
         }
-        if (filter.isActive() != null) {
-            predicates.add(cb.equal(organisationRoot.get("isActive"), filter.isActive()));
+        if (filter.getIsActive() != null) {
+            predicates.add(cb.equal(organisationRoot.get("isActive"), filter.getIsActive()));
         }
         cq.where(cb.and(predicates.toArray(new Predicate[]{})));
         TypedQuery<Organisation> query = em.createQuery(cq);

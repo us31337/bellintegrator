@@ -18,7 +18,8 @@ class OfficeDaoImplTest {
 
     @Test
     void findByFilter() throws Exception {
-        OfficeFilter officeFilter = new OfficeFilter(1L);
+        OfficeFilter officeFilter = new OfficeFilter();
+        officeFilter.setOrgId(1L);
         officeFilter.setName("клининГ");
 /*
         officeFilter.setPhone("+78124493110");

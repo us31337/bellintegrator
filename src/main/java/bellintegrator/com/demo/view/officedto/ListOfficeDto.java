@@ -1,19 +1,11 @@
-package bellintegrator.com.demo.view.filter;
+package bellintegrator.com.demo.view.officedto;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+public class ListOfficeDto {
 
-public class OfficeFilter {
-
-    @NotNull(message = "Id is required")
-    @Min(1)
     private Long orgId;
     private String name;
     private String phone;
     private Boolean isActive;
-
-    public OfficeFilter() {
-    }
 
     public Long getOrgId() {
         return orgId;

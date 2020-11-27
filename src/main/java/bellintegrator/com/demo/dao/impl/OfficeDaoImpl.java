@@ -47,8 +47,8 @@ public class OfficeDaoImpl implements OfficeDao {
             );
         }
 
-        if (filter.getActive() != null) {
-            predicates.add(cb.equal(officeRoot.get("isActive"), filter.getActive()));
+        if (filter.getIsActive() != null) {
+            predicates.add(cb.equal(officeRoot.get("isActive"), filter.getIsActive()));
         }
 
         if (filter.getPhone() != null && !filter.getPhone().isEmpty()) {

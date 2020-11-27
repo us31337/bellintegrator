@@ -16,8 +16,8 @@ public class OrganisationFilter {
         this.name = name;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public Boolean getIsActive() {
+        return isActive;
     }
 
     public String getInn() {
@@ -28,8 +28,8 @@ public class OrganisationFilter {
         this.inn = inn;
     }
 
-    public Boolean isActive() {
-        return isActive;
+    public void setIsActive(Boolean active) {
+        isActive = active;
     }
 
 }

@@ -17,24 +17,14 @@ public class UpdateUserDto {
     @NotEmpty
     @Size(min = 2)
     private String firstName;
-
-    @Size(min = 2)
     private String lastName;
-
-    @Size(min = 2)
     private String middleName;
 
     @NotEmpty
     @Size(min = 2)
     private String position;
-
-    @Size(min = 2)
     private String phone;
-
-    @Size(min = 2)
     private String docName;
-
-    @Size(min = 2)
     private String docNumber;
     private Date docDate;
     private Integer citizenshipCode;
@@ -128,11 +118,11 @@ public class UpdateUserDto {
         this.citizenshipCode = citizenshipCode;
     }
 
-    public Boolean getIdentified() {
+    public Boolean getIsIdentified() {
         return isIdentified;
     }
 
-    public void setIdentified(Boolean identified) {
+    public void setIsIdentified(Boolean identified) {
         isIdentified = identified;
     }
 }

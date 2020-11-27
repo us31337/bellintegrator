@@ -136,11 +136,11 @@ public class User {
         this.country = country;
     }
 
-    public Boolean isIdentified() {
+    public Boolean getIsIdentified() {
         return isIdentified;
     }
 
-    public void setIdentified(Boolean identified) {
+    public void setIsIdentified(Boolean identified) {
         this.isIdentified = identified;
     }
 }

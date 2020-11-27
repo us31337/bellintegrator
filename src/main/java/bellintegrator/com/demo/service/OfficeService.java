@@ -4,21 +4,22 @@ import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.view.filter.OfficeFilter;
 import bellintegrator.com.demo.view.officedto.ListOfficeDto;
 import bellintegrator.com.demo.view.officedto.SaveOfficeDto;
+import bellintegrator.com.demo.view.officedto.SingleOfficeDto;
 import bellintegrator.com.demo.view.officedto.UpdateOfficeDto;
-import bellintegrator.com.demo.view.organisationdto.SingleOrganisationDto;
+import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface OfficeService {
-    List<ListOfficeDto> findByFilter(OfficeFilter officeFilter);
+    List<ListOfficeDto> findByFilter(OfficeFilter officeFilter) throws Exception;
 
-    SingleOrganisationDto findById(Long id);
+    SingleOfficeDto findById(Long id) throws Exception;
 
-    Office mapSaveOfficeDto2Offcie(SaveOfficeDto saveOfficeDto);
+    Office mapSaveOfficeDto2Office(SaveOfficeDto saveOfficeDto) throws NotFoundException;
 
     void saveOffice(Office office);
 
-    Office mapUpdateOfficeDto2Office(UpdateOfficeDto officeDto);
+    Office mapUpdateOfficeDto2Office(UpdateOfficeDto updateOfficeDto) throws Exception;
 
-    void updateOffice(Office office);
+    void updateOffice(Office office) throws Exception;
 }
