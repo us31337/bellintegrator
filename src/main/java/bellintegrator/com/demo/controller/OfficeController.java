@@ -1,6 +1,5 @@
 package bellintegrator.com.demo.controller;
 
-import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.service.OfficeService;
 import bellintegrator.com.demo.view.filter.OfficeFilter;
 import bellintegrator.com.demo.view.officedto.ListOfficeDto;
@@ -23,12 +22,10 @@ public class OfficeController {
     @Autowired
     private OfficeService officeService;
 
-
     @PostMapping(path = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<ListOfficeDto> getOfficeList(@RequestBody @Valid OfficeFilter officeFilter) throws Exception {
         return officeService.findByFilter(officeFilter);
     }
-
 
     @GetMapping("/{id:\\d+}")
     public SingleOfficeDto getOfficeById(@PathVariable Long id) throws Exception {
@@ -37,8 +34,7 @@ public class OfficeController {
 
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> saveNewOffice(@RequestBody @Valid SaveOfficeDto saveOfficeDto) throws Exception {
-        Office office = officeService.mapSaveOfficeDto2Office(saveOfficeDto);
-        officeService.saveOffice(office);
+        officeService.mapAndSaveOfficeDto(saveOfficeDto);
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;
@@ -46,8 +42,7 @@ public class OfficeController {
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> updateOffice(@RequestBody @Valid UpdateOfficeDto officeDto) throws Exception {
-        Office office = officeService.mapUpdateOfficeDto2Office(officeDto);
-        officeService.updateOffice(office);
+        officeService.mapAndUpdateOfficeDto(officeDto);
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;

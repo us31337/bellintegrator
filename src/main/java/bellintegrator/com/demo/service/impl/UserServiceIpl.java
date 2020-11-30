@@ -17,7 +17,6 @@ import bellintegrator.com.demo.view.userdto.UpdateUserDto;
 import javassist.NotFoundException;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +36,12 @@ public class UserServiceIpl implements UserService {
 
     @Autowired
     public UserServiceIpl(OfficeDao officeDao, CountryDao countryDao,
-                          DocTypeDao docTypeDao, UserDao userDao) {
+                          DocTypeDao docTypeDao, UserDao userDao, MapperFactory mapperFactory) {
         this.officeDao = officeDao;
         this.countryDao = countryDao;
         this.docTypeDao = docTypeDao;
         this.userDao = userDao;
-        this.mapperFactory = new DefaultMapperFactory.Builder().mapNulls(false).build();
+        this.mapperFactory = mapperFactory;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class UserServiceIpl implements UserService {
 
 
     @Override
-    public User mapUserSaveDto2User(SaveUserDto saveUserDto) throws Exception {
+    public void mapAndSaveUserDto(SaveUserDto saveUserDto) throws Exception {
         User user = new User();
         Document document = new Document();
         user.setOffice(officeDao.findById(saveUserDto.getOfficeId()));
@@ -98,16 +97,11 @@ public class UserServiceIpl implements UserService {
                 .exclude("citizenshipCode").byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(saveUserDto, user);
-        return user;
-    }
-
-    @Override
-    public void saveUser(User user) {
         userDao.add(user);
     }
 
     @Override
-    public User mapUserUpdateDto2User(UpdateUserDto updateUserDto) throws Exception {
+    public void mapAndUpdateUserDto(UpdateUserDto updateUserDto) throws Exception {
         System.out.println(updateUserDto);
         User user = userDao.findById(updateUserDto.getId());
 
@@ -142,11 +136,7 @@ public class UserServiceIpl implements UserService {
                 .exclude("citizenshipCode").byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(updateUserDto, user);
-        return user;
-    }
-
-    @Override
-    public void updateUser(User user) throws Exception {
         userDao.update(user);
     }
+
 }

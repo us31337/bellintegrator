@@ -1,6 +1,5 @@
 package bellintegrator.com.demo.service;
 
-import bellintegrator.com.demo.entity.Office;
 import bellintegrator.com.demo.view.filter.OfficeFilter;
 import bellintegrator.com.demo.view.officedto.ListOfficeDto;
 import bellintegrator.com.demo.view.officedto.SaveOfficeDto;
@@ -15,11 +14,7 @@ public interface OfficeService {
 
     SingleOfficeDto findById(Long id) throws Exception;
 
-    Office mapSaveOfficeDto2Office(SaveOfficeDto saveOfficeDto) throws NotFoundException;
+    void mapAndSaveOfficeDto(SaveOfficeDto saveOfficeDto) throws NotFoundException;
 
-    void saveOffice(Office office);
-
-    Office mapUpdateOfficeDto2Office(UpdateOfficeDto updateOfficeDto) throws Exception;
-
-    void updateOffice(Office office) throws Exception;
+    void mapAndUpdateOfficeDto(UpdateOfficeDto updateOfficeDto) throws Exception;
 }

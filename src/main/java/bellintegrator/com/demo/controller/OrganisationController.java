@@ -1,6 +1,5 @@
 package bellintegrator.com.demo.controller;
 
-import bellintegrator.com.demo.entity.Organisation;
 import bellintegrator.com.demo.service.OrganisationService;
 import bellintegrator.com.demo.view.filter.OrganisationFilter;
 import bellintegrator.com.demo.view.organisationdto.ListOrganisationDto;
@@ -36,8 +35,7 @@ public class OrganisationController {
 
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> saveNewOrganisation(@RequestBody @Valid SaveOrganisationDto saveOrganisationDto) throws Exception {
-        Organisation organisation = organisationService.mapSaveOrganisationDto2Organisation(saveOrganisationDto);
-        organisationService.saveOrganisation(organisation);
+        organisationService.mapAndSaveOrganisationDto(saveOrganisationDto);
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;
@@ -45,8 +43,7 @@ public class OrganisationController {
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> updateOrganisation(@RequestBody @Valid UpdateOrganisationDto updateOrganisationDto) throws Exception {
-        Organisation organisation = organisationService.mapUpdateOrganisationDto2Organisation(updateOrganisationDto);
-        organisationService.updateOrganisation(organisation);
+        organisationService.mapUpdateOrganisationDto(updateOrganisationDto);
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;

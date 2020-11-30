@@ -1,6 +1,5 @@
 package bellintegrator.com.demo.controller;
 
-import bellintegrator.com.demo.entity.User;
 import bellintegrator.com.demo.service.UserService;
 import bellintegrator.com.demo.view.filter.UserFilter;
 import bellintegrator.com.demo.view.userdto.ListUserDto;
@@ -43,8 +42,7 @@ public class UserController {
 
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> saveNewUser(@RequestBody @Valid SaveUserDto saveUserDto) throws Exception {
-        User user = userService.mapUserSaveDto2User(saveUserDto);
-        userService.saveUser(user);
+        userService.mapAndSaveUserDto(saveUserDto);
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;
@@ -52,8 +50,7 @@ public class UserController {
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> updateUser(@RequestBody @Valid UpdateUserDto updateUserDto) throws Exception {
-        User user = userService.mapUserUpdateDto2User(updateUserDto);
-        userService.updateUser(user);
+        userService.mapAndUpdateUserDto(updateUserDto);
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
         return map;

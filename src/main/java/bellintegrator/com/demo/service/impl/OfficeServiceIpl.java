@@ -13,7 +13,6 @@ import bellintegrator.com.demo.view.officedto.UpdateOfficeDto;
 import javassist.NotFoundException;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +27,9 @@ public class OfficeServiceIpl implements OfficeService {
     private OrganisationDao organisationDao;
 
     @Autowired
-    public OfficeServiceIpl(OfficeDao officeDao, OrganisationDao organisationDao) {
+    public OfficeServiceIpl(OfficeDao officeDao, OrganisationDao organisationDao, MapperFactory mapperFactory) {
         this.officeDao = officeDao;
-        this.mapperFactory = new DefaultMapperFactory.Builder().mapNulls(false).build();
+        this.mapperFactory = mapperFactory;
         this.organisationDao = organisationDao;
     }
 
@@ -55,7 +54,7 @@ public class OfficeServiceIpl implements OfficeService {
     }
 
     @Override
-    public Office mapSaveOfficeDto2Office(SaveOfficeDto saveOfficeDto) throws NotFoundException {
+    public void mapAndSaveOfficeDto(SaveOfficeDto saveOfficeDto) throws NotFoundException {
         mapperFactory.classMap(SaveOfficeDto.class, Office.class)
                 .exclude("orgId")
                 .byDefault().register();
@@ -63,17 +62,11 @@ public class OfficeServiceIpl implements OfficeService {
         Office office = mapper.map(saveOfficeDto, Office.class);
         Organisation organisation = organisationDao.findById(saveOfficeDto.getOrgId());
         office.setParentOrg(organisation);
-        return office;
-    }
-
-    @Override
-    public void saveOffice(Office office) {
-        System.out.println(office);
         officeDao.add(office);
     }
 
     @Override
-    public Office mapUpdateOfficeDto2Office(UpdateOfficeDto updateOfficeDto) throws Exception {
+    public void mapAndUpdateOfficeDto(UpdateOfficeDto updateOfficeDto) throws Exception {
         Office office = officeDao.findById(updateOfficeDto.getId());
         mapperFactory.classMap(UpdateOfficeDto.class, Office.class)
                 .exclude("id")
@@ -81,11 +74,7 @@ public class OfficeServiceIpl implements OfficeService {
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(updateOfficeDto, office);
         System.out.println(office);
-        return office;
-    }
-
-    @Override
-    public void updateOffice(Office office) throws Exception {
         officeDao.update(office);
     }
+
 }

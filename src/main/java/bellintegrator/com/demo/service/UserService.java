@@ -1,6 +1,5 @@
 package bellintegrator.com.demo.service;
 
-import bellintegrator.com.demo.entity.User;
 import bellintegrator.com.demo.view.filter.UserFilter;
 import bellintegrator.com.demo.view.userdto.ListUserDto;
 import bellintegrator.com.demo.view.userdto.SaveUserDto;
@@ -12,13 +11,9 @@ import java.util.List;
 
 public interface UserService {
 
-    void saveUser(User user);
+    void mapAndSaveUserDto(SaveUserDto saveUserDto) throws Exception;
 
-    User mapUserSaveDto2User(SaveUserDto saveUserDto) throws Exception;
-
-    User mapUserUpdateDto2User(UpdateUserDto updateUserDto) throws Exception;
-
-    void updateUser(User user) throws Exception;
+    void mapAndUpdateUserDto(UpdateUserDto updateUserDto) throws Exception;
 
     List<ListUserDto> findByFilter(UserFilter userFilter);
 
