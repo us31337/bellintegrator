@@ -44,6 +44,8 @@ CREATE INDEX IX_organisation_is_active ON organisation (is_active);
 
 CREATE INDEX IX_organisation_name ON organisation (name);
 
+CREATE UNIQUE INDEX UX_organisation_inn ON organisation (inn);
+
 CREATE TABLE IF NOT EXISTS office
 (
     id        BIGINT                NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
@@ -61,8 +63,6 @@ CREATE INDEX IX_office_is_active ON office (is_active);
 CREATE INDEX IX_office_name ON office (name);
 
 CREATE INDEX IX_office_phone ON office (phone);
-
-CREATE UNIQUE INDEX UX_office_id ON office (id);
 
 CREATE TABLE IF NOT EXISTS user
 (
@@ -89,9 +89,7 @@ CREATE INDEX IX_user_position ON user (position);
 
 CREATE INDEX IX_user_second_name ON user (last_name);
 
-CREATE UNIQUE INDEX UX_user_id ON user (id);
-
-CREATE UNIQUE INDEX UX_user_office_id ON user (office_id);
+CREATE INDEX IX_user_office_id ON user (office_id);
 
 ALTER TABLE country
     ADD CONSTRAINT UK_country_code_name UNIQUE (code, name);

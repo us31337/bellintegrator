@@ -7,11 +7,12 @@ import bellintegrator.com.demo.view.organisationdto.SaveOrganisationDto;
 import bellintegrator.com.demo.view.organisationdto.SingleOrganisationDto;
 import bellintegrator.com.demo.view.organisationdto.UpdateOrganisationDto;
 import javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 @RequestMapping("/api/organisation")
 public class OrganisationController {
 
+    @Autowired
     private OrganisationService organisationService;
 
 
@@ -36,17 +38,13 @@ public class OrganisationController {
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> saveNewOrganisation(@RequestBody @Valid SaveOrganisationDto saveOrganisationDto) throws Exception {
         organisationService.mapAndSaveOrganisationDto(saveOrganisationDto);
-        Map<String, String> map = new HashMap<>();
-        map.put("result", "success");
-        return map;
+        return Collections.singletonMap("result", "success");
     }
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> updateOrganisation(@RequestBody @Valid UpdateOrganisationDto updateOrganisationDto) throws Exception {
         organisationService.mapUpdateOrganisationDto(updateOrganisationDto);
-        Map<String, String> map = new HashMap<>();
-        map.put("result", "success");
-        return map;
+        return Collections.singletonMap("result", "success");
     }
 
 }

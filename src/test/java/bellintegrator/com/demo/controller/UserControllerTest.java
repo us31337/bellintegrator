@@ -26,6 +26,8 @@ class UserControllerTest {
 
     private CloseableHttpClient client;
     private Gson gson;
+    private final String PREFIX = "http://localhost:8888/api/user/";
+
 
 
     @BeforeEach
@@ -41,14 +43,7 @@ class UserControllerTest {
         filter.setPosition("manager");
         filter.setOfficeId(1L);
         filter.setCitizenshipCode(643);
-        String json = gson.toJson(filter);
-        StringEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
-        HttpPost httpPost = new HttpPost("http://localhost:8888/api/user/list");
-        httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-        httpPost.setEntity(entity);
-        CloseableHttpResponse response = client.execute(httpPost);
-        String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        System.out.println(string);
+        runHttpPost("list", filter);
     }
 
     @Test
@@ -72,13 +67,7 @@ class UserControllerTest {
         userDto.setDocDate(sdf.parse("1988-12-22"));
         userDto.setCitizenshipCode(643);
         userDto.setIsIdentified(true);
-        StringEntity entity = new StringEntity(gson.toJson(userDto), StandardCharsets.UTF_8);
-        HttpPost httpPost = new HttpPost("http://localhost:8888/api/user/save");
-        httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-        httpPost.setEntity(entity);
-        CloseableHttpResponse response = client.execute(httpPost);
-        String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        System.out.println(string);
+        runHttpPost("save", userDto);
     }
 
     @Test
@@ -90,12 +79,17 @@ class UserControllerTest {
         updateUserDto.setFirstName("Михаил");
         updateUserDto.setMiddleName("Иванович");
         updateUserDto.setDocName("Свидетельство о рождении");
-        StringEntity entity = new StringEntity(gson.toJson(updateUserDto), StandardCharsets.UTF_8);
-        HttpPost httpPost = new HttpPost("http://localhost:8888/api/user/update");
+        runHttpPost("update", updateUserDto);
+    }
+
+    private String runHttpPost(String url, Object toJson) throws IOException {
+        String json = gson.toJson(toJson);
+        StringEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
+        HttpPost httpPost = new HttpPost(PREFIX + url);
         httpPost.setHeader("Content-type", "application/json; charset=utf-8");
         httpPost.setEntity(entity);
         CloseableHttpResponse response = client.execute(httpPost);
-        String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        System.out.println(string);
+        String answer = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+        return answer;
     }
 }

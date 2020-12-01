@@ -49,9 +49,11 @@ public class OrganisationServiceIpl implements OrganisationService {
 
     @Override
     public void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto) {
+        Organisation organisation = new Organisation();
         mapperFactory.classMap(SaveOrganisationDto.class, Organisation.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
-        Organisation organisation = mapper.map(saveOrganisationDto, Organisation.class);
+        mapper.map(saveOrganisationDto, organisation);
+        System.out.println(organisation);
         organisationDao.add(organisation);
     }
 

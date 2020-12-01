@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -35,17 +35,13 @@ public class OfficeController {
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> saveNewOffice(@RequestBody @Valid SaveOfficeDto saveOfficeDto) throws Exception {
         officeService.mapAndSaveOfficeDto(saveOfficeDto);
-        Map<String, String> map = new HashMap<>();
-        map.put("result", "success");
-        return map;
+        return Collections.singletonMap("result", "success");
     }
 
     @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> updateOffice(@RequestBody @Valid UpdateOfficeDto officeDto) throws Exception {
         officeService.mapAndUpdateOfficeDto(officeDto);
-        Map<String, String> map = new HashMap<>();
-        map.put("result", "success");
-        return map;
+        return Collections.singletonMap("result", "success");
     }
 
 

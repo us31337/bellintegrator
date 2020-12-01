@@ -24,6 +24,7 @@ class OfficeControllerTest {
 
     private CloseableHttpClient client;
     private Gson gson;
+    private final String PREFIX = "http://localhost:8888/api/office/";
 
     @BeforeEach
     void setUp() {
@@ -45,14 +46,7 @@ class OfficeControllerTest {
         OfficeFilter filter = new OfficeFilter();
         filter.setOrgId(1L);
         filter.setName("аптека");
-        String json = gson.toJson(filter);
-        StringEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
-        HttpPost httpPost = new HttpPost("http://localhost:8888/api/office/list");
-        httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-        httpPost.setEntity(entity);
-        CloseableHttpResponse response = client.execute(httpPost);
-        String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        System.out.println(string);
+        runHttpPost("list", filter);
     }
 
     @Test
@@ -62,13 +56,7 @@ class OfficeControllerTest {
         officeDto.setName("Аптека");
         officeDto.setIsActive(true);
         officeDto.setPhone("98544313454");
-        StringEntity entity = new StringEntity(gson.toJson(officeDto), StandardCharsets.UTF_8);
-        HttpPost httpPost = new HttpPost("http://localhost:8888/api/office/save");
-        httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-        httpPost.setEntity(entity);
-        CloseableHttpResponse response = client.execute(httpPost);
-        String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        System.out.println(string);
+        runHttpPost("save", officeDto);
     }
 
     @Test
@@ -77,12 +65,17 @@ class OfficeControllerTest {
         officeDto.setId(1L);
         officeDto.setIsActive(false);
         officeDto.setAddress("Невский пр. 1");
-        StringEntity entity = new StringEntity(gson.toJson(officeDto), StandardCharsets.UTF_8);
-        HttpPost httpPost = new HttpPost("http://localhost:8888/api/office/update");
+        runHttpPost("update", officeDto);
+    }
+
+    private String runHttpPost(String url, Object toJson) throws IOException {
+        String json = gson.toJson(toJson);
+        StringEntity entity = new StringEntity(json, StandardCharsets.UTF_8);
+        HttpPost httpPost = new HttpPost(PREFIX + url);
         httpPost.setHeader("Content-type", "application/json; charset=utf-8");
         httpPost.setEntity(entity);
         CloseableHttpResponse response = client.execute(httpPost);
-        String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        System.out.println(string);
+        String answer = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+        return answer;
     }
 }
