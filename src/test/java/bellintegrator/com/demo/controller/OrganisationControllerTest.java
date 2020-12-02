@@ -43,7 +43,7 @@ class OrganisationControllerTest {
 
     @Test
     void getOrganisationById() throws IOException {
-        Long id = 33L;
+        Long id = 1L;
         HttpGet httpGet = new HttpGet("http://localhost:8888/api/organisation/" + id.toString());
         CloseableHttpResponse response = client.execute(httpGet);
         String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);

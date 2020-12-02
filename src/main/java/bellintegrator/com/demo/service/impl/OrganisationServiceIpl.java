@@ -14,7 +14,6 @@ import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +32,6 @@ public class OrganisationServiceIpl implements OrganisationService {
     @Override
     public List<ListOrganisationDto> findByFilter(OrganisationFilter organisationFilter) {
         List<Organisation> organisationList = organisationDao.findByFilter(organisationFilter);
-        mapperFactory.classMap(Organisation.class, ListOrganisationDto.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
         List<ListOrganisationDto> collect = organisationList.stream().map(o -> mapper.map(o, ListOrganisationDto.class)).collect(Collectors.toList());
         return collect;
@@ -42,26 +40,22 @@ public class OrganisationServiceIpl implements OrganisationService {
     @Override
     public SingleOrganisationDto findById(Long id) throws NotFoundException {
         Organisation organisation = organisationDao.findById(id);
-        mapperFactory.classMap(Organisation.class, SingleOrganisationDto.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
         SingleOrganisationDto organisationDto = mapper.map(organisation, SingleOrganisationDto.class);
         return organisationDto;
     }
 
     @Override
-    public void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto) throws SQLException {
+    public void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto) {
         Organisation organisation = new Organisation();
-        mapperFactory.classMap(SaveOrganisationDto.class, Organisation.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(saveOrganisationDto, organisation);
-        System.out.println(organisation);
         organisationDao.add(organisation);
     }
 
     @Override
     public void mapUpdateOrganisationDto(UpdateOrganisationDto updateOrganisationDto) throws Exception {
         Organisation organisation = organisationDao.findById(updateOrganisationDto.getId());
-        mapperFactory.classMap(UpdateOrganisationDto.class, Organisation.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(updateOrganisationDto, organisation);
         organisationDao.update(organisation);

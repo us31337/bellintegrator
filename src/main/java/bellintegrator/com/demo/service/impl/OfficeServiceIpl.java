@@ -36,9 +36,6 @@ public class OfficeServiceIpl implements OfficeService {
     @Override
     public List<ListOfficeDto> findByFilter(OfficeFilter officeFilter) throws Exception {
         List<Office> offices = officeDao.findByFilter(officeFilter);
-        mapperFactory.classMap(Office.class, ListOfficeDto.class)
-                .field("parentOrg.id", "orgId")
-                .byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         List<ListOfficeDto> collect = offices.stream().map(o -> mapper.map(o, ListOfficeDto.class)).collect(Collectors.toList());
         return collect;
@@ -47,7 +44,6 @@ public class OfficeServiceIpl implements OfficeService {
     @Override
     public SingleOfficeDto findById(Long id) throws Exception {
         Office office = officeDao.findById(id);
-        mapperFactory.classMap(Office.class, SingleOfficeDto.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
         SingleOfficeDto officeDto = mapper.map(office, SingleOfficeDto.class);
         return officeDto;
@@ -55,9 +51,6 @@ public class OfficeServiceIpl implements OfficeService {
 
     @Override
     public void mapAndSaveOfficeDto(SaveOfficeDto saveOfficeDto) throws NotFoundException {
-        mapperFactory.classMap(SaveOfficeDto.class, Office.class)
-                .exclude("orgId")
-                .byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         Office office = mapper.map(saveOfficeDto, Office.class);
         Organisation organisation = organisationDao.findById(saveOfficeDto.getOrgId());
@@ -68,12 +61,8 @@ public class OfficeServiceIpl implements OfficeService {
     @Override
     public void mapAndUpdateOfficeDto(UpdateOfficeDto updateOfficeDto) throws Exception {
         Office office = officeDao.findById(updateOfficeDto.getId());
-        mapperFactory.classMap(UpdateOfficeDto.class, Office.class)
-                .exclude("id")
-                .byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(updateOfficeDto, office);
-        System.out.println(office);
         officeDao.update(office);
     }
 

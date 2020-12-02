@@ -53,10 +53,11 @@ class OfficeControllerTest {
     void saveNewOffice() throws IOException {
         SaveOfficeDto officeDto = new SaveOfficeDto();
         officeDto.setOrgId(1L);
-        officeDto.setName("Аптека");
+        officeDto.setName("Аптека2");
         officeDto.setIsActive(true);
         officeDto.setPhone("98544313454");
-        runHttpPost("save", officeDto);
+        String post = runHttpPost("save", officeDto);
+        System.out.println(post);
     }
 
     @Test
@@ -65,7 +66,8 @@ class OfficeControllerTest {
         officeDto.setId(1L);
         officeDto.setIsActive(false);
         officeDto.setAddress("Невский пр. 1");
-        runHttpPost("update", officeDto);
+        String post = runHttpPost("update", officeDto);
+        System.out.println(post);
     }
 
     private String runHttpPost(String url, Object toJson) throws IOException {

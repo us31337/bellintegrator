@@ -47,7 +47,6 @@ public class UserServiceIpl implements UserService {
     @Override
     public List<ListUserDto> findByFilter(UserFilter userFilter) {
         List<User> userList = userDao.findByFilter(userFilter);
-        mapperFactory.classMap(User.class, ListUserDto.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
         List<ListUserDto> collect = userList.stream().map(u -> mapper.map(u, ListUserDto.class)).collect(Collectors.toList());
         return collect;
@@ -56,13 +55,6 @@ public class UserServiceIpl implements UserService {
     @Override
     public SingleUserDto findById(Long id) throws NotFoundException {
         User user = userDao.findById(id);
-        mapperFactory.classMap(User.class, SingleUserDto.class)
-                .field("document.type.name", "docName")
-                .field("document.docNumber", "docNumber")
-                .field("document.docDate", "docDate")
-                .field("country.name", "citizenshipName")
-                .field("country.code", "citizenshipCode")
-                .byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         SingleUserDto userDto = mapper.map(user, SingleUserDto.class);
         return userDto;
@@ -92,9 +84,6 @@ public class UserServiceIpl implements UserService {
             country = countryDao.findByCode(saveUserDto.getCitizenshipCode());
         }
         user.setCountry(country);
-        mapperFactory.classMap(SaveUserDto.class, User.class)
-                .exclude("docCode").exclude("docName").exclude("docDate")
-                .exclude("citizenshipCode").byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(saveUserDto, user);
         userDao.add(user);
@@ -102,7 +91,6 @@ public class UserServiceIpl implements UserService {
 
     @Override
     public void mapAndUpdateUserDto(UpdateUserDto updateUserDto) throws Exception {
-        System.out.println(updateUserDto);
         User user = userDao.findById(updateUserDto.getId());
 
         Long id = updateUserDto.getOfficeId();
@@ -130,10 +118,6 @@ public class UserServiceIpl implements UserService {
                 && !newDocumentName.equals(user.getDocument().getType().getName())) {
             throw new IllegalArgumentException("Document's name not equal name from database");
         }
-        mapperFactory.classMap(UpdateUserDto.class, User.class)
-                .exclude("id").exclude("officeId")
-                .exclude("docName").exclude("docDate").exclude("docNumber")
-                .exclude("citizenshipCode").byDefault().register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(updateUserDto, user);
         userDao.update(user);
