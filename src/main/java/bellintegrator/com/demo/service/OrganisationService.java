@@ -7,6 +7,7 @@ import bellintegrator.com.demo.view.organisationdto.SingleOrganisationDto;
 import bellintegrator.com.demo.view.organisationdto.UpdateOrganisationDto;
 import javassist.NotFoundException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface OrganisationService {
@@ -14,7 +15,7 @@ public interface OrganisationService {
 
     SingleOrganisationDto findById(Long id) throws NotFoundException;
 
-    void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto);
+    void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto) throws SQLException;
 
     void mapUpdateOrganisationDto(UpdateOrganisationDto updateOrganisationDto) throws Exception;
 }

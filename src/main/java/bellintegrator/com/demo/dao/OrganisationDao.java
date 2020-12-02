@@ -12,7 +12,8 @@ public interface OrganisationDao {
     void deleteById(Long id);
     void delete(Organisation organisation);
     void add(Organisation organisation);
-    void update(Organisation organisation) throws Exception;
+
+    void update(Organisation organisation) throws NotFoundException, IllegalAccessException;
     List<Organisation> findByFilter(OrganisationFilter filter);
 
 }

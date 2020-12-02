@@ -99,7 +99,7 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @Override
     @Transactional
-    public void update(Organisation organisationNew) throws Exception {
+    public void update(Organisation organisationNew) throws NotFoundException, IllegalAccessException {
         Organisation organisationOld = findById(organisationNew.getId());
         refresheableHandler.RefreshableFieldsCopy(Organisation.class, organisationNew, organisationOld);
     }

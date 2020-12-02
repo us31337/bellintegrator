@@ -43,7 +43,7 @@ class OrganisationControllerTest {
 
     @Test
     void getOrganisationById() throws IOException {
-        Long id = 3L;
+        Long id = 33L;
         HttpGet httpGet = new HttpGet("http://localhost:8888/api/organisation/" + id.toString());
         CloseableHttpResponse response = client.execute(httpGet);
         String string = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
@@ -55,7 +55,7 @@ class OrganisationControllerTest {
         SaveOrganisationDto org = new SaveOrganisationDto();
         org.setInn("2370007068");
         org.setAddress("353800, Краснодарский край, ст-ца Полтавская, ул М.Горького, д 5");
-        org.setKpp("237001001");
+        org.setKpp("237001001000");
         org.setName("АО \"ВЕКТОР\"");
         org.setFullName("АКЦИОНЕРНОЕ ОБЩЕСТВО \"ВЕКТОР\"");
         org.setPhone("+74991927500");

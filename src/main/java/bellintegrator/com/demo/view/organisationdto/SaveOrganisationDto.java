@@ -6,25 +6,25 @@ import javax.validation.constraints.Size;
 
 public class SaveOrganisationDto {
 
-    @NotEmpty
+    @NotEmpty(message = "Name cannot be empty")
     @Size(min = 2, message = "Minimum 2 characters name required")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "Full name cannot be empty")
     @Size(min = 2, message = "Minimum 2 characters full name required")
     private String fullName;
 
-    @NotEmpty
+    @NotEmpty(message = "INN cannot be empty")
     @Size(min = 10, message = "Minimum 10 digits required for INN")
-    @Pattern(regexp = "^[\\d]+")
+    @Pattern(regexp = "^[\\d]+", message = "Only digits allowed in INN")
     private String inn;
 
-    @NotEmpty
+    @NotEmpty(message = "KPP cannot be empty")
     @Size(min = 5, message = "Minimum 5 digits required for KPP")
-    @Pattern(regexp = "^[\\d]+")
+    @Pattern(regexp = "^[\\d]+", message = "Only digits allowed in KPP")
     private String kpp;
 
-    @NotEmpty
+    @NotEmpty(message = "Address cannot be empty")
     private String address;
     private String phone;
     private Boolean isActive;

@@ -14,6 +14,7 @@ import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class OrganisationServiceIpl implements OrganisationService {
     }
 
     @Override
-    public void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto) {
+    public void mapAndSaveOrganisationDto(SaveOrganisationDto saveOrganisationDto) throws SQLException {
         Organisation organisation = new Organisation();
         mapperFactory.classMap(SaveOrganisationDto.class, Organisation.class);
         MapperFacade mapper = mapperFactory.getMapperFacade();
