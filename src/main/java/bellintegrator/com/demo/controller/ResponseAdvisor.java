@@ -74,8 +74,12 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
             LOGGER.error(message);
             map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
             return new ResponseEntity(map, HttpStatus.NOT_FOUND);
+        } else {
+            String message = e.getMessage();
+            LOGGER.error(message);
+            map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
+            return new ResponseEntity(map, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity(map, HttpStatus.OK);
     }
 
 }
