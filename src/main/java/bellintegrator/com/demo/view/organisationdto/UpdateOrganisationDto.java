@@ -3,29 +3,29 @@ package bellintegrator.com.demo.view.organisationdto;
 import javax.validation.constraints.*;
 
 public class UpdateOrganisationDto {
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Id is required")
+    @Min(value = 1, message = "Id cannot be negative")
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Name is required")
     @Size(min = 2, message = "Minimum 2 characters name required")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "Full name is required")
     @Size(min = 2, message = "Minimum 2 characters full name required")
     private String fullName;
 
-    @NotEmpty
+    @NotEmpty(message = "INN is required")
     @Size(min = 10, message = "Minimum 10 digits required for INN")
     @Pattern(regexp = "^[\\d]+")
     private String inn;
 
-    @NotEmpty
+    @NotEmpty(message = "KPP is required")
     @Size(min = 5, message = "Minimum 5 digits required for KPP")
     @Pattern(regexp = "^[\\d]+")
     private String kpp;
 
-    @NotEmpty
+    @NotEmpty(message = "Address is required")
     @Size(min = 5, message = "Minimum 5 digits required for KPP")
     private String address;
     private String phone;

@@ -1,27 +1,24 @@
 package bellintegrator.com.demo.view.userdto;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class UpdateUserDto {
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Office id is required")
+    @Min(value = 1, message = "Id cannot be negative")
     private Long id;
 
-    @Min(1)
+    @Min(value = 1, message = "Office id is required")
     private Long officeId;
 
-    @NotEmpty
-    @Size(min = 2)
+    @Size(min = 2, message = "First name is too short")
     private String firstName;
     private String lastName;
     private String middleName;
 
-    @NotEmpty
-    @Size(min = 2)
+    @Size(min = 2, message = "Position too short")
     private String position;
     private String phone;
     private String docName;

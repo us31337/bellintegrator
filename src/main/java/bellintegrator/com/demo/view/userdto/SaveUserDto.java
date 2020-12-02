@@ -9,21 +9,20 @@ import java.util.Date;
 
 public class SaveUserDto {
 
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Office id is required")
+    @Min(value = 1, message = "Id cannot be negative")
     private Long officeId;
 
-    @NotEmpty
-    @Size(min = 2)
+    @Size(min = 2, message = "First name too short")
     private String firstName;
     private String lastName;
     private String middleName;
 
-    @NotEmpty
+    @NotEmpty(message = "Position cannot be empty")
     private String position;
     private String phone;
 
-    @Size(min = 2)
+    @Size(min = 2, message = "Doc code contains 2 digits")
     private String docCode;
     private String docName;
     private Date docDate;

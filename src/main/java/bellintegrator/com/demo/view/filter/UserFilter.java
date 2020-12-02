@@ -5,8 +5,8 @@ import javax.validation.constraints.NotNull;
 
 public class UserFilter {
 
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Office id is required")
+    @Min(value = 1, message = "Id cannot be negative")
     private Long officeId;
     private String firstName;
     private String lastName;

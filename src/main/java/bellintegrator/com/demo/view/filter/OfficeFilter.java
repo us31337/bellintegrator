@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 public class OfficeFilter {
 
     @NotNull(message = "Id is required")
-    @Min(1)
+    @Min(value = 1, message = "Id cannot be negative")
     private Long orgId;
     private String name;
     private String phone;

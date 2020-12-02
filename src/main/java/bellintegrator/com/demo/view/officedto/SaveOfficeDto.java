@@ -6,14 +6,14 @@ import javax.validation.constraints.Size;
 
 public class SaveOfficeDto {
 
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Organisation id is required")
+    @Min(value = 1, message = "Id cannot be negative")
     private Long orgId;
 
-    @Size(min = 2)
+    @Size(min = 2, message = "Name too short")
     private String name;
 
-    @Size(min = 5)
+    @Size(min = 5, message = "Address too short")
     private String address;
 
     private String phone;

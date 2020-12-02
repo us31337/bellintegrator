@@ -5,14 +5,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class UpdateOfficeDto {
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Id is required")
+    @Min(value = 1, message = "Id cannot be negative")
     private Long id;
 
-    @Size(min = 2)
+    @Size(min = 2, message = "Name too short")
     private String name;
 
-    @Size(min = 5)
+    @Size(min = 5, message = "Address too short")
     private String address;
 
     private String phone;
