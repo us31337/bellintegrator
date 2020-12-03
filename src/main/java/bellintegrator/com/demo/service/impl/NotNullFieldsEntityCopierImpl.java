@@ -1,17 +1,17 @@
 package bellintegrator.com.demo.service.impl;
 
 import bellintegrator.com.demo.annotaion.Refreshable;
-import bellintegrator.com.demo.service.RefresheableHandler;
+import bellintegrator.com.demo.service.NotNullFieldsEntityCopier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 
 @Service
-public class RefresheableHandlerImpl implements RefresheableHandler {
+public class NotNullFieldsEntityCopierImpl<T> implements NotNullFieldsEntityCopier<T> {
 
     @Override
-    public void RefreshableFieldsCopy(Class<?> currentClass, Object newObj, Object oldObj) throws IllegalAccessException {
-        Field[] fields = currentClass.getDeclaredFields();
+    public void RefreshableFieldsCopy(T newObj, T oldObj) throws IllegalAccessException {
+        Field[] fields = newObj.getClass().getDeclaredFields();
         for (Field field : fields) {
             if (field.getAnnotation(Refreshable.class) != null) {
                 field.setAccessible(true);
@@ -21,4 +21,5 @@ public class RefresheableHandlerImpl implements RefresheableHandler {
             }
         }
     }
+
 }

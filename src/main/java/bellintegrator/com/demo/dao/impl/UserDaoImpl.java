@@ -2,7 +2,7 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.UserDao;
 import bellintegrator.com.demo.entity.User;
-import bellintegrator.com.demo.service.RefresheableHandler;
+import bellintegrator.com.demo.service.NotNullFieldsEntityCopier;
 import bellintegrator.com.demo.view.filter.UserFilter;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,12 @@ public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager em;
+    private NotNullFieldsEntityCopier<User> notNullFieldsEntityCopier;
 
     @Autowired
-    private RefresheableHandler refresheableHandler;
+    public UserDaoImpl(NotNullFieldsEntityCopier<User> notNullFieldsEntityCopier) {
+        this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;
+    }
 
     @Override
     public User findById(Long id) throws NotFoundException {
@@ -72,7 +75,7 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void update(User userNew) throws Exception {
         User userOld = findById(userNew.getId());
-        refresheableHandler.RefreshableFieldsCopy(User.class, userNew, userOld);
+        notNullFieldsEntityCopier.RefreshableFieldsCopy(userNew, userOld);
     }
 
     @Override

@@ -2,7 +2,7 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OfficeDao;
 import bellintegrator.com.demo.entity.Office;
-import bellintegrator.com.demo.service.RefresheableHandler;
+import bellintegrator.com.demo.service.NotNullFieldsEntityCopier;
 import bellintegrator.com.demo.view.filter.OfficeFilter;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,12 @@ public class OfficeDaoImpl implements OfficeDao {
 
     @PersistenceContext
     private EntityManager em;
+    private NotNullFieldsEntityCopier<Office> notNullFieldsEntityCopier;
 
     @Autowired
-    private RefresheableHandler refresheableHandler;
+    public OfficeDaoImpl(NotNullFieldsEntityCopier<Office> notNullFieldsEntityCopier) {
+        this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;
+    }
 
     @Override
     public List<Office> findByFilter(OfficeFilter filter) {
@@ -107,6 +110,6 @@ public class OfficeDaoImpl implements OfficeDao {
     @Transactional
     public void update(Office officeNew) throws Exception {
         Office officeOld = findById(officeNew.getOfficeId());
-        refresheableHandler.RefreshableFieldsCopy(Office.class, officeNew, officeOld);
+        notNullFieldsEntityCopier.RefreshableFieldsCopy(officeNew, officeOld);
     }
 }

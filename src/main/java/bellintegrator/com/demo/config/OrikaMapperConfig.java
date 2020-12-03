@@ -17,7 +17,9 @@ import bellintegrator.com.demo.view.userdto.SingleUserDto;
 import bellintegrator.com.demo.view.userdto.UpdateUserDto;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class OrikaMapperConfig {
 
     @Bean

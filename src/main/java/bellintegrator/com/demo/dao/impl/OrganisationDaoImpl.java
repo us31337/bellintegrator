@@ -2,7 +2,7 @@ package bellintegrator.com.demo.dao.impl;
 
 import bellintegrator.com.demo.dao.OrganisationDao;
 import bellintegrator.com.demo.entity.Organisation;
-import bellintegrator.com.demo.service.RefresheableHandler;
+import bellintegrator.com.demo.service.NotNullFieldsEntityCopier;
 import bellintegrator.com.demo.view.filter.OrganisationFilter;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,12 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @PersistenceContext
     private EntityManager em;
+    private NotNullFieldsEntityCopier<Organisation> notNullFieldsEntityCopier;
 
     @Autowired
-    private RefresheableHandler refresheableHandler;
+    public OrganisationDaoImpl(NotNullFieldsEntityCopier<Organisation> notNullFieldsEntityCopier) {
+        this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;
+    }
 
     @Override
     public Organisation findById(Long id) throws NotFoundException {
@@ -101,6 +104,6 @@ public class OrganisationDaoImpl implements OrganisationDao {
     @Transactional
     public void update(Organisation organisationNew) throws NotFoundException, IllegalAccessException {
         Organisation organisationOld = findById(organisationNew.getId());
-        refresheableHandler.RefreshableFieldsCopy(Organisation.class, organisationNew, organisationOld);
+        notNullFieldsEntityCopier.RefreshableFieldsCopy(organisationNew, organisationOld);
     }
 }
