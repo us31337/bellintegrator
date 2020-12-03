@@ -49,16 +49,15 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
         UUID errorUuid = UUID.randomUUID();
         Map<String, String> map = new HashMap<>();
         map.put("error", errorUuid.toString());
-        LOGGER.error(errorUuid.toString());
 
         if (e instanceof MethodArgumentNotValidException) {
             BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             fieldErrors.stream().forEach(err -> {
                 String message = err.getDefaultMessage();
-                LOGGER.error(message);
                 map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
             });
+            LOGGER.error(errorUuid.toString(), map.get("error"), e);
             return new ResponseEntity(map, HttpStatus.BAD_REQUEST);
         } else if (e instanceof DataIntegrityViolationException) {
             Throwable cause = e;
@@ -66,19 +65,19 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
                 cause = cause.getCause();
             } while (!cause.getClass().getSimpleName().equals("JdbcSQLDataException"));
             String message = cause.getMessage();
-            LOGGER.error(message);
-            map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
-            return new ResponseEntity(map, HttpStatus.BAD_REQUEST);
+            LOGGER.error(errorUuid.toString(), message, e);
+            map.merge("error", e.getMessage(), (oldS, newS) -> oldS + "; " + newS);
+            return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
         } else if (e instanceof NotFoundException) {
             String message = e.getMessage();
-            LOGGER.error(message);
+            LOGGER.error(errorUuid.toString(), message, e);
             map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
             return new ResponseEntity(map, HttpStatus.NOT_FOUND);
         } else {
             String message = e.getMessage();
-            LOGGER.error(message);
+            LOGGER.error(errorUuid.toString(), message, e);
             map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
-            return new ResponseEntity(map, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

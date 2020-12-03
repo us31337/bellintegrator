@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+
 class OrganisationControllerTest {
 
     private final String PREFIX = "http://localhost:8888/api/organisation/";
