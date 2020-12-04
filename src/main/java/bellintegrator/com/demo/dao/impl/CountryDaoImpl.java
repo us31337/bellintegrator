@@ -102,6 +102,6 @@ public class CountryDaoImpl implements CountryDao {
     @Transactional
     public void update(Country countryNew) throws Exception {
         Country country = findById(countryNew.getId());
-        notNullFieldsEntityCopier.RefreshableFieldsCopy(countryNew, country);
+        notNullFieldsEntityCopier.updatableFieldsCopy(countryNew, country);
     }
 }

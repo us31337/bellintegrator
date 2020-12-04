@@ -76,7 +76,7 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
         } else {
             String message = e.getMessage();
             LOGGER.error(errorUuid.toString(), message, e);
-            map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
+            map.merge("error", "Internal server error, see logs", (oldS, newS) -> oldS + "; " + newS);
             return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

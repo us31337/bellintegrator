@@ -103,6 +103,6 @@ public class DocTypeDaoImpl implements DocTypeDao {
     @Transactional
     public void update(DocumentType documentTypeNew) throws Exception {
         DocumentType documentTypeOld = findById(documentTypeNew.getId());
-        notNullFieldsEntityCopier.RefreshableFieldsCopy(documentTypeNew, documentTypeOld);
+        notNullFieldsEntityCopier.updatableFieldsCopy(documentTypeNew, documentTypeOld);
     }
 }

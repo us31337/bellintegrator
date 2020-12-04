@@ -77,7 +77,7 @@ public class DocumentDaoImpl implements DocumentDao {
     @Transactional
     public void update(Document documentNew) throws Exception {
         Document documentOld = findById(documentNew.getId());
-        notNullFieldsEntityCopier.RefreshableFieldsCopy(documentNew, documentOld);
+        notNullFieldsEntityCopier.updatableFieldsCopy(documentNew, documentOld);
 
     }
 }

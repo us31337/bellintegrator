@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS country
 );
 COMMENT ON TABLE country IS 'Страна гражданства';
 
+CREATE INDEX IX_COUNTRY_CODE ON country (code);
+
 CREATE TABLE IF NOT EXISTS doc_type
 (
     id      BIGINT       NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
@@ -15,6 +17,8 @@ CREATE TABLE IF NOT EXISTS doc_type
     name    VARCHAR(150) NOT NULL COMMENT 'Имя'
 );
 
+CREATE INDEX IX_DOCTYPE_CODE ON doc_type (code);
+
 CREATE TABLE IF NOT EXISTS document
 (
     user_id    BIGINT      NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
@@ -22,20 +26,19 @@ CREATE TABLE IF NOT EXISTS document
     doc_date   DATE        NOT NULL COMMENT 'Дата выдачи',
     doc_number VARCHAR(10) NOT NULL COMMENT 'Номер документа',
     doc_type   VARCHAR(2)  NOT NULL COMMENT 'Идентификатор типа документа'
---     В проекте не нужны двунаправленные связи. Поэтому тут их не будет
 );
 COMMENT ON TABLE document IS 'На основании какого документа работает';
 
 CREATE TABLE IF NOT EXISTS organisation
 (
-    id        BIGINT                NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
-    version   INTEGER               NOT NULL COMMENT 'Служебное поле hibernate',
-    address   VARCHAR(225)          NOT NULL COMMENT 'Адрес',
-    full_name VARCHAR(225)          NOT NULL COMMENT 'Полное наименование',
-    inn       VARCHAR(15)           NOT NULL COMMENT 'ИНН',
-    kpp       VARCHAR(9)            NOT NULL COMMENT 'КПП',
-    is_active boolean DEFAULT false NOT NULL COMMENT 'Активен',
-    name      VARCHAR(125)          NOT NULL COMMENT 'Сокращенное наименование',
+    id        BIGINT               NOT NULL COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
+    version   INTEGER              NOT NULL COMMENT 'Служебное поле hibernate',
+    address   VARCHAR(225)         NOT NULL COMMENT 'Адрес',
+    full_name VARCHAR(225)         NOT NULL COMMENT 'Полное наименование',
+    inn       VARCHAR(15)          NOT NULL COMMENT 'ИНН',
+    kpp       VARCHAR(9)           NOT NULL COMMENT 'КПП',
+    is_active boolean DEFAULT true NOT NULL COMMENT 'Активен',
+    name      VARCHAR(125)         NOT NULL COMMENT 'Сокращенное наименование',
     phone     VARCHAR(25) COMMENT 'Телефон для связи'
 );
 COMMENT ON TABLE organisation IS 'Фирма';
@@ -98,7 +101,7 @@ ALTER TABLE doc_type
     ADD CONSTRAINT UK_document_code_name UNIQUE (code, name);
 
 ALTER TABLE document
-    ADD CONSTRAINT FOREIGN KEY (user_id) REFERENCES user;
+    ADD FOREIGN KEY (user_id) REFERENCES user (id);
 
 ALTER TABLE organisation
     ADD CONSTRAINT UK_organisation_inn UNIQUE (inn);

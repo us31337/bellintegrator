@@ -104,6 +104,6 @@ public class OrganisationDaoImpl implements OrganisationDao {
     @Transactional
     public void update(Organisation organisationNew) throws NotFoundException, IllegalAccessException {
         Organisation organisationOld = findById(organisationNew.getId());
-        notNullFieldsEntityCopier.RefreshableFieldsCopy(organisationNew, organisationOld);
+        notNullFieldsEntityCopier.updatableFieldsCopy(organisationNew, organisationOld);
     }
 }

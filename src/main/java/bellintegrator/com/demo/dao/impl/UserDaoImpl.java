@@ -75,7 +75,7 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     public void update(User userNew) throws Exception {
         User userOld = findById(userNew.getId());
-        notNullFieldsEntityCopier.RefreshableFieldsCopy(userNew, userOld);
+        notNullFieldsEntityCopier.updatableFieldsCopy(userNew, userOld);
     }
 
     @Override

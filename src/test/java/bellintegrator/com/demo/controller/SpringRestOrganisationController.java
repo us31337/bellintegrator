@@ -1,5 +1,6 @@
 package bellintegrator.com.demo.controller;
 
+import bellintegrator.com.demo.view.filter.OrganisationFilter;
 import bellintegrator.com.demo.view.organisationdto.SaveOrganisationDto;
 import bellintegrator.com.demo.view.organisationdto.SingleOrganisationDto;
 import bellintegrator.com.demo.view.organisationdto.UpdateOrganisationDto;
@@ -49,7 +50,7 @@ public class SpringRestOrganisationController {
 
     @Test
     public void shouldReturnOrganisationDto() throws JsonProcessingException {
-        Long id = 1L;
+        Long id = 3L;
         final String INN = "7842499778";
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
 
@@ -91,7 +92,7 @@ public class SpringRestOrganisationController {
     }
 
     @Test
-    public void shouldSuccessfullyUpdateOrganisation() {
+    public void shouldSuccessfullyUpdateOrganisation() throws JsonProcessingException {
         UpdateOrganisationDto orgDto = new UpdateOrganisationDto();
         orgDto.setId(3L);
         orgDto.setName("Тест");
@@ -104,5 +105,19 @@ public class SpringRestOrganisationController {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "update", orgDto, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
 
+    }
+
+    @Test
+    public void shouldReturnOkStatusAndNonEmptyOrgList() throws JsonProcessingException {
+        OrganisationFilter filter = new OrganisationFilter();
+        filter.setIsActive(true);
+        filter.setName("аналит");
+
+        ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "list", filter, String.class);
+        Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
+        JsonNode node = objectMapper.readTree(response.getBody());
+        JsonNode data = node.get("body").get("data");
+        SingleOrganisationDto[] dtoArray = objectMapper.treeToValue(data, SingleOrganisationDto[].class);
+        Assert.assertTrue(dtoArray.length > 0);
     }
 }

@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 public class NotNullFieldsEntityCopierImpl<T> implements NotNullFieldsEntityCopier<T> {
 
     @Override
-    public void RefreshableFieldsCopy(T newObj, T oldObj) throws IllegalAccessException {
+    public void updatableFieldsCopy(T newObj, T oldObj) throws IllegalAccessException {
         Field[] fields = newObj.getClass().getDeclaredFields();
         for (Field field : fields) {
             if (field.getAnnotation(Refreshable.class) != null) {

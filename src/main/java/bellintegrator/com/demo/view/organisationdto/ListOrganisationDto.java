@@ -2,8 +2,8 @@ package bellintegrator.com.demo.view.organisationdto;
 
 public class ListOrganisationDto {
 
+    private Long id;
     private String name;
-    private String inn;
     private Boolean isActive;
 
     public String getName() {
@@ -14,12 +14,12 @@ public class ListOrganisationDto {
         this.name = name;
     }
 
-    public String getInn() {
-        return inn;
+    public Long getId() {
+        return id;
     }
 
-    public void setInn(String inn) {
-        this.inn = inn;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Boolean getIsActive() {

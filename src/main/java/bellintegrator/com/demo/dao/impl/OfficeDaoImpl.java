@@ -110,6 +110,6 @@ public class OfficeDaoImpl implements OfficeDao {
     @Transactional
     public void update(Office officeNew) throws Exception {
         Office officeOld = findById(officeNew.getOfficeId());
-        notNullFieldsEntityCopier.RefreshableFieldsCopy(officeNew, officeOld);
+        notNullFieldsEntityCopier.updatableFieldsCopy(officeNew, officeOld);
     }
 }
