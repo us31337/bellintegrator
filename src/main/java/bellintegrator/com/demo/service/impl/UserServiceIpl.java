@@ -16,7 +16,6 @@ import bellintegrator.com.demo.view.userdto.SingleUserDto;
 import bellintegrator.com.demo.view.userdto.UpdateUserDto;
 import javassist.NotFoundException;
 import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,22 +31,21 @@ public class UserServiceIpl implements UserService {
     private CountryDao countryDao;
     private DocTypeDao docTypeDao;
     private UserDao userDao;
-    private MapperFactory mapperFactory;
+    private MapperFacade mapper;
 
     @Autowired
     public UserServiceIpl(OfficeDao officeDao, CountryDao countryDao,
-                          DocTypeDao docTypeDao, UserDao userDao, MapperFactory mapperFactory) {
+                          DocTypeDao docTypeDao, UserDao userDao, MapperFacade mapper) {
         this.officeDao = officeDao;
         this.countryDao = countryDao;
         this.docTypeDao = docTypeDao;
         this.userDao = userDao;
-        this.mapperFactory = mapperFactory;
+        this.mapper = mapper;
     }
 
     @Override
     public List<ListUserDto> findByFilter(UserFilter userFilter) {
         List<User> userList = userDao.findByFilter(userFilter);
-        MapperFacade mapper = mapperFactory.getMapperFacade();
         List<ListUserDto> collect = userList.stream().map(u -> mapper.map(u, ListUserDto.class)).collect(Collectors.toList());
         return collect;
     }
@@ -55,7 +53,6 @@ public class UserServiceIpl implements UserService {
     @Override
     public SingleUserDto findById(Long id) throws NotFoundException {
         User user = userDao.findById(id);
-        MapperFacade mapper = mapperFactory.getMapperFacade();
         SingleUserDto userDto = mapper.map(user, SingleUserDto.class);
         return userDto;
     }
@@ -84,7 +81,6 @@ public class UserServiceIpl implements UserService {
             country = countryDao.findByCode(saveUserDto.getCitizenshipCode());
         }
         user.setCountry(country);
-        MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(saveUserDto, user);
         userDao.add(user);
     }
@@ -118,7 +114,6 @@ public class UserServiceIpl implements UserService {
                 && !newDocumentName.equals(user.getDocument().getType().getName())) {
             throw new IllegalArgumentException("Document's name not equal name from database");
         }
-        MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(updateUserDto, user);
         userDao.update(user);
     }

@@ -15,6 +15,7 @@ import bellintegrator.com.demo.view.userdto.ListUserDto;
 import bellintegrator.com.demo.view.userdto.SaveUserDto;
 import bellintegrator.com.demo.view.userdto.SingleUserDto;
 import bellintegrator.com.demo.view.userdto.UpdateUserDto;
+import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +24,12 @@ import org.springframework.context.annotation.Configuration;
 public class OrikaMapperConfig {
 
     @Bean
-    public DefaultMapperFactory mapperFactory() {
+    public MapperFacade getMapperFacade() {
         DefaultMapperFactory mapperFactory = new DefaultMapperFactory.Builder().mapNulls(false).build();
         setMapperForOffice(mapperFactory);
         setMapperForOrganistion(mapperFactory);
         setMapperForUser(mapperFactory);
-        return mapperFactory;
+        return mapperFactory.getMapperFacade();
     }
 
     private void setMapperForUser(DefaultMapperFactory mapperFactory) {

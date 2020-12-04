@@ -50,7 +50,7 @@ public class SpringRestOrganisationController {
 
     @Test
     public void shouldReturnOrganisationDto() throws JsonProcessingException {
-        Long id = 3L;
+        Long id = 1L;
         final String INN = "7842499778";
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
 
