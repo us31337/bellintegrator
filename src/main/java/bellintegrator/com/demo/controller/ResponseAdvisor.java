@@ -57,7 +57,8 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
                 String message = err.getDefaultMessage();
                 map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
             });
-            LOGGER.error(errorUuid.toString(), map.get("error"), e);
+            LOGGER.error(errorUuid.toString() + "\n" +
+                    map.get("error") + "\n", e);
             return new ResponseEntity(map, HttpStatus.BAD_REQUEST);
         } else if (e instanceof DataIntegrityViolationException) {
             Throwable cause = e;
@@ -65,17 +66,20 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
                 cause = cause.getCause();
             } while (!cause.getClass().getSimpleName().equals("JdbcSQLDataException"));
             String message = cause.getMessage();
-            LOGGER.error(errorUuid.toString(), message, e);
+            LOGGER.error(errorUuid.toString() + "\n" +
+                    message + "\n", e);
             map.merge("error", e.getMessage(), (oldS, newS) -> oldS + "; " + newS);
             return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
         } else if (e instanceof NotFoundException) {
             String message = e.getMessage();
-            LOGGER.error(errorUuid.toString(), message, e);
+            LOGGER.error(errorUuid.toString() + "\n" +
+                    message + "\n", e);
             map.merge("error", message, (oldS, newS) -> oldS + "; " + newS);
             return new ResponseEntity(map, HttpStatus.NOT_FOUND);
         } else {
             String message = e.getMessage();
-            LOGGER.error(errorUuid.toString(), message, e);
+            LOGGER.error(errorUuid.toString() + "\n" +
+                    message + "\n", e);
             map.merge("error", "Internal server error, see logs", (oldS, newS) -> oldS + "; " + newS);
             return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }

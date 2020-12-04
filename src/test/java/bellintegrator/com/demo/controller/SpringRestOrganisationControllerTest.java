@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SpringRestOrganisationController {
+public class SpringRestOrganisationControllerTest {
 
     private String PREFIX;
     private TestRestTemplate restTemplate;
@@ -27,8 +27,8 @@ public class SpringRestOrganisationController {
     private int port;
 
     @Autowired
-    public SpringRestOrganisationController(TestRestTemplate restTemplate,
-                                            ObjectMapper objectMapper) {
+    public SpringRestOrganisationControllerTest(TestRestTemplate restTemplate,
+                                                ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
