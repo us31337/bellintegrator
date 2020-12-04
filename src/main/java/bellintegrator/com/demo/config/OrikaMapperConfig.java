@@ -23,11 +23,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OrikaMapperConfig {
 
+    /**
+     * @return new Orika mapper bean
+     */
     @Bean
     public MapperFacade getMapperFacade() {
         DefaultMapperFactory mapperFactory = new DefaultMapperFactory.Builder().mapNulls(false).build();
         setMapperForOffice(mapperFactory);
-        setMapperForOrganistion(mapperFactory);
+        setMapperForOrganisation(mapperFactory);
         setMapperForUser(mapperFactory);
         return mapperFactory.getMapperFacade();
     }
@@ -50,7 +53,7 @@ public class OrikaMapperConfig {
                 .exclude("citizenshipCode").byDefault().register();
     }
 
-    private void setMapperForOrganistion(DefaultMapperFactory mapperFactory) {
+    private void setMapperForOrganisation(DefaultMapperFactory mapperFactory) {
         mapperFactory.classMap(Organisation.class, ListOrganisationDto.class);
         mapperFactory.classMap(Organisation.class, SingleOrganisationDto.class);
         mapperFactory.classMap(SaveOrganisationDto.class, Organisation.class);
@@ -59,9 +62,11 @@ public class OrikaMapperConfig {
 
     private void setMapperForOffice(DefaultMapperFactory mapperFactory) {
         mapperFactory.classMap(Office.class, ListOfficeDto.class)
-                .field("parentOrg.id", "orgId")
+                .field("officeId", "id")
                 .byDefault().register();
-        mapperFactory.classMap(Office.class, SingleOfficeDto.class);
+        mapperFactory.classMap(Office.class, SingleOfficeDto.class)
+                .field("officeId", "id")
+                .byDefault().register();
         mapperFactory.classMap(SaveOfficeDto.class, Office.class)
                 .exclude("orgId")
                 .byDefault().register();
