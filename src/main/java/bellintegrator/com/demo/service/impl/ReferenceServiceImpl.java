@@ -12,6 +12,9 @@ import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ReferenceServiceImpl implements ReferenceService {
     private DocTypeDao documentDao;
@@ -27,16 +30,20 @@ public class ReferenceServiceImpl implements ReferenceService {
     }
 
     @Override
-    public DocumentReferenceView getDocumentView(DocumentReferenceView documentView) throws NotFoundException {
-        DocumentType documentType = documentDao.findByCode(documentView.getCode());
-        mapper.map(documentType, documentView);
-        return documentView;
+    public List<DocumentReferenceView> getDocumentsListView() throws NotFoundException {
+        List<DocumentType> types = documentDao.findAll();
+        List<DocumentReferenceView> views = types.stream()
+                .map(t -> mapper.map(t, DocumentReferenceView.class))
+                .collect(Collectors.toList());
+        return views;
     }
 
     @Override
-    public CountryReferenceView getCountryView(CountryReferenceView countryView) throws NotFoundException {
-        Country country = countryDao.findByCode(countryView.getCode());
-        mapper.map(country, countryView);
-        return countryView;
+    public List<CountryReferenceView> getCountriesListView() throws NotFoundException {
+        List<Country> countries = countryDao.findAll();
+        List<CountryReferenceView> viewList = countries.stream()
+                .map(c -> mapper.map(c, CountryReferenceView.class))
+                .collect(Collectors.toList());
+        return viewList;
     }
 }

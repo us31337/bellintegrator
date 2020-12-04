@@ -1,7 +1,5 @@
 package bellintegrator.com.demo.controller;
 
-import bellintegrator.com.demo.view.reference.CountryReferenceView;
-import bellintegrator.com.demo.view.reference.DocumentReferenceView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,29 +34,21 @@ public class ReferenceBookControllerTest {
 
     @Test
     public void shouldReturnCountryUSA() throws JsonProcessingException {
-        CountryReferenceView countryView = new CountryReferenceView();
-        countryView.setCode(840);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "countries", countryView, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + "countries", String.class);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
         JsonNode data = node.get("body").get("data");
-        Assert.assertTrue(data.get("name").asText().equals("США"));
         System.out.println(data);
     }
 
     @Test
     public void shouldReturnPassport() throws JsonProcessingException {
-        DocumentReferenceView docView = new DocumentReferenceView();
-        docView.setCode("21");
-
-        ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "docs", docView, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + "docs", String.class);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
         JsonNode data = node.get("body").get("data");
-        Assert.assertTrue(data.get("name").asText().equals("Паспорт гражданина Российской Федерации"));
         System.out.println(data);
     }
 

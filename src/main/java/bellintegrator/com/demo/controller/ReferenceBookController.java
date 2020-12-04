@@ -5,9 +5,10 @@ import bellintegrator.com.demo.view.reference.CountryReferenceView;
 import bellintegrator.com.demo.view.reference.DocumentReferenceView;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class ReferenceBookController {
@@ -18,16 +19,14 @@ public class ReferenceBookController {
         this.referenceService = referenceService;
     }
 
-    @PostMapping(path = "/api/docs")
-    public DocumentReferenceView getDocumentsList(
-            @RequestBody DocumentReferenceView documentView) throws NotFoundException {
-        return referenceService.getDocumentView(documentView);
+    @GetMapping(path = "/api/docs")
+    public List<DocumentReferenceView> getDocumentsList() throws NotFoundException {
+        return referenceService.getDocumentsListView();
     }
 
-    @PostMapping(path = "/api/countries")
-    public CountryReferenceView getCountriesList(
-            @RequestBody CountryReferenceView countryView) throws NotFoundException {
-        return referenceService.getCountryView(countryView);
+    @GetMapping(path = "/api/countries")
+    public List<CountryReferenceView> getCountriesList() throws NotFoundException {
+        return referenceService.getCountriesListView();
     }
 
 }

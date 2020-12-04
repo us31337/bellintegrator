@@ -4,8 +4,10 @@ import bellintegrator.com.demo.view.reference.CountryReferenceView;
 import bellintegrator.com.demo.view.reference.DocumentReferenceView;
 import javassist.NotFoundException;
 
-public interface ReferenceService {
-    DocumentReferenceView getDocumentView(DocumentReferenceView documentView) throws NotFoundException;
+import java.util.List;
 
-    CountryReferenceView getCountryView(CountryReferenceView countryView) throws NotFoundException;
+public interface ReferenceService {
+    List<DocumentReferenceView> getDocumentsListView() throws NotFoundException;
+
+    List<CountryReferenceView> getCountriesListView() throws NotFoundException;
 }
