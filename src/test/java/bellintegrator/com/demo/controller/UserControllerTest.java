@@ -8,7 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -25,11 +26,9 @@ import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserControllerTest {
 
     private String PREFIX;
-    private String UNIQ_NAME = "UniqNameForTest";
     private TestRestTemplate restTemplate;
     private ObjectMapper objectMapper;
     @LocalServerPort
@@ -47,8 +46,9 @@ class UserControllerTest {
     }
 
     @Test
-    @Order(1)
     void saveNewUser() throws ParseException, IOException {
+        String UNIQ_NAME = "UniqNameForTest";
+
         SaveUserDto userDto = new SaveUserDto();
         userDto.setOfficeId(1L);
         userDto.setFirstName(UNIQ_NAME);
@@ -70,8 +70,8 @@ class UserControllerTest {
 
 
     @Test
-    @Order(2)
     void getUserList() throws IOException {
+        String UNIQ_NAME = "Семен";
         SingleUserDto[] userDtos = getUserDtoByName(UNIQ_NAME);
         Optional<SingleUserDto> first = Arrays.stream(userDtos)
                 .filter(singleUserDto -> singleUserDto.getFirstName().equals(UNIQ_NAME))
@@ -80,9 +80,8 @@ class UserControllerTest {
     }
 
     @Test
-    @Order(3)
     void getUserById() throws JsonProcessingException {
-        Long id = 1L;
+        Long id = 1L; //from data.sql
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
         JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
         SingleUserDto dto = objectMapper.treeToValue(data, SingleUserDto.class);
@@ -109,8 +108,8 @@ class UserControllerTest {
     }
 
     @Test
-    @Order(4)
     void updateUser() throws IOException {
+        String UNIQ_NAME = "UniqNameForTest";
         SingleUserDto[] userDtos = getUserDtoByName(UNIQ_NAME);
         String newPosition = "кладовщик";
         UpdateUserDto updateUserDto = new UpdateUserDto();

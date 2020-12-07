@@ -18,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 public class OrganisationControllerTest {
@@ -54,13 +57,16 @@ public class OrganisationControllerTest {
     public void shouldReturnOrganisationDto() throws JsonProcessingException {
         Long id = 1L;
         final String INN = "7842499778";
-        ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
+        SingleOrganisationDto dto = getSingleOrganisationDtoById(id);
+        Assert.assertTrue(dto.getInn().equals(INN));
+    }
 
+    private SingleOrganisationDto getSingleOrganisationDtoById(Long id) throws JsonProcessingException {
+        ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
         JsonNode data = node.get("body").get("data");
-        SingleOrganisationDto dto = objectMapper.treeToValue(data, SingleOrganisationDto.class);
-        Assert.assertTrue(dto.getInn().equals(INN));
+        return objectMapper.treeToValue(data, SingleOrganisationDto.class);
     }
 
     @Test
@@ -79,26 +85,39 @@ public class OrganisationControllerTest {
     }
 
     @Test
-    public void shouldSuccessfullySaveNewOrganisation() {
+    public void shouldSuccessfullySaveNewOrganisation() throws JsonProcessingException {
+        final String NEW_VALUE = "АО \"ВЕКТОР\"";
+
         SaveOrganisationDto org = new SaveOrganisationDto();
         org.setInn("2370007068");
         org.setAddress("353800, Краснодарский край, ст-ца Полтавская, ул М.Горького, д 5");
         org.setKpp("237001001");
-        org.setName("АО \"ВЕКТОР\"");
+        org.setName(NEW_VALUE);
         org.setFullName("АКЦИОНЕРНОЕ ОБЩЕСТВО \"ВЕКТОР\"");
         org.setPhone("+74991927500");
         org.setIsActive(true);
 
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "save", org, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
+
+        OrganisationFilter filter = new OrganisationFilter();
+        filter.setName(NEW_VALUE);
+
+        SingleOrganisationDto[] list = getOrganisationListByFilter(filter);
+        Optional<SingleOrganisationDto> first = Arrays.stream(list).
+                filter(organisationDto -> organisationDto.getName().equals(NEW_VALUE)).findFirst();
+        Assert.assertTrue(first.isPresent());
     }
 
     @Test
     public void shouldSuccessfullyUpdateOrganisation() throws JsonProcessingException {
+        final Long ORG_ID = 3L;
+        final String NEW_VALUE = "Проверочная проверка";
+
         UpdateOrganisationDto orgDto = new UpdateOrganisationDto();
-        orgDto.setId(3L);
+        orgDto.setId(ORG_ID);
         orgDto.setName("Тест");
-        orgDto.setFullName("Проверочная проверка");
+        orgDto.setFullName(NEW_VALUE);
         orgDto.setInn("7825061984");
         orgDto.setKpp("781301001");
         orgDto.setAddress("197101, г Санкт-Петербург, Каменноостровский пр-кт, д 12 литер а");
@@ -107,19 +126,31 @@ public class OrganisationControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "update", orgDto, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
 
+        SingleOrganisationDto singleOrganisationDto = getSingleOrganisationDtoById(ORG_ID);
+        Assert.assertTrue(singleOrganisationDto.getFullName().equals(NEW_VALUE));
+
     }
 
     @Test
     public void shouldReturnOkStatusAndNonEmptyOrgList() throws JsonProcessingException {
+        final String ORG_NAME = "аналит";
+
         OrganisationFilter filter = new OrganisationFilter();
         filter.setIsActive(true);
-        filter.setName("аналит");
+        filter.setName(ORG_NAME);
 
+        SingleOrganisationDto[] dtoArray = getOrganisationListByFilter(filter);
+        Assert.assertTrue(dtoArray.length > 0);
+        Optional<SingleOrganisationDto> first = Arrays.stream(dtoArray)
+                .filter(org -> org.getName().toLowerCase().contains(ORG_NAME)).findFirst();
+        Assert.assertTrue(first.isPresent());
+    }
+
+    private SingleOrganisationDto[] getOrganisationListByFilter(OrganisationFilter filter) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "list", filter, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
         JsonNode data = node.get("body").get("data");
-        SingleOrganisationDto[] dtoArray = objectMapper.treeToValue(data, SingleOrganisationDto[].class);
-        Assert.assertTrue(dtoArray.length > 0);
+        return objectMapper.treeToValue(data, SingleOrganisationDto[].class);
     }
 }
