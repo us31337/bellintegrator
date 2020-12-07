@@ -16,12 +16,14 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class OfficeControllerTest {
 
@@ -80,14 +82,6 @@ class OfficeControllerTest {
 
     @Test
     @Order(3)
-    public void getOfficeById() throws JsonProcessingException {
-        long id = 1L; //office Id from previous test
-        SingleOfficeDto officeDto = getOfficeDtoById(id);
-        Assert.assertTrue(officeDto.getName().equals(TEST_OFFICE_NAME));
-    }
-
-    @Test
-    @Order(4)
     void updateOffice() throws IOException {
         Long id = 3L;
         String updateString = "Строка для обновления";
@@ -104,6 +98,15 @@ class OfficeControllerTest {
         SingleOfficeDto office = getOfficeDtoById(id);
         Assert.assertTrue(office.getAddress().equals(updateString));
     }
+
+    @Test
+    @Order(4)
+    public void getOfficeById() throws JsonProcessingException {
+        long id = 3L; //office Id from previous test
+        SingleOfficeDto officeDto = getOfficeDtoById(id);
+        Assert.assertTrue(officeDto.getName().equals("Отдел рекламаций"));
+    }
+
 
     public SingleOfficeDto getOfficeDtoById(long id) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id, String.class);

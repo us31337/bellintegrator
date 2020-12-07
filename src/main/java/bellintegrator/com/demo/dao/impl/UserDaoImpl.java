@@ -86,7 +86,6 @@ public class UserDaoImpl implements UserDao {
         List<Predicate> predicates = new ArrayList<>();
 
         if (filter.getOfficeId() != null) {
-            Path<Object> objectPath = userRoot.get("office").get("officeId");
             predicates.add(
                     cb.equal(userRoot.get("office").get("officeId"), filter.getOfficeId()
                     )
