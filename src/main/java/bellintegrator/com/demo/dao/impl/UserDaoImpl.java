@@ -16,6 +16,9 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -23,6 +26,10 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
     private NotNullFieldsEntityCopier<User> notNullFieldsEntityCopier;
 
+
+    /**
+     * Подключение класса, копирующего значений не пустых обновляемых полей
+     */
     @Autowired
     public UserDaoImpl(NotNullFieldsEntityCopier<User> notNullFieldsEntityCopier) {
         this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;

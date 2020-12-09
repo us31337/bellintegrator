@@ -4,29 +4,64 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * Класс для представления иформации о сохраняемой организации
+ *
+ * @see bellintegrator.com.demo.entity.Organisation
+ */
 public class SaveOrganisationDto {
 
+    /**
+     * Наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#name
+     */
     @NotEmpty(message = "Name cannot be empty")
     @Size(min = 2, message = "Minimum 2 characters name required")
     private String name;
 
+    /**
+     * Полное наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#fullName
+     */
     @NotEmpty(message = "Full name cannot be empty")
     @Size(min = 2, message = "Minimum 2 characters full name required")
     private String fullName;
 
+    /**
+     * ИНН организации
+     * @see bellintegrator.com.demo.entity.Organisation#inn
+     */
     @NotEmpty(message = "INN cannot be empty")
     @Size(min = 10, message = "Minimum 10 digits required for INN")
     @Pattern(regexp = "^[\\d]+", message = "Only digits allowed in INN")
     private String inn;
 
+    /**
+     * КПП организации
+     * @see bellintegrator.com.demo.entity.Organisation#kpp
+     */
     @NotEmpty(message = "KPP cannot be empty")
     @Size(min = 5, message = "Minimum 5 digits required for KPP")
     @Pattern(regexp = "^[\\d]+", message = "Only digits allowed in KPP")
     private String kpp;
 
+    /**
+     * Адрес организации
+     * @see bellintegrator.com.demo.entity.Organisation#address
+     */
     @NotEmpty(message = "Address cannot be empty")
     private String address;
+
+    /**
+     * Телефон организации
+     * @see bellintegrator.com.demo.entity.Organisation#phone
+     */
     private String phone;
+
+    /**
+     * Отметка актиивности организации
+     * @see bellintegrator.com.demo.entity.Organisation#isActive
+     */
     private Boolean isActive;
 
     public String getName() {

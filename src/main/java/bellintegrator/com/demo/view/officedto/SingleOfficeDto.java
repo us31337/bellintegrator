@@ -1,10 +1,40 @@
 package bellintegrator.com.demo.view.officedto;
 
+/**
+ * Класс для представления ифнормации об отдельном офисе
+ *
+ * @see bellintegrator.com.demo.entity.Office
+ */
 public class SingleOfficeDto {
+
+    /**
+     * Идентификатор офиса
+     * @see bellintegrator.com.demo.entity.Office#officeId
+     */
     private Long id;
+
+    /**
+     * Наименование офиса
+     * @see bellintegrator.com.demo.entity.Office#name
+     */
     private String name;
+
+    /**
+     * Адрес меcтонахождения офиса
+     * @see bellintegrator.com.demo.entity.Office#address
+     */
     private String address;
+
+    /**
+     * Телефон офиса
+     * @see bellintegrator.com.demo.entity.Office#phone
+     */
     private String phone;
+
+    /**
+     * Отметка активности офиса
+     * @see bellintegrator.com.demo.entity.Office#isActive
+     */
     private Boolean isActive;
 
     public Long getId() {

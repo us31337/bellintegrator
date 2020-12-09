@@ -16,6 +16,9 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
 
@@ -23,6 +26,9 @@ public class OfficeDaoImpl implements OfficeDao {
     private EntityManager em;
     private NotNullFieldsEntityCopier<Office> notNullFieldsEntityCopier;
 
+    /**
+     * Подключение класса, копирующего значений не пустых обновляемых полей
+     */
     @Autowired
     public OfficeDaoImpl(NotNullFieldsEntityCopier<Office> notNullFieldsEntityCopier) {
         this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;

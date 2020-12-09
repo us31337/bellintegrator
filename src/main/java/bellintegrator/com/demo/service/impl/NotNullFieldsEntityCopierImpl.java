@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class NotNullFieldsEntityCopierImpl<T> implements NotNullFieldsEntityCopier<T> {
 

@@ -4,22 +4,37 @@ import bellintegrator.com.demo.annotaion.Refreshable;
 
 import javax.persistence.*;
 
+/**
+ * Класс для описания сущности типа документа (паспорт, свидетельство о рождении и т.д.)
+ */
 @Entity
 @Table(name = "doc_type")
 public class DocumentType {
 
+    /**
+     * Первичный ключ
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
     private Long id;
 
+    /**
+     * Версия для hibernate
+     */
     @Version
     @Column(name = "version")
     private Integer version;
 
+    /**
+     * Двухзначный код типа документа
+     */
     @Column(name = "code", length = 2, nullable = false, unique = true)
     @Refreshable
     private String code;
 
+    /**
+     * Наименование типа документа
+     */
     @Column(name = "name", nullable = false, length = 150)
     @Refreshable
     private String name;

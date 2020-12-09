@@ -15,12 +15,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class ReferenceServiceImpl implements ReferenceService {
     private DocTypeDao documentDao;
     private CountryDao countryDao;
     private MapperFacade mapper;
 
+    /**
+     * @param documentDao слой работы с базой данных документов
+     * @param mapper      преобразователь представлений в сущности
+     * @param countryDao  слой работы с базой данных стран
+     */
     @Autowired
     public ReferenceServiceImpl(DocTypeDao documentDao,
                                 MapperFacade mapper, CountryDao countryDao) {

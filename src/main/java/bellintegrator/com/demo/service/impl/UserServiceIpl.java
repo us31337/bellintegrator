@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class UserServiceIpl implements UserService {
 
@@ -33,6 +36,13 @@ public class UserServiceIpl implements UserService {
     private UserDao userDao;
     private MapperFacade mapper;
 
+    /**
+     * @param officeDao  слой работы с базой данных офисов
+     * @param countryDao слой работы с базой данных стран
+     * @param docTypeDao слой работы с базой данных типов документов
+     * @param userDao    слой работы с базой данных полььзователей
+     * @param mapper     преобразователь представлений в сущности
+     */
     @Autowired
     public UserServiceIpl(OfficeDao officeDao, CountryDao countryDao,
                           DocTypeDao docTypeDao, UserDao userDao, MapperFacade mapper) {

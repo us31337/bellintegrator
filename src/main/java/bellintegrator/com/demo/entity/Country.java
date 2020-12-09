@@ -4,22 +4,37 @@ import bellintegrator.com.demo.annotaion.Refreshable;
 
 import javax.persistence.*;
 
+/**
+ * Класс для описания сущности страны
+ */
 @Entity
 @Table (name = "country")
 public class Country {
 
+    /**
+     * Первичный ключ
+     */
     @Id
     @GeneratedValue @Column(name = "id")
     private Long id;
 
+    /**
+     * Версия для hibernate
+     */
     @Version
     @Column(name = "version")
     private Integer version;
 
+    /**
+     * Код страны
+     */
     @Refreshable
     @Column(name = "code", unique = true)
     private Integer code;
 
+    /**
+     * Название страны
+     */
     @Refreshable
     @Column(name = "name", length = 100)
     private String name;

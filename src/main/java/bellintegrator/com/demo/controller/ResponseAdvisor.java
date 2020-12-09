@@ -23,11 +23,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Класс отвечающий за внешний вид ответа сервера и логгирование ошибок
+ */
 @RestControllerAdvice
 public class ResponseAdvisor implements ResponseBodyAdvice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Rest controller advice");
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
         ExceptionHandler annotation = methodParameter.getMethod().getAnnotation(ExceptionHandler.class);
@@ -35,6 +41,9 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
         return annotation == null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
                                   Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
@@ -44,6 +53,12 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
         return entity;
     }
 
+    /**
+     * Обработчик исключений
+     *
+     * @param e исключений
+     * @return сообщение об ошибке и http код
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity generalExceptionHandler(Exception e) {
         UUID errorUuid = UUID.randomUUID();

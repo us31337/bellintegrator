@@ -1,30 +1,91 @@
 package bellintegrator.com.demo.view.userdto;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+/**
+ * Класс для представления иформации для обновления пользователю
+ *
+ * @see bellintegrator.com.demo.entity.User
+ */
 public class UpdateUserDto {
-    @NotNull(message = "Office id is required")
-    @Min(value = 1, message = "Id cannot be negative")
+
+    /**
+     * Идентификатор пользователя
+     *
+     * @see bellintegrator.com.demo.entity.User#id
+     */
+    @Min(value = 1, message = "User id cannot be null or negative")
     private Long id;
 
+    /**
+     * Идентификатор офиса, к которому принадлежит пользователь
+     * @see bellintegrator.com.demo.entity.Office#officeId
+     */
     @Min(value = 1, message = "Office id is required")
     private Long officeId;
 
+    /**
+     * Имя пользователя
+     * @see bellintegrator.com.demo.entity.User#firstName
+     */
     @Size(min = 2, message = "First name is too short")
     private String firstName;
+
+    /**
+     * Фамилия пользователя
+     * @see bellintegrator.com.demo.entity.User#lastName
+     */
     private String lastName;
+
+    /**
+     * Отчество пользователя
+     * @see bellintegrator.com.demo.entity.User#middleName
+     */
     private String middleName;
 
+    /**
+     * Должность пользователя
+     * @see bellintegrator.com.demo.entity.User#position
+     */
     @Size(min = 2, message = "Position too short")
     private String position;
+
+    /**
+     * Номер для связи
+     * @see bellintegrator.com.demo.entity.User#phone
+     */
     private String phone;
+
+    /**
+     * Наименование документа пользователя
+     * @see bellintegrator.com.demo.entity.DocumentType#name
+     */
     private String docName;
+
+    /**
+     * Номер документа пользователя
+     * @see bellintegrator.com.demo.entity.Document#docNumber
+     */
     private String docNumber;
+
+    /**
+     * Дата документа пользователя
+     * @see bellintegrator.com.demo.entity.Document#docDate
+     */
     private Date docDate;
+
+    /**
+     * Код страны гражданства пользователя
+     * @see bellintegrator.com.demo.entity.Country#code
+     */
     private Integer citizenshipCode;
+
+    /**
+     * Отметка идентификации пользователя
+     * @see bellintegrator.com.demo.entity.User#isIdentified
+     */
     private Boolean isIdentified;
 
     public Long getId() {

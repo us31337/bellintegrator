@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Интерефес указывает на поля сущностей, которые возможно обновить при выполнении update
+ * Интерефес указывает на поля сущностей, которые возможно обновить при выполнении update в dao
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

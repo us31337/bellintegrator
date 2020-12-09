@@ -17,12 +17,19 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class DocumentDaoImpl implements DocumentDao {
+
     @PersistenceContext
     private EntityManager em;
     private NotNullFieldsEntityCopier<Document> notNullFieldsEntityCopier;
 
+    /**
+     * Подключение класса, копирующего значений не пустых обновляемых полей
+     */
     @Autowired
     public DocumentDaoImpl(NotNullFieldsEntityCopier<Document> notNullFieldsEntityCopier) {
         this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;
@@ -78,6 +85,5 @@ public class DocumentDaoImpl implements DocumentDao {
     public void update(Document documentNew) throws Exception {
         Document documentOld = findById(documentNew.getId());
         notNullFieldsEntityCopier.updatableFieldsCopy(documentNew, documentOld);
-
     }
 }

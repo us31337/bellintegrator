@@ -4,53 +4,93 @@ import bellintegrator.com.demo.annotaion.Refreshable;
 
 import javax.persistence.*;
 
+/**
+ * Класс для описания сущности пользователя
+ */
 @Entity
 @Table(name = "user")
 public class User {
 
+    /**
+     * Первичный ключ
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    /**
+     * Версия для hibernate
+     */
     @Version
     @Column(name = "version")
     private Integer version;
 
+    /**
+     * Имя пользвоателя
+     */
     @Column(name = "first_name", length = 100, nullable = false)
     @Refreshable
     private String firstName;
 
+    /**
+     * Фамилия пользователя
+     */
     @Column(name = "last_name", length = 100)
     @Refreshable
     private String lastName;
 
+    /**
+     * Отчество пользователя
+     */
     @Column(name = "middle_name", length = 100)
     @Refreshable
     private String middleName;
 
+    /**
+     * Должность пользователя
+     */
     @Column(name = "position", length = 100, nullable = false)
     @Refreshable
     private String position;
 
+    /**
+     * Телефон для связи
+     */
     @Column(name = "phone", length = 25)
     @Refreshable
     private String phone;
 
+    /**
+     * Отметка идентификации полььзователя
+     */
     @Column(name = "is_identified", nullable = false)
     @Refreshable
     private Boolean isIdentified;
 
+    /**
+     * Документ пользователя
+     *
+     * @see Document
+     */
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @Refreshable
     private Document document;
 
+    /**
+     * Офис, к которому относиться пользователь
+     * @see Office
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "office_id", referencedColumnName = "id", nullable = false)
     @Refreshable
     private Office office;
 
+    /**
+     * Страна гражданства
+     * @see Country
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_code", referencedColumnName = "id")
     @Refreshable

@@ -1,9 +1,28 @@
 package bellintegrator.com.demo.view.organisationdto;
 
+/**
+ * Класс для представления ифнормации о списке организаций
+ *
+ * @see bellintegrator.com.demo.entity.Organisation
+ */
 public class ListOrganisationDto {
 
+    /**
+     * Идентификатор организации
+     * @see bellintegrator.com.demo.entity.Organisation#id
+     */
     private Long id;
+
+    /**
+     * Наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#name
+     */
     private String name;
+
+    /**
+     * Отметка активности организации
+     * @see bellintegrator.com.demo.entity.Organisation#isActive
+     */
     private Boolean isActive;
 
     public String getName() {

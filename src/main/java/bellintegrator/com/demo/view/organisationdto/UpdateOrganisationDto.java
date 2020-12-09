@@ -2,33 +2,74 @@ package bellintegrator.com.demo.view.organisationdto;
 
 import javax.validation.constraints.*;
 
+/**
+ * Класс для представления иформации для обновления данных организации
+ *
+ * @see bellintegrator.com.demo.entity.Organisation
+ */
 public class UpdateOrganisationDto {
+
+    /**
+     * Идентификатор организации
+     * @see bellintegrator.com.demo.entity.Organisation#id
+     */
     @NotNull(message = "Id is required")
     @Min(value = 1, message = "Id cannot be negative")
     private Long id;
 
+    /**
+     * Наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#name
+     */
     @NotEmpty(message = "Name is required")
     @Size(min = 2, message = "Minimum 2 characters name required")
     private String name;
 
+    /**
+     * Полное наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#fullName
+     */
     @NotEmpty(message = "Full name is required")
     @Size(min = 2, message = "Minimum 2 characters full name required")
     private String fullName;
 
+    /**
+     * ИНН организации
+     * @see bellintegrator.com.demo.entity.Organisation#inn
+     */
     @NotEmpty(message = "INN is required")
     @Size(min = 10, message = "Minimum 10 digits required for INN")
     @Pattern(regexp = "^[\\d]+")
     private String inn;
 
+    /**
+     *
+     *  КПП организации
+     * @see bellintegrator.com.demo.entity.Organisation#kpp
+     */
     @NotEmpty(message = "KPP is required")
     @Size(min = 5, message = "Minimum 5 digits required for KPP")
     @Pattern(regexp = "^[\\d]+")
     private String kpp;
 
+    /**
+     * Адрес организации
+     * @see bellintegrator.com.demo.entity.Organisation#address
+     */
     @NotEmpty(message = "Address is required")
     @Size(min = 5, message = "Minimum 5 digits required for KPP")
     private String address;
+
+    /**
+     * Телефон организации
+     * @see bellintegrator.com.demo.entity.Organisation#phone
+     */
     private String phone;
+
+    /**
+     * Отметка активности организации
+     * @see bellintegrator.com.demo.entity.Organisation#isActive
+     */
     private Boolean isActive;
 
     public Long getId() {

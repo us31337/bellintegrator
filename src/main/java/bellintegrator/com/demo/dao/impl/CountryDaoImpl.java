@@ -17,6 +17,9 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class CountryDaoImpl implements CountryDao {
 
@@ -24,6 +27,9 @@ public class CountryDaoImpl implements CountryDao {
     private EntityManager em;
     private NotNullFieldsEntityCopier<Country> notNullFieldsEntityCopier;
 
+    /**
+     * Подключение класса, копирующего значений не пустых обновляемых полей
+     */
     @Autowired
     public CountryDaoImpl(NotNullFieldsEntityCopier<Country> notNullFieldsEntityCopier) {
         this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;

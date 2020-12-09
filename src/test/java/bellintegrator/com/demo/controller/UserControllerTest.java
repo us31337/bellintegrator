@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@DirtiesContext
 class UserControllerTest {
 
     private String PREFIX;

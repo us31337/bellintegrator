@@ -2,18 +2,82 @@ package bellintegrator.com.demo.view.userdto;
 
 import java.util.Date;
 
+/**
+ * Класс для представления иформации по конкретному пользователю
+ *
+ * @see bellintegrator.com.demo.entity.User
+ */
 public class SingleUserDto {
+
+    /**
+     * Идентификатор пользователя
+     * @see bellintegrator.com.demo.entity.User#id
+     */
     private Long id;
+
+    /**
+     * Имя пользователя
+     * @see bellintegrator.com.demo.entity.User#firstName
+     */
     private String firstName;
+
+    /**
+     * Фамилия пользователя
+     * @see bellintegrator.com.demo.entity.User#lastName
+     */
     private String secondName;
+
+    /**
+     * Отчество пользователя
+     * @see bellintegrator.com.demo.entity.User#middleName
+     */
     private String middleName;
+
+    /**
+     * Должность пользователя
+     * @see bellintegrator.com.demo.entity.User#position
+     */
     private String position;
+
+    /**
+     * Номер для связи
+     * @see bellintegrator.com.demo.entity.User#phone
+     */
     private String phone;
+
+    /**
+     * Наименование документа пользователя
+     * @see bellintegrator.com.demo.entity.DocumentType#name
+     */
     private String docName;
+
+    /**
+     * Номер документа пользователя
+     * @see bellintegrator.com.demo.entity.Document#docNumber
+     */
     private String docNumber;
+
+    /**
+     * Дата документа пользователя
+     * @see bellintegrator.com.demo.entity.Document#docDate
+     */
     private Date docDate;
+
+    /**
+     * Название страны гражданства пользователя
+     * @see bellintegrator.com.demo.entity.Country#name
+     */
     private String citizenshipName;
+
+    /**
+     * Код страны гражданства пользователя
+     * @see bellintegrator.com.demo.entity.Country#code
+     */
     private Integer citizenshipCode;
+    /**
+     * Отметка идентификации пользователя
+     * @see bellintegrator.com.demo.entity.User#isIdentified
+     */
     private Boolean isIdentified;
 
     public Long getId() {

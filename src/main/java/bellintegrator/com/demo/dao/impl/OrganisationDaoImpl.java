@@ -17,6 +17,9 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class OrganisationDaoImpl implements OrganisationDao {
 
@@ -24,6 +27,9 @@ public class OrganisationDaoImpl implements OrganisationDao {
     private EntityManager em;
     private NotNullFieldsEntityCopier<Organisation> notNullFieldsEntityCopier;
 
+    /**
+     * Подключение класса, копирующего значений не пустых обновляемых полей
+     */
     @Autowired
     public OrganisationDaoImpl(NotNullFieldsEntityCopier<Organisation> notNullFieldsEntityCopier) {
         this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;

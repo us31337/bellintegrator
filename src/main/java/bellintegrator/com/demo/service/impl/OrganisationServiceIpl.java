@@ -16,12 +16,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class OrganisationServiceIpl implements OrganisationService {
 
     private OrganisationDao organisationDao;
     private MapperFacade mapper;
 
+    /**
+     * @param organisationDao слой работы с базой данных
+     * @param mapper          преобразователь представлений в сущности
+     */
     @Autowired
     public OrganisationServiceIpl(OrganisationDao organisationDao, MapperFacade mapper) {
         this.organisationDao = organisationDao;

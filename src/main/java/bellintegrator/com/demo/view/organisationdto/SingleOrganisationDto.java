@@ -1,13 +1,58 @@
 package bellintegrator.com.demo.view.organisationdto;
 
+/**
+ * Класс для представления иформации об отдельной организации
+ *
+ * @see bellintegrator.com.demo.entity.Organisation
+ */
 public class SingleOrganisationDto {
+
+    /**
+     * Идентификатор организации
+     * @see bellintegrator.com.demo.entity.Organisation#id
+     */
     private Long id;
+
+    /**
+     * Наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#name
+     */
     private String name;
+
+    /**
+     * Полное наименование организации
+     * @see bellintegrator.com.demo.entity.Organisation#fullName
+     */
     private String fullName;
+
+    /**
+     * ИНН организации
+     * @see bellintegrator.com.demo.entity.Organisation#inn
+     */
     private String inn;
+
+    /**
+     * КПП организации
+     * @see bellintegrator.com.demo.entity.Organisation#kpp
+     */
     private String kpp;
+
+    /**
+     * Адрес организации
+     * @see bellintegrator.com.demo.entity.Organisation#address
+     */
     private String address;
+
+    /**
+     * Телефон организации
+     * @see bellintegrator.com.demo.entity.Organisation#phone
+     */
     private String phone;
+
+    /**
+     * Отметка активности организации
+     * @see bellintegrator.com.demo.entity.Organisation#isActive
+     */
     private Boolean isActive;
 
     public Long getId() {

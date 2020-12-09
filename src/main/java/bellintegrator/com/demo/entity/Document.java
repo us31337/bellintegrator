@@ -5,32 +5,56 @@ import bellintegrator.com.demo.annotaion.Refreshable;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Класс для описания сущности документа
+ */
 @Entity
 @Table(name = "document")
 public class Document {
 
+    /**
+     * Первичный ключ
+     */
     @Id
     @Column(name = "user_id")
     private Long id;
 
+    /**
+     * Версия для hibernate
+     */
     @Version
     @Column(name = "version")
     private Integer version;
 
+    /**
+     * Номер документа
+     */
     @Column(name = "doc_number", nullable = false, length = 10)
     @Refreshable
     private String docNumber;
 
+    /**
+     * Дата выдачи документа
+     */
     @Column(name = "doc_date", nullable = false)
     @Temporal(TemporalType.DATE)
     @Refreshable
     private Date docDate;
 
+    /**
+     * Тип документа
+     *
+     * @see DocumentType
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_type", referencedColumnName = "id", nullable = false)
     @Refreshable
     private DocumentType type;
 
+    /**
+     * Владелец документа, сслыка на пользователя
+     * @see User
+     */
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @Refreshable

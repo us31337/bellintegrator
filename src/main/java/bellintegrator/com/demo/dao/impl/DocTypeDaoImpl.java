@@ -17,6 +17,9 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Repository
 public class DocTypeDaoImpl implements DocTypeDao {
 
@@ -24,6 +27,9 @@ public class DocTypeDaoImpl implements DocTypeDao {
     private EntityManager em;
     private NotNullFieldsEntityCopier<DocumentType> notNullFieldsEntityCopier;
 
+    /**
+     * Подключение класса, копирующего значений не пустых обновляемых полей
+     */
     @Autowired
     public DocTypeDaoImpl(NotNullFieldsEntityCopier<DocumentType> notNullFieldsEntityCopier) {
         this.notNullFieldsEntityCopier = notNullFieldsEntityCopier;

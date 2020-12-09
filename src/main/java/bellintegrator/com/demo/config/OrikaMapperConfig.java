@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+/**
+ * Класс с конфигурацией Orika mapper
+ */
 public class OrikaMapperConfig {
 
     /**

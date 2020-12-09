@@ -1,10 +1,39 @@
 package bellintegrator.com.demo.view.userdto;
 
+/**
+ * Класс для представления иформации по списку пользователей
+ *
+ * @see bellintegrator.com.demo.entity.User
+ */
 public class ListUserDto {
+    /**
+     * Идентификатор пользователя
+     * @see bellintegrator.com.demo.entity.User#id
+     */
     private Long id;
+
+    /**
+     * Имя пользователя
+     * @see bellintegrator.com.demo.entity.User#firstName
+     */
     private String firstName;
+
+    /**
+     * Фамилия пользователя
+     * @see bellintegrator.com.demo.entity.User#lastName
+     */
     private String lastName;
+
+    /**
+     * Отчество пользователя
+     * @see bellintegrator.com.demo.entity.User#middleName
+     */
     private String middleName;
+
+    /**
+     * Должность пользователя
+     * @see bellintegrator.com.demo.entity.User#position
+     */
     private String position;
 
     public Long getId() {

@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class OfficeServiceIpl implements OfficeService {
 
@@ -25,6 +28,11 @@ public class OfficeServiceIpl implements OfficeService {
     private MapperFacade mapper;
     private OrganisationDao organisationDao;
 
+    /***
+     * @param officeDao слой работы с базой данных офсиов
+     * @param organisationDao слой работы с базой данных организаций
+     * @param mapper маппер для преобразования представлений в сущности
+     */
     @Autowired
     public OfficeServiceIpl(OfficeDao officeDao, OrganisationDao organisationDao, MapperFacade mapper) {
         this.officeDao = officeDao;
