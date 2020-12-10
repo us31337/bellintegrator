@@ -63,7 +63,7 @@ public class OrganisationControllerTest {
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
-        JsonNode data = node.get("body").get("data");
+        JsonNode data = node.get("data");
         return objectMapper.treeToValue(data, SingleOrganisationDto.class);
     }
 
@@ -148,7 +148,7 @@ public class OrganisationControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "list", filter, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
-        JsonNode data = node.get("body").get("data");
+        JsonNode data = node.get("data");
         return objectMapper.treeToValue(data, SingleOrganisationDto[].class);
     }
 }

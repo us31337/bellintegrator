@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@DirtiesContext
 public class ReferenceBookControllerTest {
     private String PREFIX;
     private TestRestTemplate restTemplate;
@@ -44,7 +43,7 @@ public class ReferenceBookControllerTest {
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
-        JsonNode data = node.get("body").get("data");
+        JsonNode data = node.get("data");
         Country[] list = objectMapper.treeToValue(data, Country[].class);
         Optional<Country> russia = Arrays.stream(list)
                 .filter(country -> country.getCode() == 643).findFirst();
@@ -57,7 +56,7 @@ public class ReferenceBookControllerTest {
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
-        JsonNode data = node.get("body").get("data");
+        JsonNode data = node.get("data");
         DocumentType[] types = objectMapper.treeToValue(data, DocumentType[].class);
         Optional<DocumentType> type = Arrays.stream(types)
                 .filter(documentType -> documentType.getCode().equals("21")).findFirst();

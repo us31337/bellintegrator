@@ -62,7 +62,7 @@ class UserControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "save", userDto, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
-        JsonNode data = node.get("body").get("data");
+        JsonNode data = node.get("data");
         Assert.assertTrue(data.get("result").asText().equals("success"));
     }
 
@@ -81,14 +81,14 @@ class UserControllerTest {
     void getUserById() throws JsonProcessingException {
         Long id = 1L; //from data.sql
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
-        JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
+        JsonNode data = objectMapper.readTree(response.getBody()).get("data");
         SingleUserDto dto = objectMapper.treeToValue(data, SingleUserDto.class);
         Assert.assertTrue(dto.getFirstName().equals("Екатерина"));
     }
 
     private SingleUserDto getUserById(Long id) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id.toString(), String.class);
-        JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
+        JsonNode data = objectMapper.readTree(response.getBody()).get("data");
         return objectMapper.treeToValue(data, SingleUserDto.class);
     }
 
@@ -100,7 +100,7 @@ class UserControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "list", filter, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
         JsonNode node = objectMapper.readTree(response.getBody());
-        JsonNode data = node.get("body").get("data");
+        JsonNode data = node.get("data");
         SingleUserDto[] userDtos = objectMapper.treeToValue(data, SingleUserDto[].class);
         return userDtos;
     }

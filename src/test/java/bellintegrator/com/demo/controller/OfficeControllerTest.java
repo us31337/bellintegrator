@@ -55,7 +55,7 @@ class OfficeControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "save", officeDto, String.class);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
-        JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
+        JsonNode data = objectMapper.readTree(response.getBody()).get("data");
         Assert.assertTrue(data.get("result").asText().equals("success"));
         OfficeFilter filter = new OfficeFilter();
         filter.setOrgId(TEST_ORG_ID);
@@ -82,7 +82,7 @@ class OfficeControllerTest {
     private Optional<ListOfficeDto> getOfficeListByFilter(OfficeFilter filter) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "list", filter, String.class);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
-        JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
+        JsonNode data = objectMapper.readTree(response.getBody()).get("data");
         ListOfficeDto[] officeDtos = objectMapper.treeToValue(data, ListOfficeDto[].class);
         Optional<ListOfficeDto> first = Arrays.stream(officeDtos).
                 filter(listOfficeDto -> listOfficeDto.getName().equals(filter.getName()))
@@ -103,7 +103,7 @@ class OfficeControllerTest {
         ResponseEntity<String> response = restTemplate.postForEntity(PREFIX + "update", officeDto, String.class);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.OK);
-        JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
+        JsonNode data = objectMapper.readTree(response.getBody()).get("data");
         Assert.assertTrue(data.get("result").asText().equals("success"));
         SingleOfficeDto office = getOfficeDtoById(id);
         Assert.assertTrue(office.getAddress().equals(updateString));
@@ -120,7 +120,7 @@ class OfficeControllerTest {
 
     private SingleOfficeDto getOfficeDtoById(long id) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.getForEntity(PREFIX + id, String.class);
-        JsonNode data = objectMapper.readTree(response.getBody()).get("body").get("data");
+        JsonNode data = objectMapper.readTree(response.getBody()).get("data");
         SingleOfficeDto officeDto = objectMapper.treeToValue(data, SingleOfficeDto.class);
         return officeDto;
     }
