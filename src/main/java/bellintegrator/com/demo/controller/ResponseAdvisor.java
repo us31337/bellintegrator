@@ -26,11 +26,10 @@ import java.util.UUID;
 /**
  * Класс отвечающий за внешний вид ответа сервера и логгирование ошибок
  */
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "bellintegrator.com.demo.controller")
 public class ResponseAdvisor implements ResponseBodyAdvice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Rest controller advice");
-
     /**
      * {@inheritDoc}
      */
@@ -38,7 +37,7 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
     public boolean supports(MethodParameter methodParameter, Class aClass) {
         ExceptionHandler annotation = methodParameter.getMethod().getAnnotation(ExceptionHandler.class);
         //All works with ExceptionHandlers ignores here
-        return annotation == null;
+        return (annotation == null);
     }
 
     /**
@@ -49,8 +48,8 @@ public class ResponseAdvisor implements ResponseBodyAdvice {
                                   Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         ResponseView responseView = new ResponseView();
         responseView.setData(o);
-        ResponseEntity entity = new ResponseEntity(responseView, HttpStatus.OK);
-        return entity;
+        serverHttpResponse.setStatusCode(HttpStatus.OK);
+        return responseView;
     }
 
     /**
