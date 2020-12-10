@@ -9,7 +9,6 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 To run it you need to have
-- Intellij IDEA IDE **preferred** or another IDE
 - Git  
 - JDK 8 or later
 - [Maven](https://maven.apache.org/) - Dependency Management
@@ -26,6 +25,11 @@ mvn verify
  ```
 
 ## How to use
+To run application type
+```
+mvn spring-boot:run
+```
+
 This app uses Swagger, you can see it on page
 ```
 http://<yourhostname>:<port>/swagger-ui.html
@@ -192,13 +196,16 @@ In (фильтр):
   “citizenshipCode”:” ”
 }
 Out:
-{
-  “id”:” ”,
-  “firstName”:” ”,
-  “lastName”:” ”,
-  “middleName”:” ”,
-  “position”:” ”
-}
+[
+    {
+      “id”:” ”,
+      “firstName”:” ”,
+      “lastName”:” ”,
+      “middleName”:” ”,
+      “position”:” ”
+    },
+    ...
+]
 ```
 ### api/user/{id}
 #### method:GET
