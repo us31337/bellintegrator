@@ -63,8 +63,8 @@ Out:
 ]
 ```
 
-###api/organization/{id}
-####method:GET
+### api/organization/{id}
+#### method:GET
 ```
 Out:
 {
@@ -78,7 +78,7 @@ Out:
   “isActive”:”true”
 }
 ```
-###api/organization/update
+### api/organization/update
 ```
 In:
 {
@@ -97,7 +97,7 @@ Out:
     “result”:”success”
 }
 ```
-###api/organization/save
+### api/organization/save
 ```
 In:
 {
@@ -115,7 +115,7 @@ Out:
     “result”:”success”
 }
 ```
-###api/office/list
+### api/office/list
 ```
 In (filter):
 {
@@ -135,8 +135,8 @@ Out:
   ...
 ]
 ```
-###api/office/{id}
-####method:GET
+### api/office/{id}
+#### method:GET
 ```
 Out:
 {
@@ -147,7 +147,7 @@ Out:
   “isActive”:”true”
 }
 ```
-###api/office/update
+### api/office/update
 ```
 In:
 {
@@ -163,7 +163,7 @@ Out:
     “result”:”success”
 }
 ```
-###api/office/save
+### api/office/save
 ```
 In:
 {
@@ -179,7 +179,7 @@ Out:
     “result”:”success”
 }
 ```
-###api/user/list
+### api/user/list
 ```
 In (фильтр):
 {
@@ -200,8 +200,8 @@ Out:
   “position”:” ”
 }
 ```
-###api/user/{id}
-####method:GET
+### api/user/{id}
+#### method:GET
 ```
 Out:
 {
@@ -219,7 +219,7 @@ Out:
   “isIdentified”:”true”
 }
 ```
-###api/user/update
+### api/user/update
 ```
 In:
 {
@@ -242,7 +242,7 @@ Out:
     “result”:”success”
 }
 ```
-###api/user/save
+### api/user/save
 ```
 In:
 {
@@ -260,8 +260,8 @@ In:
   “isIdentified”:”true” //пример
 }
 ```
-###api/docs
-####method:GET
+### api/docs
+#### method:GET
 `[
   {
     “name”:“Паспорт гражданина РФ”,
@@ -270,7 +270,7 @@ In:
   ...
 ]`
 
-###api/countries
+### api/countries
 `[
   {
     “name”:“Российская Федерация”,
